@@ -29,6 +29,30 @@
   --color-ash-500: #6e6668;
   --color-ash-400: #6b6365;
 
+  /* --- Texto sobre fundo escuro.
+         Eram NOVE tons diferentes escritos a mao dentro dos componentes:
+         #c9c2c4, #a8a0a2, #a19a9c, #e6e1e2, #b3acae, #f2efef, #948c8f,
+         #8f8789, #b8b1b3. Nenhum deles token, todos "quase iguais". E o
+         tipo de coisa que ninguem aponta e todo mundo sente: o site parece
+         montado por partes em vez de desenhado.
+
+         Sao dois, e so. Medidos sobre --color-graphite-900:
+           sobre-escuro       10.96:1
+           sobre-escuro-fraco  6.73:1
+
+         O fraco NAO serve sobre o vinho: la ele da 3.59:1, abaixo do minimo
+         de 4.5:1. Sobre vinho, usar branco com transparencia.
+         Os tres numeros estao travados em src/lib/contraste.test.ts. --- */
+  --color-sobre-escuro: #d5cfd0;
+  --color-sobre-escuro-fraco: #a9a2a4;
+
+  /* --- Sinalizacao sobre fundo escuro. Tambem estavam soltas: havia
+         #8fd0ac e #9fd0c8 para a mesma ideia, #e8bb7c e #e3c58a para
+         outra, #f1a3a0 e #e8b9bb para a terceira. --- */
+  --color-ok-claro: #8fd0ac;
+  --color-warn-claro: #e8bb7c;
+  --color-alerta-claro: #f1a3a0;
+
   /* --- Texto --- */
   --color-ink: #1f1b1d;
   --color-ink-soft: #554e51;
@@ -36,7 +60,11 @@
   /* --- Superficies e bordas --- */
   --color-line: #e4e0e1;
   --color-line-soft: #efeded;
+  /* Borda de controle. Mais forte que --color-line, que some num botao. */
+  --color-line-forte: #cfc9ca;
   --color-canvas: #f7f5f5;
+  /* Fundo do dado ainda pendente, o amarelo do [COLCHETE]. */
+  --color-warn-fundo: #fdf6ec;
 
   /* --- Acento da marca. E acento, nunca fundo de pagina inteira:
          usar em CTA, urgencia e na divisao Fire. --- */
@@ -70,6 +98,10 @@
     var(--font-plus-jakarta), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     sans-serif;
 
+  /* Titulos. Ver o comentario em astro.config.mjs: sai do wordmark da marca,
+     e existe para separar o que a pagina diz do que a pagina e. */
+  --font-display: var(--font-chivo), var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+
   /* --- Escala tipografica.
          Antes dela havia 26 tamanhos avulsos escritos direto nas paginas:
          0.96, 0.97 e 0.98rem eram tres numeros para o mesmo tamanho visual.
@@ -90,7 +122,7 @@
      do h1 (53px) para haver um degrau entre os dois. A pagina inteira lia
      como um bloco de um tom so. Aqui vai de 1.6rem no celular a 2.5rem no
      desktop, onde ha largura para o titulo ocupar. */
-  --text-secao: clamp(1.6rem, 1.12rem + 1.9vw, 2.5rem);
+  --text-secao: clamp(1.6rem, 1.12rem + 1.9vw, 2.35rem);
   --text-secao--line-height: 1.15;
   /* Titulo de pagina (h1 das paginas internas) e titulo do hero da home.
      Os dois estavam escritos como clamp avulso dentro da pagina — o valor
@@ -99,10 +131,21 @@
      tablet a pagina ficava sem topo de hierarquia.
      Agora --text-pagina fica um degrau acima de --text-secao em toda largura,
      de 390px a 1920px, e --text-hero um degrau acima dele. */
-  --text-pagina: clamp(1.95rem, 1.3rem + 2.7vw, 3.1rem);
+  --text-pagina: clamp(1.95rem, 1.3rem + 2.7vw, 2.9rem);
   --text-pagina--line-height: 1.08;
-  --text-hero: clamp(2rem, 1.3rem + 2.9vw, 3.35rem);
+  --text-hero: clamp(2rem, 1.3rem + 2.9vw, 3.1rem);
   --text-hero--line-height: 1.06;
+
+  /* Os tres tetos acima cairam cerca de 7% quando os titulos passaram de
+     Plus Jakarta para Chivo. Nao e recuo: Chivo tem altura de x maior e
+     desenho mais largo, entao no MESMO tamanho em pixel ela pesa mais na
+     pagina. Igualar o tamanho optico, e nao o metrico, e o ajuste correto ao
+     trocar de familia. Medido: o h1 da home passou de tres para quatro
+     linhas e empurrou o botao 60px para baixo; com o teto novo ele volta a
+     tres sem perder presenca.
+     Os pontos de partida e as inclinacoes ficaram como estavam, de proposito:
+     e no meio da curva que --text-pagina e --text-secao ja se cruzaram uma
+     vez, e mexer neles reabriria esse risco. */
 
   /* --- Curvas de movimento.
          A curva padrao do Tailwind e cubic-bezier(0.4, 0, 0.2, 1): comeca
@@ -114,11 +157,16 @@
   --ease-saida: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-dentro: cubic-bezier(0.77, 0, 0.175, 1);
 
-  /* --- Raios de borda --- */
-  --radius-sm: 8px;
-  --radius-md: 11px;
-  --radius-lg: 14px;
-  --radius-xl: 22px;
+  /* --- Raios de borda.
+         Eram 8, 11, 14 e 22px: quatro raios, o maior deles bem redondo.
+         22px num cartao e arredondamento de aplicativo de consumo, e a
+         empresa vende conformidade legal. Aqui sao dois na pratica, e
+         apertados: `lg` e `xl` valem o mesmo de proposito, para as classes
+         `rounded-xl` ja escritas continuarem valendo sem virar exceção. --- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 8px;
 
   /* --- Sombras discretas (excesso de sombra foi vetado no briefing) --- */
   --shadow-card: 0 1px 2px rgb(32 28 30 / 0.04), 0 8px 24px -12px rgb(32 28 30 / 0.18);
@@ -157,6 +205,24 @@
     line-height: 1.15;
     letter-spacing: -0.02em;
     text-wrap: balance;
+  }
+
+  /* A fonte de titulo fica em h1 e h2, e nao em toda a familia de titulos.
+     Duas razoes. A primeira e de sistema: h3 costuma ser titulo de cartao, e
+     titulo de cartao aparece tanto como <h3> quanto como <dt> pagina afora.
+     Aplicar so nos h3 deixaria dois cartoes iguais com fontes diferentes.
+     A segunda e de comedimento: a fonte de display marca a estrutura da
+     pagina, o que ela E; dentro do bloco quem fala e o texto. */
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.14;
+  }
+
+  h1 {
+    font-weight: 900;
+    letter-spacing: -0.032em;
   }
 
   /* Foco sempre visivel: quem navega por teclado precisa enxergar onde esta.

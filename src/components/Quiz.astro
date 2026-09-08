@@ -62,7 +62,7 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
             <div class="mt-5 flex flex-col gap-2.5">
               {pergunta.opcoes.map((opcao) => (
                 <label
-                  class="flex cursor-pointer items-center gap-3 rounded-lg border border-line p-4 text-corpo text-ink-soft transition-colors hover:border-[#cfc9ca] hover:bg-line-soft has-[:checked]:border-wine has-[:checked]:bg-wine-soft has-[:checked]:text-ink"
+                  class="flex cursor-pointer items-center gap-3 rounded-lg border border-line p-4 text-corpo text-ink-soft transition-colors hover:border-line-forte hover:bg-line-soft has-[:checked]:border-wine has-[:checked]:bg-wine-soft has-[:checked]:text-ink"
                 >
                   <input
                     type="radio"
@@ -79,14 +79,14 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
       ))
     }
 
-    <p class="mt-3 text-apoio font-semibold text-wine" role="alert" data-aviso hidden>
+    <p class="mt-3 text-apoio font-bold text-wine" role="alert" data-aviso hidden>
       Escolha uma opção para continuar.
     </p>
 
     <div class="mt-6 flex flex-wrap gap-3">
       <button
         type="button"
-        class="inline-flex min-h-[50px] items-center justify-center rounded-[11px] border border-[#cfc9ca] px-6 py-3.5 font-bold text-graphite-900 transition-colors hover:border-graphite-900 hover:bg-line-soft"
+        class="inline-flex min-h-[50px] items-center justify-center rounded-md border border-line-forte px-6 py-3.5 font-bold text-graphite-900 transition-colors hover:border-graphite-900 hover:bg-line-soft"
         data-voltar
         hidden
       >
@@ -94,7 +94,7 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
       </button>
       <button
         type="button"
-        class="inline-flex min-h-[50px] items-center justify-center rounded-[11px] bg-wine px-6 py-3.5 font-bold text-white transition-colors hover:bg-wine-dark"
+        class="inline-flex min-h-[50px] items-center justify-center rounded-md bg-wine px-6 py-3.5 font-bold text-white transition-colors hover:bg-wine-dark"
         data-avancar
       >
         Continuar
@@ -122,7 +122,7 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
           </div>
 
           <a
-            class="mt-5 inline-flex min-h-[50px] items-center justify-center rounded-[11px] border border-[#cfc9ca] px-6 py-3.5 font-bold text-graphite-900 no-underline transition-colors hover:border-graphite-900 hover:bg-line-soft"
+            class="mt-5 inline-flex min-h-[50px] items-center justify-center rounded-md border border-line-forte px-6 py-3.5 font-bold text-graphite-900 no-underline transition-colors hover:border-graphite-900 hover:bg-line-soft"
             href={rota.href}
           >
             Ver essa divisão
@@ -135,7 +135,7 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
 
     <div class="mt-6 flex flex-wrap gap-3">
       <a
-        class="inline-flex min-h-[50px] items-center justify-center rounded-[11px] bg-wine px-6 py-3.5 font-bold text-white no-underline transition-colors hover:bg-wine-dark"
+        class="inline-flex min-h-[50px] items-center justify-center rounded-md bg-wine px-6 py-3.5 font-bold text-white no-underline transition-colors hover:bg-wine-dark"
         href="/contato"
         data-enviar
       >
@@ -143,7 +143,7 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
       </a>
       <button
         type="button"
-        class="inline-flex min-h-[50px] items-center justify-center rounded-[11px] px-4 py-3.5 font-bold text-graphite-900 underline underline-offset-4 transition-colors hover:text-wine"
+        class="inline-flex min-h-[50px] items-center justify-center rounded-md px-4 py-3.5 font-bold text-graphite-900 underline underline-offset-4 transition-colors hover:text-wine"
         data-refazer
       >
         Refazer
@@ -151,7 +151,7 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
     </div>
 
     <p
-      class="mt-4 rounded-lg border border-[#e3c58a] bg-[#fdf6ec] p-4 text-apoio text-ink-soft"
+      class="mt-4 rounded-lg border border-warn-claro bg-warn-fundo p-4 text-apoio text-ink-soft"
       data-sem-numero
       hidden
     >

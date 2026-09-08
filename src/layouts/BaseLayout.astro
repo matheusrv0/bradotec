@@ -88,7 +88,15 @@ if (trilha?.length) schemas.push(jsonLdBreadcrumb(trilha, siteUrl))
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     {/* Injeta a fonte ja hospedada por nos, com preload do arquivo. */}
+    {/*
+      A fonte do corpo vai com `preload`: ela pinta a primeira linha de texto
+      da pagina. A de titulo nao, apesar de o titulo estar acima da dobra.
+      O motivo e que preload disputa banda com a imagem do cabecalho, que e
+      LCP nas oito paginas com foto, e um titulo que chega 100ms depois num
+      fallback da mesma metrica e menos custoso que uma foto que chega tarde.
+    */}
     <Font cssVariable="--font-plus-jakarta" preload />
+    <Font cssVariable="--font-chivo" />
 
     <meta name="generator" content={Astro.generator} />
 

@@ -41,6 +41,19 @@ const pares: { frente: string; fundo: string; tamanho: TamanhoDeTexto; onde: str
   { frente: '#e8bb7c', fundo: GRAFITE_900, tamanho: 'pequeno', onde: 'chip "Vence em 30 dias"' },
   { frente: '#8fd0ac', fundo: GRAFITE_900, tamanho: 'pequeno', onde: 'chip "Regular"' },
 
+  {
+    frente: '#d5cfd0',
+    fundo: GRAFITE_900,
+    tamanho: 'pequeno',
+    onde: '--color-sobre-escuro',
+  },
+  {
+    frente: '#a9a2a4',
+    fundo: GRAFITE_900,
+    tamanho: 'pequeno',
+    onde: '--color-sobre-escuro-fraco',
+  },
+
   // --- Texto escuro sobre fundo claro ---
   { frente: '#1f1b1d', fundo: BRANCO, tamanho: 'pequeno', onde: '--color-ink' },
   { frente: '#554e51', fundo: BRANCO, tamanho: 'pequeno', onde: '--color-ink-soft sobre branco' },
@@ -76,6 +89,25 @@ describe('contraste da paleta (WCAG 2.1 AA)', () => {
       ).toBeGreaterThanOrEqual(MINIMO_AA[tamanho])
     })
   }
+})
+
+/**
+ * O tom fraco sobre o vinho.
+ *
+ * Este teste espera que ele FALHE o minimo, e nao que passe. Existe porque
+ * global.css afirma, em comentario, que --color-sobre-escuro-fraco nao serve
+ * sobre o vinho, e comentario nao e verificado por nada. Se alguem clarear o
+ * token, o aviso vira mentira em silencio e este teste avisa.
+ *
+ * Se ele quebrar: o tom mudou. Confira o numero, atualize o comentario do
+ * global.css e decida se a ressalva ainda faz sentido.
+ */
+describe('ressalva do tom fraco sobre o vinho', () => {
+  it('continua abaixo de 4.5:1, como o comentario do global.css afirma', () => {
+    const razao = razaoDeContraste('#a9a2a4', '#8e1c21')
+    expect(razao).toBeLessThan(4.5)
+    expect(razao).toBeCloseTo(3.59, 1)
+  })
 })
 
 describe('anel de foco', () => {

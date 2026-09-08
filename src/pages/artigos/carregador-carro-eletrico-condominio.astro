@@ -104,7 +104,7 @@ const checklist = [
     subtitulo="Um morador comprou um carro elétrico e passou a carregar na garagem. Ninguém achou ruim, e o assunto nunca chegou à assembleia. Desde 1º de janeiro de 2026 esse arranjo deixou de ser permitido na Paraíba."
     trilha={trilha}
   >
-    <p class="mt-6 text-apoio text-[#a8a0a2]">
+    <p class="mt-6 text-apoio text-sobre-escuro-fraco">
       {artigo.data.tema} · Publicado em {publicadoEm} · {artigo.data.minutos} min de leitura
     </p>
   </CabecalhoPagina>
@@ -155,7 +155,7 @@ const checklist = [
           ['Extensões', 'Adaptadores', 'Benjamins, o popular T', 'Tomadas comuns para recarga'].map(
             (item) => (
               <li class="flex items-center gap-3 border-b border-white/15 py-4 text-cartao text-white">
-                <span class="shrink-0 font-bold text-[#e8b9bb]" aria-hidden="true">
+                <span class="shrink-0 font-bold text-alerta-claro" aria-hidden="true">
                   ✕
                 </span>
                 {item}
@@ -165,7 +165,7 @@ const checklist = [
         }
       </ul>
 
-      <p class="mt-7 max-w-[62ch] text-guia text-[#c9c2c4]">
+      <p class="mt-7 max-w-[62ch] text-guia text-sobre-escuro">
         Somente os <strong class="font-bold text-white">modos de recarga 3 e 4</strong> são
         admitidos. Na prática, a solução mais vista nos condomínios, o morador puxando um cabo até
         a tomada da garagem, deixou de ser aceitável.
@@ -198,10 +198,10 @@ const checklist = [
             </desc>
 
             <rect width="460" height="600" fill="#FFFFFF" />
-            <text x="20" y="32" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#8e1c21">
+            <text x="20" y="32" font-size="22" font-weight="700" fill="#8e1c21">
               Modos de recarga
             </text>
-            <text x="20" y="58" font-family="system-ui, sans-serif" font-size="19" fill="#6e6668">
+            <text x="20" y="58" font-size="19" fill="#6e6668">
               O que a norma aceita na garagem
             </text>
 
@@ -209,12 +209,12 @@ const checklist = [
             <g>
               <rect x="20" y="76" width="420" height="112" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
               <line x1="20" y1="76" x2="440" y2="188" stroke="#6e6668" stroke-width="1" opacity="0.3" />
-              <text x="40" y="110" font-family="system-ui, sans-serif" font-size="24" font-weight="800" fill="#6e6668">MODO 1</text>
-              <text x="40" y="140" font-family="system-ui, sans-serif" font-size="20" fill="#1f1b1d">Tomada comum, sem proteção dedicada.</text>
+              <text x="40" y="110" font-size="24" font-weight="800" fill="#6e6668">MODO 1</text>
+              <text x="40" y="140" font-size="20" fill="#1f1b1d">Tomada comum, sem proteção dedicada.</text>
               <g transform="translate(40,158)">
                 <circle cx="10" cy="10" r="10" fill="none" stroke="#6e6668" stroke-width="2" />
                 <path d="M5.5 5.5l9 9M14.5 5.5l-9 9" stroke="#6e6668" stroke-width="2" stroke-linecap="round" />
-                <text x="30" y="16" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="#6e6668">NÃO ADMITIDO</text>
+                <text x="30" y="16" font-size="19" font-weight="700" fill="#6e6668">NÃO ADMITIDO</text>
               </g>
             </g>
 
@@ -222,12 +222,12 @@ const checklist = [
             <g>
               <rect x="20" y="204" width="420" height="112" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
               <line x1="20" y1="204" x2="440" y2="316" stroke="#6e6668" stroke-width="1" opacity="0.3" />
-              <text x="40" y="238" font-family="system-ui, sans-serif" font-size="24" font-weight="800" fill="#6e6668">MODO 2</text>
-              <text x="40" y="268" font-family="system-ui, sans-serif" font-size="20" fill="#1f1b1d">Tomada comum com caixa no cabo.</text>
+              <text x="40" y="238" font-size="24" font-weight="800" fill="#6e6668">MODO 2</text>
+              <text x="40" y="268" font-size="20" fill="#1f1b1d">Tomada comum com caixa no cabo.</text>
               <g transform="translate(40,286)">
                 <circle cx="10" cy="10" r="10" fill="none" stroke="#6e6668" stroke-width="2" />
                 <path d="M5.5 5.5l9 9M14.5 5.5l-9 9" stroke="#6e6668" stroke-width="2" stroke-linecap="round" />
-                <text x="30" y="16" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="#6e6668">NÃO ADMITIDO</text>
+                <text x="30" y="16" font-size="19" font-weight="700" fill="#6e6668">NÃO ADMITIDO</text>
               </g>
             </g>
 
@@ -235,12 +235,12 @@ const checklist = [
             <g>
               <rect x="20" y="332" width="420" height="112" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
               <rect x="20" y="332" width="7" height="112" fill="#8e1c21" />
-              <text x="46" y="366" font-family="system-ui, sans-serif" font-size="24" font-weight="800" fill="#8e1c21">MODO 3</text>
-              <text x="46" y="396" font-family="system-ui, sans-serif" font-size="20" fill="#1f1b1d">Estação fixa, corrente alternada.</text>
+              <text x="46" y="366" font-size="24" font-weight="800" fill="#8e1c21">MODO 3</text>
+              <text x="46" y="396" font-size="20" fill="#1f1b1d">Estação fixa, corrente alternada.</text>
               <g transform="translate(46,414)">
                 <circle cx="10" cy="10" r="10" fill="none" stroke="#8e1c21" stroke-width="2" />
                 <path d="M5 10.5l3.5 3.5 7-7.5" fill="none" stroke="#8e1c21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <text x="30" y="16" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="#8e1c21">ADMITIDO</text>
+                <text x="30" y="16" font-size="19" font-weight="700" fill="#8e1c21">ADMITIDO</text>
               </g>
             </g>
 
@@ -248,12 +248,12 @@ const checklist = [
             <g>
               <rect x="20" y="460" width="420" height="112" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
               <rect x="20" y="460" width="7" height="112" fill="#8e1c21" />
-              <text x="46" y="494" font-family="system-ui, sans-serif" font-size="24" font-weight="800" fill="#8e1c21">MODO 4</text>
-              <text x="46" y="524" font-family="system-ui, sans-serif" font-size="20" fill="#1f1b1d">Estação de corrente contínua.</text>
+              <text x="46" y="494" font-size="24" font-weight="800" fill="#8e1c21">MODO 4</text>
+              <text x="46" y="524" font-size="20" fill="#1f1b1d">Estação de corrente contínua.</text>
               <g transform="translate(46,542)">
                 <circle cx="10" cy="10" r="10" fill="none" stroke="#8e1c21" stroke-width="2" />
                 <path d="M5 10.5l3.5 3.5 7-7.5" fill="none" stroke="#8e1c21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <text x="30" y="16" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="#8e1c21">ADMITIDO</text>
+                <text x="30" y="16" font-size="19" font-weight="700" fill="#8e1c21">ADMITIDO</text>
               </g>
             </g>
           </svg>
@@ -279,7 +279,7 @@ const checklist = [
 
               <rect width="360" height="380" fill="#FFFFFF" />
               <rect x="0" y="0" width="360" height="42" fill="#6e6668" />
-              <text x="20" y="28" font-family="system-ui, sans-serif" font-size="18" font-weight="800" fill="#FFFFFF" letter-spacing="1">
+              <text x="20" y="28" font-size="18" font-weight="800" fill="#FFFFFF" letter-spacing="1">
                 ERRADO
               </text>
 
@@ -292,8 +292,8 @@ const checklist = [
               <circle cx="34" cy="158" r="1.8" fill="#8e1c21" />
               <circle cx="34" cy="165" r="1.8" fill="#8e1c21" />
               <line x1="46" y1="161" x2="96" y2="161" stroke="#6e6668" stroke-width="1" />
-              <text x="100" y="158" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#8e1c21">Tomada comum</text>
-              <text x="100" y="176" font-family="system-ui, sans-serif" font-size="14" fill="#6e6668">sem circuito próprio</text>
+              <text x="100" y="158" font-size="15" font-weight="700" fill="#8e1c21">Tomada comum</text>
+              <text x="100" y="176" font-size="14" fill="#6e6668">sem circuito próprio</text>
 
               <!-- extensão pelo piso -->
               <path
@@ -304,15 +304,15 @@ const checklist = [
                 stroke-linecap="round"
               />
               <line x1="120" y1="296" x2="150" y2="330" stroke="#6e6668" stroke-width="1" />
-              <text x="98" y="348" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#8e1c21">Extensão pelo piso</text>
-              <text x="98" y="366" font-family="system-ui, sans-serif" font-size="14" fill="#6e6668">passagem e tropeço</text>
+              <text x="98" y="348" font-size="15" font-weight="700" fill="#8e1c21">Extensão pelo piso</text>
+              <text x="98" y="366" font-size="14" fill="#6e6668">passagem e tropeço</text>
 
               <!-- carregador portátil -->
               <rect x="186" y="272" width="30" height="18" rx="3" fill="#FFFFFF" stroke="#1f1b1d" stroke-width="2" />
               <line x1="216" y1="278" x2="252" y2="266" stroke="#1f1b1d" stroke-width="2.5" stroke-linecap="round" />
               <line x1="201" y1="270" x2="214" y2="234" stroke="#6e6668" stroke-width="1" />
-              <text x="152" y="228" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#8e1c21">Carregador portátil</text>
-              <text x="152" y="246" font-family="system-ui, sans-serif" font-size="14" fill="#6e6668">modo 2, não admitido</text>
+              <text x="152" y="228" font-size="15" font-weight="700" fill="#8e1c21">Carregador portátil</text>
+              <text x="152" y="246" font-size="14" fill="#6e6668">modo 2, não admitido</text>
 
               <!-- carro -->
               <path
@@ -340,7 +340,7 @@ const checklist = [
 
               <rect width="360" height="380" fill="#FFFFFF" />
               <rect x="0" y="0" width="360" height="42" fill="#8e1c21" />
-              <text x="20" y="28" font-family="system-ui, sans-serif" font-size="18" font-weight="800" fill="#FFFFFF" letter-spacing="1">
+              <text x="20" y="28" font-size="18" font-weight="800" fill="#FFFFFF" letter-spacing="1">
                 CORRETO
               </text>
 
@@ -353,8 +353,8 @@ const checklist = [
               <line x1="56" y1="112" x2="56" y2="130" stroke="#8e1c21" stroke-width="2.5" />
               <line x1="67" y1="112" x2="67" y2="130" stroke="#8e1c21" stroke-width="2.5" />
               <line x1="82" y1="120" x2="126" y2="120" stroke="#6e6668" stroke-width="1" />
-              <text x="130" y="116" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#8e1c21">Quadro exclusivo</text>
-              <text x="130" y="134" font-family="system-ui, sans-serif" font-size="14" fill="#6e6668">disjuntor, DR e DPS</text>
+              <text x="130" y="116" font-size="15" font-weight="700" fill="#8e1c21">Quadro exclusivo</text>
+              <text x="130" y="134" font-size="14" fill="#6e6668">disjuntor, DR e DPS</text>
 
               <!-- alimentação descendo pela parede -->
               <path d="M56 138 v52" fill="none" stroke="#8e1c21" stroke-width="3" />
@@ -365,8 +365,8 @@ const checklist = [
               <line x1="48" y1="222" x2="66" y2="222" stroke="#6e6668" stroke-width="2" />
               <line x1="48" y1="230" x2="60" y2="230" stroke="#6e6668" stroke-width="2" />
               <line x1="78" y1="212" x2="126" y2="196" stroke="#6e6668" stroke-width="1" />
-              <text x="130" y="190" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#8e1c21">Estação fixa</text>
-              <text x="130" y="208" font-family="system-ui, sans-serif" font-size="14" fill="#6e6668">modo 3, circuito próprio</text>
+              <text x="130" y="190" font-size="15" font-weight="700" fill="#8e1c21">Estação fixa</text>
+              <text x="130" y="208" font-size="14" fill="#6e6668">modo 3, circuito próprio</text>
 
               <!-- cabo suspenso ate o carro -->
               <path
@@ -376,13 +376,13 @@ const checklist = [
                 stroke-width="3"
                 stroke-linecap="round"
               />
-              <text x="112" y="286" font-family="system-ui, sans-serif" font-size="14" fill="#6e6668">cabo fora do piso</text>
+              <text x="112" y="286" font-size="14" fill="#6e6668">cabo fora do piso</text>
 
               <!-- botao de desligamento -->
               <circle cx="150" cy="330" r="13" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
               <circle cx="150" cy="330" r="5" fill="#8e1c21" />
-              <text x="172" y="326" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#8e1c21">Desligamento</text>
-              <text x="172" y="344" font-family="system-ui, sans-serif" font-size="14" fill="#6e6668">manual, até 5 m da entrada</text>
+              <text x="172" y="326" font-size="15" font-weight="700" fill="#8e1c21">Desligamento</text>
+              <text x="172" y="344" font-size="14" fill="#6e6668">manual, até 5 m da entrada</text>
 
               <!-- carro -->
               <path
@@ -444,10 +444,10 @@ const checklist = [
             </desc>
 
             <rect width="460" height="640" fill="#FFFFFF" />
-            <text x="24" y="34" font-family="system-ui, sans-serif" font-size="22" font-weight="700" fill="#8e1c21">
+            <text x="24" y="34" font-size="22" font-weight="700" fill="#8e1c21">
               O caminho da energia até o carro
             </text>
-            <text x="24" y="56" font-family="system-ui, sans-serif" font-size="19" fill="#6e6668">
+            <text x="24" y="56" font-size="19" fill="#6e6668">
               Cada ponto de recarga tem o seu, do começo ao fim
             </text>
 
@@ -469,42 +469,42 @@ const checklist = [
             <g>
               <rect x="24" y="80" width="412" height="78" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
               <rect x="24" y="80" width="5" height="78" fill="#8e1c21" />
-              <text x="46" y="112" font-family="system-ui, sans-serif" font-size="21" font-weight="700" fill="#1f1b1d">1. Quadro geral</text>
-              <text x="46" y="138" font-family="system-ui, sans-serif" font-size="19" fill="#6e6668">De onde sai a alimentação do prédio</text>
+              <text x="46" y="112" font-size="21" font-weight="700" fill="#1f1b1d">1. Quadro geral</text>
+              <text x="46" y="138" font-size="19" fill="#6e6668">De onde sai a alimentação do prédio</text>
             </g>
 
             <!-- 2 -->
             <g>
               <rect x="24" y="186" width="412" height="78" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
               <rect x="24" y="186" width="5" height="78" fill="#8e1c21" />
-              <text x="46" y="218" font-family="system-ui, sans-serif" font-size="21" font-weight="700" fill="#1f1b1d">2. Disjuntor exclusivo</text>
-              <text x="46" y="244" font-family="system-ui, sans-serif" font-size="19" fill="#6e6668">Um por ponto, identificado no quadro</text>
+              <text x="46" y="218" font-size="21" font-weight="700" fill="#1f1b1d">2. Disjuntor exclusivo</text>
+              <text x="46" y="244" font-size="19" fill="#6e6668">Um por ponto, identificado no quadro</text>
             </g>
 
             <!-- 3 -->
             <g>
               <rect x="24" y="292" width="412" height="78" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
               <rect x="24" y="292" width="5" height="78" fill="#8e1c21" />
-              <text x="46" y="324" font-family="system-ui, sans-serif" font-size="21" font-weight="700" fill="#1f1b1d">3. DR de alta sensibilidade</text>
-              <text x="46" y="350" font-family="system-ui, sans-serif" font-size="19" fill="#6e6668">Corta a energia se houver fuga</text>
+              <text x="46" y="324" font-size="21" font-weight="700" fill="#1f1b1d">3. DR de alta sensibilidade</text>
+              <text x="46" y="350" font-size="19" fill="#6e6668">Corta a energia se houver fuga</text>
             </g>
 
             <!-- 4 -->
             <g>
               <rect x="24" y="398" width="412" height="78" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
               <rect x="24" y="398" width="5" height="78" fill="#8e1c21" />
-              <text x="46" y="430" font-family="system-ui, sans-serif" font-size="21" font-weight="700" fill="#1f1b1d">4. DPS contra surtos</text>
-              <text x="46" y="456" font-family="system-ui, sans-serif" font-size="19" fill="#6e6668">Segura a descarga antes de chegar ao carro</text>
+              <text x="46" y="430" font-size="21" font-weight="700" fill="#1f1b1d">4. DPS contra surtos</text>
+              <text x="46" y="456" font-size="19" fill="#6e6668">Segura a descarga antes de chegar ao carro</text>
             </g>
 
             <!-- 5 -->
             <g>
               <rect x="24" y="504" width="412" height="88" fill="#8e1c21" />
-              <text x="46" y="540" font-family="system-ui, sans-serif" font-size="21" font-weight="700" fill="#FFFFFF">5. Estação de recarga</text>
-              <text x="46" y="566" font-family="system-ui, sans-serif" font-size="19" fill="#FFFFFF" opacity="0.88">Modo 3 ou 4, fixa, nunca tomada comum</text>
+              <text x="46" y="540" font-size="21" font-weight="700" fill="#FFFFFF">5. Estação de recarga</text>
+              <text x="46" y="566" font-size="19" fill="#FFFFFF" opacity="0.88">Modo 3 ou 4, fixa, nunca tomada comum</text>
             </g>
 
-            <text x="24" y="620" font-family="system-ui, sans-serif" font-size="18" fill="#6e6668">
+            <text x="24" y="620" font-size="18" fill="#6e6668">
               Esquema didático. O projeto elétrico é feito por profissional habilitado.
             </text>
           </svg>
@@ -530,10 +530,10 @@ const checklist = [
             </desc>
 
             <rect width="480" height="380" fill="#FFFFFF" />
-            <text x="20" y="32" font-family="system-ui, sans-serif" font-size="21" font-weight="700" fill="#8e1c21">
+            <text x="20" y="32" font-size="21" font-weight="700" fill="#8e1c21">
               Garagem com uma só rota de fuga
             </text>
-            <text x="20" y="56" font-family="system-ui, sans-serif" font-size="19" fill="#6e6668">
+            <text x="20" y="56" font-size="19" fill="#6e6668">
               Vista superior, esquemática
             </text>
 
@@ -558,20 +558,20 @@ const checklist = [
 
             <!-- entrada -->
             <line x1="130" y1="280" x2="210" y2="280" stroke="#8e1c21" stroke-width="4" stroke-dasharray="9 7" />
-            <text x="112" y="306" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="#8e1c21">Entrada</text>
+            <text x="112" y="306" font-size="19" font-weight="700" fill="#8e1c21">Entrada</text>
 
             <!-- estacoes na parede esquerda -->
             <rect x="62" y="110" width="14" height="30" fill="#8e1c21" />
             <rect x="62" y="220" width="14" height="30" fill="#8e1c21" />
-            <text x="84" y="126" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="#8e1c21">Estação 1</text>
-            <text x="84" y="236" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="#8e1c21">Estação 2</text>
+            <text x="84" y="126" font-size="19" font-weight="700" fill="#8e1c21">Estação 1</text>
+            <text x="84" y="236" font-size="19" font-weight="700" fill="#8e1c21">Estação 2</text>
 
             <!-- cota entre as estacoes -->
             <line x1="112" y1="142" x2="112" y2="218" stroke="#8e1c21" stroke-width="1.5" />
             <path d="M112 146 l-5 9 h10 z" fill="#8e1c21" transform="rotate(180 112 150)" />
             <path d="M112 214 l-5 -9 h10 z" fill="#8e1c21" transform="rotate(180 112 210)" />
             <rect x="120" y="166" width="112" height="28" fill="#FFFFFF" />
-            <text x="126" y="186" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="#8e1c21">5 m no mínimo</text>
+            <text x="126" y="186" font-size="19" font-weight="700" fill="#8e1c21">5 m no mínimo</text>
 
             <!-- desligamento manual, perto da entrada -->
             <circle cx="176" cy="256" r="10" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
@@ -580,8 +580,8 @@ const checklist = [
             <!-- Mesma regra da tarja da escada: parar antes de x=430, que é a
                  parede direita. Com 240 de largura ela abria um vão nela. -->
             <rect x="226" y="228" width="186" height="46" fill="#FFFFFF" />
-            <text x="228" y="246" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="#8e1c21">Desligamento manual</text>
-            <text x="228" y="268" font-family="system-ui, sans-serif" font-size="19" fill="#6e6668">até 5 m da entrada</text>
+            <text x="228" y="246" font-size="19" font-weight="700" fill="#8e1c21">Desligamento manual</text>
+            <text x="228" y="268" font-size="19" fill="#6e6668">até 5 m da entrada</text>
 
             <!-- escada -->
             <g>
@@ -594,10 +594,10 @@ const checklist = [
               <!-- A tarja branca do rótulo não pode alcançar x=430, que é a
                    parede direita: ela abriria um vão na planta. -->
               <rect x="356" y="140" width="64" height="26" fill="#FFFFFF" />
-              <text x="358" y="160" font-family="system-ui, sans-serif" font-size="19" font-weight="700" fill="#1f1b1d">Escada</text>
+              <text x="358" y="160" font-size="19" font-weight="700" fill="#1f1b1d">Escada</text>
             </g>
 
-            <text x="20" y="352" font-family="system-ui, sans-serif" font-size="19" fill="#6e6668">
+            <text x="20" y="352" font-size="19" fill="#6e6668">
               Esquema didático, fora de escala.
             </text>
           </svg>
@@ -666,7 +666,7 @@ const checklist = [
         De quem é a responsabilidade
       </h2>
 
-      <div class="mt-6 space-y-5 text-guia text-[#c9c2c4]">
+      <div class="mt-6 space-y-5 text-guia text-sobre-escuro">
         <p>
           A norma atribui a responsabilidade pela instalação e pela garantia de eficiência ao
           <strong class="font-bold text-white"> responsável técnico</strong> e à
@@ -758,7 +758,7 @@ const checklist = [
       <h2 id="cta-artigo" class="max-w-[26ch] text-secao text-white">
         Descubra hoje se a instalação do seu condomínio está regular
       </h2>
-      <p class="mt-4 max-w-[62ch] text-guia text-[#c9c2c4]">
+      <p class="mt-4 max-w-[62ch] text-guia text-sobre-escuro">
         O diagnóstico compara o que está instalado com o que a norma exige e devolve a lista do que
         precisa mudar. Se nada precisar, você fica sabendo disso também.
       </p>

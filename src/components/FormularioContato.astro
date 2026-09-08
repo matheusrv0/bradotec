@@ -52,7 +52,7 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
 
 const rotulo = 'block text-apoio font-bold text-ink'
 const campo =
-  'mt-1.5 w-full rounded-[11px] border border-[#cfc9ca] bg-white px-3.5 py-3 text-ink outline-none transition-colors focus-visible:border-graphite-900 focus-visible:ring-2 focus-visible:ring-graphite-900/25 aria-[invalid=true]:border-wine'
+  'mt-1.5 w-full rounded-md border border-line-forte bg-white px-3.5 py-3 text-ink outline-none transition-colors focus-visible:border-graphite-900 focus-visible:ring-2 focus-visible:ring-graphite-900/25 aria-[invalid=true]:border-wine'
 ---
 
 <form class="flex flex-col gap-5" data-formulario data-whatsapp={numeroWhatsapp} novalidate>
@@ -161,7 +161,7 @@ const campo =
   <div>
     <button
       type="submit"
-      class="inline-flex min-h-[50px] w-full items-center justify-center rounded-[11px] bg-wine px-6 py-3.5 font-bold text-white transition-colors hover:bg-wine-dark disabled:opacity-60 sm:w-auto"
+      class="inline-flex min-h-[50px] w-full items-center justify-center rounded-md bg-wine px-6 py-3.5 font-bold text-white transition-colors hover:bg-wine-dark disabled:opacity-60 sm:w-auto"
     >
       {numeroWhatsapp ? 'Enviar pelo WhatsApp' : 'Montar mensagem'}
     </button>
@@ -170,7 +170,7 @@ const campo =
     </p>
   </div>
 
-  <div class="rounded-xl border border-[#e3c58a] bg-[#fdf6ec] p-5" role="status" data-pronta hidden>
+  <div class="rounded-xl border border-warn-claro bg-warn-fundo p-5" role="status" data-pronta hidden>
     <p class="font-bold text-ink">Mensagem montada</p>
     <p class="mt-1.5 text-apoio text-ink-soft">
       O número de WhatsApp ainda não foi configurado neste site. Copie o texto abaixo e envie pelo
@@ -180,7 +180,7 @@ const campo =
       readonly
       rows="10"
       aria-label="Mensagem pronta para copiar"
-      class="mt-3 w-full rounded-[11px] border border-[#dcc9a6] bg-white px-3.5 py-3 text-apoio text-ink"
+      class="mt-3 w-full rounded-md border border-warn-claro bg-white px-3.5 py-3 text-apoio text-ink"
       data-texto-pronto></textarea>
   </div>
 </form>
@@ -215,7 +215,7 @@ const campo =
       const aviso = document.createElement('p')
       aviso.id = `erro-${campo.name}`
       aviso.setAttribute('role', 'alert')
-      aviso.className = 'mt-1.5 text-apoio font-semibold text-wine'
+      aviso.className = 'mt-1.5 text-apoio font-bold text-wine'
       aviso.textContent = mensagemDe(campo)
 
       campo.setAttribute('aria-invalid', 'true')

@@ -68,7 +68,7 @@ const diferenciais = [
       <div class="grid items-center gap-11 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
         <div>
           <span
-            class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 py-2 pl-3 pr-4 text-apoio font-semibold text-[#e6e1e2]"
+            class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 py-2 pl-3 pr-4 text-apoio font-bold text-sobre-escuro"
           >
             <svg
               width="17"
@@ -100,12 +100,12 @@ const diferenciais = [
             sustenta e propaganda enganosa pelo art. 37 do CDC, entao ela vive
             aqui e nao em varios lugares: um texto so para revisar se mudar.
           */}
-          <p class="mb-6 max-w-[52ch] border-l-2 border-l-wine pl-4 text-guia font-semibold text-white">
+          <p class="mb-6 max-w-[52ch] border-l-2 border-l-wine pl-4 text-guia font-bold text-white">
             Único despachante documentalista inscrito no CRDD com atuação em prevenção e segurança
             contra incêndio na Paraíba.
           </p>
 
-          <p class="max-w-[56ch] text-guia text-[#c9c2c4]">
+          <p class="max-w-[56ch] text-guia text-sobre-escuro">
             Em {site.cidade} e região, a {site.nome} cuida dos processos documentais da sua empresa,
             condomínio, imóvel e veículo, reunindo gestão, acompanhamento e profissionais
             especializados para você ter mais segurança e menos burocracia.
@@ -119,7 +119,7 @@ const diferenciais = [
           </div>
 
           <ul
-            class="mt-8 flex flex-wrap gap-x-7 gap-y-2.5 border-t border-white/15 pt-6 text-corpo text-[#b3acae]"
+            class="mt-8 flex flex-wrap gap-x-7 gap-y-2.5 border-t border-white/15 pt-6 text-corpo text-sobre-escuro-fraco"
           >
             {
               provas.map((prova) => (
@@ -134,7 +134,7 @@ const diferenciais = [
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     aria-hidden="true"
-                    class="shrink-0 text-[#8fd0ac]"
+                    class="shrink-0 text-ok-claro"
                   >
                     <path d="m4 12.5 5 5L20 6.5" />
                   </svg>
@@ -260,7 +260,7 @@ const diferenciais = [
                 aria-hidden="true"
               />
               <dt class="text-cartao-lg text-white">{item.titulo}</dt>
-              <dd class="mt-3 text-corpo text-[#c9c2c4]">{item.descricao}</dd>
+              <dd class="mt-3 text-corpo text-sobre-escuro">{item.descricao}</dd>
             </div>
           ))
         }

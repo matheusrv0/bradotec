@@ -14,12 +14,12 @@ const hrefTelefone = ehPlaceholder(site.telefone)
 const hrefEmail = ehPlaceholder(site.email) ? '/contato' : `mailto:${site.email}`
 ---
 
-<footer class="bg-graphite-950 px-0 pb-28 pt-14 text-corpo text-[#a19a9c]">
+<footer class="bg-graphite-950 px-0 pb-28 pt-14 text-corpo text-sobre-escuro-fraco">
   <div class="mx-auto w-full max-w-wrap px-5">
     <div class="grid gap-9 md:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
       <div>
         <Image src={logo} alt={site.nome} height={104} loading="lazy" class="mb-4 h-[52px] w-auto" />
-        <p class="max-w-[34ch] text-apoio text-[#948c8f]">
+        <p class="max-w-[34ch] text-apoio text-sobre-escuro-fraco">
           Gestão documental, regularização, licenciamento e segurança contra incêndio para
           empresas, condomínios e frotas em {site.cidade} e região.
         </p>
@@ -39,7 +39,7 @@ const hrefEmail = ehPlaceholder(site.email) ? '/contato' : `mailto:${site.email}
               {coluna.itens.map((item) => (
                 <li>
                   <a
-                    class="flex min-h-[44px] items-center text-[#b8b1b3] no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1"
+                    class="flex min-h-[44px] items-center text-sobre-escuro-fraco no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1"
                     href={item.href}
                   >
                     {item.rotulo}
@@ -56,7 +56,7 @@ const hrefEmail = ehPlaceholder(site.email) ? '/contato' : `mailto:${site.email}
         <ul>
           <li>
             <a
-              class="flex min-h-[44px] items-center text-[#b8b1b3] no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1"
+              class="flex min-h-[44px] items-center text-sobre-escuro-fraco no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1"
               href={hrefWhatsapp ?? '/contato'}
               {...hrefWhatsapp ? { target: '_blank', rel: 'noopener' } : {}}
             >
@@ -64,12 +64,12 @@ const hrefEmail = ehPlaceholder(site.email) ? '/contato' : `mailto:${site.email}
             </a>
           </li>
           <li>
-            <a class="flex min-h-[44px] items-center text-[#b8b1b3] no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1" href={hrefTelefone}>
+            <a class="flex min-h-[44px] items-center text-sobre-escuro-fraco no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1" href={hrefTelefone}>
               <DadoCliente valor={site.telefone} />
             </a>
           </li>
           <li>
-            <a class="flex min-h-[44px] items-center text-[#b8b1b3] no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1" href={hrefEmail}>
+            <a class="flex min-h-[44px] items-center text-sobre-escuro-fraco no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1" href={hrefEmail}>
               <DadoCliente valor={site.email} />
             </a>
           </li>
@@ -82,7 +82,7 @@ const hrefEmail = ehPlaceholder(site.email) ? '/contato' : `mailto:${site.email}
     </div>
 
     <div
-      class="mt-9 flex flex-wrap justify-between gap-x-6 gap-y-2.5 border-t border-white/10 pt-5 text-rotulo text-[#8f8789]"
+      class="mt-9 flex flex-wrap justify-between gap-x-6 gap-y-2.5 border-t border-white/10 pt-5 text-rotulo text-sobre-escuro-fraco"
     >
       <span>
         © {ano} {site.nome}. CNPJ <DadoCliente valor={site.cnpj} />. Todos os direitos reservados.

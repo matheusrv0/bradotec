@@ -35,12 +35,12 @@ const variantes = {
      barra, que e o que um CTA tem de ser. */
   claro: 'border-transparent bg-white text-wine hover:bg-wine-soft',
   sobreEscuro: 'border-white/30 bg-white/10 text-white hover:bg-white/20',
-  contorno: 'border-[#cfc9ca] text-graphite-900 hover:border-graphite-900 hover:bg-line-soft',
+  contorno: 'border-line-forte text-graphite-900 hover:border-graphite-900 hover:bg-line-soft',
   escuro: 'border-transparent bg-graphite-900 text-white hover:bg-graphite-700',
 } as const
 
 const classes = cn(
-  'inline-flex items-center justify-center gap-2 rounded-[11px] border font-bold no-underline transition-colors',
+  'inline-flex items-center justify-center gap-2 rounded-md border font-bold no-underline transition-colors',
   pequeno ? 'min-h-[42px] px-4 py-2.5 text-corpo' : 'min-h-[50px] px-6 py-3.5 text-base',
   larguraTotal && 'w-full',
   variantes[variante],

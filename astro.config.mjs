@@ -29,7 +29,26 @@ export default defineConfig({
       provider: fontProviders.google(),
       name: 'Plus Jakarta Sans',
       cssVariable: '--font-plus-jakarta',
-      weights: [400, 500, 600, 700, 800],
+      // 500 nunca foi usado e 600 aparecia cinco vezes no site inteiro.
+      // Cada peso e um arquivo que o visitante baixa.
+      weights: [400, 700, 800],
+      styles: ['normal'],
+      subsets: ['latin', 'latin-ext'],
+      fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+    },
+    {
+      // Fonte dos titulos.
+      //
+      // O site inteiro usava uma familia so, e isso e o que faz uma pagina
+      // bem feita parecer template: nada distingue o que a pagina DIZ do que
+      // ela E. Chivo entrou por ser a mais proxima do wordmark da marca, que
+      // e um grotesco pesado e compacto de terminais quadrados. Archivo foi
+      // testada junto e e neutra demais; Familjen Grotesk, leve demais para
+      // um assunto que e norma e responsabilidade.
+      provider: fontProviders.google(),
+      name: 'Chivo',
+      cssVariable: '--font-chivo',
+      weights: [700, 900],
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
       fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],

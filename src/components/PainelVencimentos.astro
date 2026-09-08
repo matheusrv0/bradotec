@@ -12,28 +12,28 @@ const linhas = [
     titulo: 'Segurança contra incêndio',
     detalhe: 'Edifício comercial',
     selo: 'Exigência aberta',
-    tom: 'bg-wine/20 text-[#f1a3a0]',
+    tom: 'bg-wine/20 text-alerta-claro',
   },
   {
     cor: 'var(--color-div-doc)',
     titulo: 'Alvará de funcionamento',
     detalhe: 'Matriz',
     selo: 'Vence em 30 dias',
-    tom: 'bg-[rgba(228,160,42,0.16)] text-[#e8bb7c]',
+    tom: 'bg-[rgba(228,160,42,0.16)] text-warn-claro',
   },
   {
     cor: 'var(--color-div-doc)',
     titulo: 'Licença sanitária',
     detalhe: 'Filial',
     selo: 'Regular',
-    tom: 'bg-[rgba(46,160,109,0.16)] text-[#8fd0ac]',
+    tom: 'bg-[rgba(46,160,109,0.16)] text-ok-claro',
   },
   {
     cor: 'var(--color-div-auto)',
     titulo: 'Licenciamento da frota',
     detalhe: '6 veículos',
     selo: 'Em dia',
-    tom: 'bg-[rgba(46,160,109,0.16)] text-[#8fd0ac]',
+    tom: 'bg-[rgba(46,160,109,0.16)] text-ok-claro',
   },
 ] as const
 ---
@@ -45,7 +45,7 @@ const linhas = [
 >
   <div class="mb-2 flex items-center justify-between gap-3 border-b border-white/10 pb-4">
     <strong class="text-base text-white">Painel de vencimentos</strong>
-    <span class="text-rotulo text-[#a19a9c]">exemplo ilustrativo</span>
+    <span class="text-rotulo text-sobre-escuro-fraco">exemplo ilustrativo</span>
   </div>
 
   {
@@ -53,8 +53,8 @@ const linhas = [
       <div class="flex items-center gap-3 border-b border-white/5 px-0.5 py-3 last:border-b-0">
         <span class="size-2.5 shrink-0 rounded-full" style={{ background: linha.cor }} />
         <span class="min-w-0 flex-1">
-          <b class="block text-corpo font-bold text-[#f2efef]">{linha.titulo}</b>
-          <small class="text-rotulo text-[#a8a0a2]">{linha.detalhe}</small>
+          <b class="block text-corpo font-bold text-sobre-escuro">{linha.titulo}</b>
+          <small class="text-rotulo text-sobre-escuro-fraco">{linha.detalhe}</small>
         </span>
         <span
           class:list={[
@@ -68,7 +68,7 @@ const linhas = [
     ))
   }
 
-  <p class="mt-3.5 border-t border-white/10 pt-3.5 text-rotulo text-[#a8a0a2]">
+  <p class="mt-3.5 border-t border-white/10 pt-3.5 text-rotulo text-sobre-escuro-fraco">
     É assim que a Bradotec organiza a documentação de quem contrata a gestão recorrente: cada item
     com responsável, situação e prazo.
   </p>
