@@ -130,11 +130,11 @@ const etapas = [
         aparecer todas juntas, e quase sempre no pior momento.
       </p>
 
-      <ul class="mt-11 grid list-none gap-4 md:grid-cols-2">
+      <ul class="mt-11 grid list-none gap-x-12 border-t border-white/15 md:grid-cols-2">
         {
           riscos.map((risco) => (
-            <li class="flex items-start gap-3 rounded-lg border border-white/12 bg-white/5 p-5 text-corpo text-sobre-escuro">
-              <span class="mt-[0.45em] size-1.5 shrink-0 rounded-full bg-wine" aria-hidden="true" />
+            <li class="flex items-start gap-3 border-b border-white/15 py-5 text-corpo text-sobre-escuro">
+              <span class="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-alerta-claro" aria-hidden="true" />
               {risco}
             </li>
           ))
@@ -152,14 +152,14 @@ const etapas = [
     <div class="mx-auto w-full max-w-wrap px-5">
       <h2 id="como-conduzimos" class="text-secao text-ink">Como conduzimos o processo</h2>
 
-      <ol class="mt-11 grid list-none gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <ol class="mt-11 grid list-none gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
         {
           etapas.map((etapa, indice) => (
-            <li class="rounded-xl border border-line bg-white p-6 shadow-card">
-              <span class="inline-flex size-8 items-center justify-center rounded-full bg-graphite-900 text-apoio font-bold text-white">
-                {indice + 1}
+            <li class="border-t-2 border-t-line pt-5">
+              <span class="text-rotulo font-bold tabular-nums text-wine">
+                {String(indice + 1).padStart(2, '0')}
               </span>
-              <h3 class="mt-4 text-cartao text-ink">{etapa.titulo}</h3>
+              <h3 class="mt-1.5 text-cartao text-ink">{etapa.titulo}</h3>
               <p class="mt-2 text-corpo text-ink-soft">{etapa.descricao}</p>
             </li>
           ))

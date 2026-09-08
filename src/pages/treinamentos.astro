@@ -125,12 +125,12 @@ const motivos = [
         </figcaption>
       </figure>
 
-      <dl class="mt-11 grid gap-6 md:grid-cols-3">
+      <dl class="mt-11 grid gap-x-12 gap-y-8 md:grid-cols-3">
         {
           motivos.map((motivo) => (
-            <div class="relative rounded-xl border border-line bg-white p-7 shadow-card">
+            <div class="relative border-t-2 border-t-line pt-6">
               <span
-                class="absolute left-7 top-0 h-[3px] w-9 rounded-full bg-wine"
+                class="absolute left-0 top-[-2px] h-0.5 w-9 bg-wine"
                 aria-hidden="true"
               />
               <dt class="text-cartao-lg text-ink">{motivo.titulo}</dt>
@@ -196,10 +196,10 @@ const motivos = [
           </p>
         </div>
 
-        <ul class="grid list-none gap-3 sm:grid-cols-2">
+        <ul class="grid list-none gap-x-10 border-t border-line sm:grid-cols-2">
           {
             publicos.map((publico) => (
-              <li class="flex items-start gap-3 rounded-xl border border-line bg-white p-4 text-corpo text-ink shadow-card">
+              <li class="flex items-start gap-3 border-b border-line py-4 text-corpo text-ink">
                 <svg
                   width="19"
                   height="19"

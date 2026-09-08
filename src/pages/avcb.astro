@@ -186,7 +186,7 @@ const cotacao = doGrupo('cotacao')
         </a>.
       </p>
 
-      <div class="mt-11 grid gap-6 lg:grid-cols-2">
+      <div class="mt-11 grid gap-8 lg:grid-cols-2">
         <div class="rounded-xl border border-line bg-white p-7 shadow-card">
           <h3 class="text-cartao-lg text-ink">O AVCB da Paraíba vale 1 ano</h3>
           <p class="mt-3 text-ink-soft">
@@ -291,10 +291,10 @@ const cotacao = doGrupo('cotacao')
         Use com qualquer fornecedor, inclusive conosco.
       </p>
 
-      <ol class="mt-11 grid list-none gap-4 md:grid-cols-2">
+      <ol class="mt-11 grid list-none gap-x-12 border-t border-line md:grid-cols-2">
         {
           cotacao.map((pergunta, indice) => (
-            <li class="flex gap-4 rounded-xl border border-line bg-white p-5 shadow-card">
+            <li class="flex gap-4 border-b border-line py-5">
               <span
                 class="flex size-7 shrink-0 items-center justify-center rounded-full bg-graphite-900 text-rotulo font-bold text-white"
                 aria-hidden="true"

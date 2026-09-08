@@ -52,10 +52,10 @@ const gestaoContinua = [
     <div class="mx-auto w-full max-w-wrap px-5">
       <h2 id="quem-atendemos" class="text-secao text-ink">Soluções por tipo de operação</h2>
 
-      <ul class="mt-11 grid list-none gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <ul class="mt-11 grid list-none gap-x-12 border-t border-line sm:grid-cols-2 lg:grid-cols-3">
         {
           segmentos.map((segmento) => (
-            <li class="rounded-xl border border-line bg-white p-6 shadow-card">
+            <li class="border-b border-line py-6">
               <h3 class="text-cartao text-ink">{segmento.data.titulo}</h3>
               <p class="mt-2 text-corpo text-ink-soft">{segmento.data.descricao}</p>
             </li>

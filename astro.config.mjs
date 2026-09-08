@@ -41,14 +41,23 @@ export default defineConfig({
       //
       // O site inteiro usava uma familia so, e isso e o que faz uma pagina
       // bem feita parecer template: nada distingue o que a pagina DIZ do que
-      // ela E. Chivo entrou por ser a mais proxima do wordmark da marca, que
-      // e um grotesco pesado e compacto de terminais quadrados. Archivo foi
-      // testada junto e e neutra demais; Familjen Grotesk, leve demais para
-      // um assunto que e norma e responsabilidade.
+      // ela E.
+      //
+      // A primeira escolha foi Chivo, pela semelhanca com o wordmark da
+      // marca. O cliente leu e reprovou: densa demais, cansa. Ele tem razao,
+      // e o erro foi meu — escolhi pelo parentesco com a logo e julguei no
+      // tamanho de manchete, onde peso vira presenca. Num h2 que se repete
+      // seis vezes por pagina, peso vira ruido.
+      //
+      // Instrument Sans entrou no lugar por medida, nao por gosto: aberturas
+      // largas, contraste baixo, e mais estreita que Archivo, o que importa
+      // porque manchete em portugues e longa. Testadas junto e descartadas:
+      // Archivo (neutra, e uma linha a mais), Manrope e Onest (macias demais
+      // para norma tecnica), Bricolage (character demais).
       provider: fontProviders.google(),
-      name: 'Chivo',
-      cssVariable: '--font-chivo',
-      weights: [700, 900],
+      name: 'Instrument Sans',
+      cssVariable: '--font-instrument',
+      weights: [600, 700],
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
       fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],

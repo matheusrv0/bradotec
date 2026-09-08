@@ -100,7 +100,8 @@
 
   /* Titulos. Ver o comentario em astro.config.mjs: sai do wordmark da marca,
      e existe para separar o que a pagina diz do que a pagina e. */
-  --font-display: var(--font-chivo), var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display:
+    var(--font-instrument), var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
 
   /* --- Escala tipografica.
          Antes dela havia 26 tamanhos avulsos escritos direto nas paginas:
@@ -136,8 +137,8 @@
   --text-hero: clamp(2rem, 1.3rem + 2.9vw, 3.1rem);
   --text-hero--line-height: 1.06;
 
-  /* Os tres tetos acima cairam cerca de 7% quando os titulos passaram de
-     Plus Jakarta para Chivo. Nao e recuo: Chivo tem altura de x maior e
+  /* Os tres tetos acima cairam cerca de 7% quando os titulos ganharam
+     familia propria. Nao e recuo: a fonte de titulo tem altura de x maior e
      desenho mais largo, entao no MESMO tamanho em pixel ela pesa mais na
      pagina. Igualar o tamanho optico, e nao o metrico, e o ajuste correto ao
      trocar de familia. Medido: o h1 da home passou de tres para quatro
@@ -217,12 +218,11 @@
   h2 {
     font-family: var(--font-display);
     font-weight: 700;
-    line-height: 1.14;
+    line-height: 1.13;
   }
 
   h1 {
-    font-weight: 900;
-    letter-spacing: -0.032em;
+    letter-spacing: -0.03em;
   }
 
   /* Foco sempre visivel: quem navega por teclado precisa enxergar onde esta.
