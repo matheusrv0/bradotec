@@ -193,7 +193,7 @@ A análise do que um back-end resolveria está em
 | Linguagem | TypeScript strict | 5.9 |
 | Estilo | Tailwind CSS (config em CSS) | 4 |
 | Interatividade | React (só em ilhas) | 19 |
-| Componentes | shadcn/ui | — |
+| Componentes | shadcn/ui (MCP configurado, tema da marca) | — |
 | Ícones | lucide-react | — |
 | Validação | Zod | 4 |
 | Formulários | React Hook Form | 7 |

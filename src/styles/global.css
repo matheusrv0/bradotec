@@ -362,12 +362,13 @@
   --accent-foreground: var(--color-graphite-900);
   --destructive: var(--color-wine-dark);
   --border: var(--color-line);
-  --input: #cfc9ca;
-  /* O anel do shadcn segue o anel do site: navy, nao o azul de sistema que
-     vem no template. Ainda nao ha componente shadcn instalado, mas se um
-     entrar com o valor original o foco dele destoaria do resto. */
+  --input: var(--color-line-forte);
+  /* O anel do shadcn segue o anel do site, e nao o azul de sistema que vem
+     no template: componente novo ja nasce com o foco do resto da pagina. */
   --ring: var(--color-graphite-900);
-  --radius: 0.6875rem;
+  /* Casado com --radius-lg. Era 0.6875rem, o valor do antigo --radius-md,
+     que deixou de existir quando os raios foram apertados. */
+  --radius: 0.5rem;
 }
 
 @theme inline {
