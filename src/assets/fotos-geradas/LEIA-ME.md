@@ -1,6 +1,6 @@
 # Imagens geradas
 
-Quatro imagens enviadas pelo cliente em 9 de setembro de 2026, produzidas
+Cinco imagens enviadas pelo cliente em 9 de setembro de 2026, produzidas
 fora do site e trazidas prontas. Elas **nao registram um trabalho da
 Bradotec**: ilustram o assunto da pagina, como as do Pexels em
 `../fotos-licenciadas/`. Foto de trabalho real so existe em `../fotos/`.
@@ -10,7 +10,8 @@ Bradotec**: ilustram o assunto da pagina, como as do Pexels em
 | `frota-em-garagem.jpg` | Cabecalho de `/documentacao-veicular` | Fileira de vans e utilitarios numa garagem, a noite |
 | `predios-ao-anoitecer.jpg` | Cabecalho de `/artigos/carregador-carro-eletrico-condominio` | Avenida de predios residenciais ao anoitecer, pista molhada |
 | `predios-vistos-de-baixo.jpg` | Cabecalho de `/empresas` | Predios vistos de baixo, algumas janelas acesas |
-| `demonstracao-com-extintor.jpg` | Bloco "Por que treinar a equipe", em `/treinamentos` | Instrutor de costas com extintor sobre foco de fogo controlado, turma observando |
+| `processo-carimbado.jpg` | Cabecalho de `/artigos` | Pasta de documentos assinados e carimbados sobre mesa escura, com carimbo e planta |
+| `demonstracao-com-extintor.jpg` | nenhum, ver abaixo | Instrutor de costas com extintor sobre foco de fogo controlado, turma observando |
 
 Todas foram reduzidas para 2400px de largura e recodificadas em JPEG. As duas
 de predio vieram do arquivo de previa do gerador, com cerca de 77 KB em
@@ -25,22 +26,21 @@ mesma regra da pasta do Pexels, e aqui pesa mais: as pessoas de
 mesmo nao podem ser apresentadas como alguem. O texto alternativo descreve a
 cena. A legenda diz "imagem ilustrativa", com todas as letras.
 
-**Nao usar legenda que credite pessoa.** Foi por isso que o credito a Miguel
-Arcanjo saiu da legenda em `/treinamentos` e virou frase do texto, acima da
-imagem: ali ele afirma quem conduz o curso, que e verdade, em vez de afirmar
-quem esta na foto, que nao e.
+**Nao usar legenda que credite pessoa.** Legenda que nomeia alguem embaixo de
+uma cena que nao registra aquele trabalho afirma o que a imagem nao mostra. Se
+uma destas precisar de legenda, ela diz o que a cena e, e nada sobre quem
+conduziu o que.
 
-## O que a imagem de `/treinamentos` substituiu
+## `demonstracao-com-extintor.jpg` esta sem uso
 
-Ate esta troca, aquele bloco trazia `../fotos/instrutor-demonstracao.jpg`: uma
-foto real de Miguel Arcanjo montando a demonstracao com botijao, ao lado das
-placas de extintor. O arquivo continua na pasta, fora de uso, porque e material
-do proprio cliente.
+Ela chegou para substituir `../fotos/instrutor-demonstracao.jpg` no bloco "Por
+que treinar a equipe". Ficou no ar por algumas horas e o cliente pediu a foto
+antiga de volta, que e a real: Miguel Arcanjo montando a demonstracao com
+botijao. A troca foi desfeita por inteiro, legenda e credito incluidos.
 
-Vale registrar o que se perdeu: prova. Foto do proprio trabalho e evidencia de
-que a empresa faz aquilo; imagem generica ilustra e nao prova nada. A foto da
-turma, no fim da mesma pagina, continua sendo real e segue carregando esse
-papel sozinha.
+O arquivo fica aqui, sem uso, porque e material do cliente e a decisao pode
+ser revista. Quem for usa-lo em algum lugar precisa reler as duas regras
+acima antes.
 
 ## Uma pendencia de origem
 

@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
+import fotoProcesso from '@/assets/fotos-geradas/processo-carimbado.jpg'
 import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
 import { site } from '@/config/site'
 import BaseLayout from '@/layouts/BaseLayout.astro'
@@ -28,6 +29,9 @@ const emPortugues = (iso: string) =>
   trilha={trilha}
 >
   <CabecalhoPagina
+    foto={fotoProcesso}
+    descricaoDaFoto="Pasta com documentos assinados e carimbados sobre uma mesa escura, ao lado de um carimbo e de uma planta"
+    enquadramento="50% 45%"
     cena="fachada"
     titulo="Artigos técnicos"
     subtitulo="O que muda na norma, explicado para quem administra a edificação e precisa decidir o que fazer."
