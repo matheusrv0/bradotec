@@ -1,6 +1,7 @@
 # Fotos com licenca de uso
 
-Diferente de `../fotos-provisorias/`, **estas podem ir ao ar**. Sao do Pexels,
+**Todas as fotos do site que nao sao do proprio trabalho da Bradotec estao
+aqui.** Sao do Pexels,
 sob a Licenca Pexels: uso comercial liberado, sem atribuicao obrigatoria e sem
 precisar pedir autorizacao.
 
@@ -11,6 +12,10 @@ precisar pedir autorizacao.
 | `treinamento-com-extintor.jpg` | Cabecalho de `/treinamentos` | https://www.pexels.com/photo/people-extinguishing-fire-18340568/ |
 | `fachada-de-edificio.jpg` | Cabecalho de `/sobre` | https://www.pexels.com/photo/low-angle-shot-of-modern-buildings-in-city-16846525/ |
 | `escritorio-atendimento.jpg` | Cabecalho de `/contato` | https://www.pexels.com/photo/interior-of-a-modern-office-space-18033178/ |
+| `joao-pessoa-aerea.jpg` | Hero da home | https://www.pexels.com/photo/aerial-shot-of-green-trees-3968090/ |
+| `saida-de-emergencia.jpg` | Cabecalho de `/seguranca-contra-incendio` | https://www.pexels.com/photo/emergency-exit-sign-in-parking-garage-30634848/ |
+| `extintores-e-sinalizacao.jpg` | Cabecalho de `/avcb` | https://www.pexels.com/photo/pair-of-red-fire-extinguisher-tanks-2282658/ |
+| `documentos-em-mesa.jpg` | Cabecalho de `/regularizacoes` | https://www.pexels.com/photo/handing-out-of-documents-7821684/ |
 
 ## Por que estas e nao outras
 
@@ -47,3 +52,14 @@ so aparece em `../fotos/`, e ali sim ela e apresentada como tal.
 Sao cenas genericas e estrangeiras. Assim que houver foto do proprio trabalho
 da Bradotec para cada assunto, ela e melhor: prova mais e nao carrega essa
 restricao de endosso. Ate la, estas resolvem sem risco juridico.
+
+## As quatro que sairam
+
+Em 9 de setembro de 2026 a pasta `fotos-provisorias/` foi apagada. Eram quatro
+imagens tiradas de artigos de outros sites, sem licenca de uso, colocadas como
+marcador de lugar. Publicar aquilo em dominio proprio exporia o cliente a
+notificacao de direito autoral, e era o unico impedimento juridico que ainda
+restava para o site ir ao ar.
+
+A de Joao Pessoa e a unica troca que ganhou em conteudo, e nao so em licenca:
+e a cidade de verdade, vista de cima, com o bairro e o mangue.

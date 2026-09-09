@@ -1,7 +1,7 @@
 # Fotos reais da Bradotec
 
-Diferente de `../fotos-provisorias/`, estas sao fotos do proprio trabalho da
-empresa e podem ficar no site.
+Estas sao fotos do proprio trabalho da empresa. As demais do site estao em
+`../fotos-licenciadas/`, sob licenca Pexels.
 
 | Arquivo | O que mostra | Onde aparece |
 |---|---|---|

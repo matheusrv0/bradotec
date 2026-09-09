@@ -140,8 +140,7 @@ src/
   assets/
     marca/           Logo do cliente e tudo derivado dela
     fotos/           Fotos reais da empresa
-    fotos-licenciadas/  Pexels: podem ir ao ar
-    fotos-provisorias/  SEM licenca: trocar antes de publicar
+    fotos-licenciadas/  Pexels: licenca comercial, podem ir ao ar
 e2e/                 Testes que rodam em navegador de verdade
 scripts/
   extrair-logo.mjs   Gera logo, favicon e imagem de compartilhamento da marca
@@ -175,8 +174,8 @@ Resultado: a home hoje não baixa **nenhum** arquivo de framework.
 | Depoimentos e nota do Google reais | `src/config/site.ts` | Cliente |
 | Domínio definitivo | variável `SITE_URL` no deploy | Cliente |
 | Histórico e fundação da empresa | página `sobre` | Cliente |
-| Trocar as 4 fotos sem licença | `src/assets/fotos-provisorias/` | Cliente |
 | Arquivo vetorial da logo (`.svg`/`.ai`) | `src/assets/marca/logo-fonte.jpg` | Cliente |
+| Fotos do proprio trabalho, para substituir as licenciadas | `src/assets/fotos-licenciadas/` | Cliente |
 | Quiz de 4 perguntas | ilha React | Desenvolvimento |
 | Envio do formulário para quem não usa WhatsApp | back-end (ver `specs/backend/`) | Desenvolvimento |
 
