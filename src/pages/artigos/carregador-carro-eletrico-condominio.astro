@@ -1,5 +1,6 @@
 ---
 import { getCollection, getEntry } from 'astro:content'
+import fotoPredios from '@/assets/fotos-geradas/predios-ao-anoitecer.jpg'
 import AvisoEscopo from '@/components/AvisoEscopo.astro'
 import BotaoLink from '@/components/BotaoLink.astro'
 import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
@@ -99,6 +100,9 @@ const checklist = [
   schemasExtras={schemaFaq ? [schemaArtigo, schemaFaq] : [schemaArtigo]}
 >
   <CabecalhoPagina
+    foto={fotoPredios}
+    descricaoDaFoto="Avenida de edifícios residenciais ao anoitecer, com a pista molhada refletindo as luzes"
+    enquadramento="50% 50%"
     cena="rota"
     titulo={artigo.data.titulo}
     subtitulo="Um morador comprou um carro elétrico e passou a carregar na garagem. Ninguém achou ruim, e o assunto nunca chegou à assembleia. Desde 1º de janeiro de 2026 esse arranjo deixou de ser permitido na Paraíba."

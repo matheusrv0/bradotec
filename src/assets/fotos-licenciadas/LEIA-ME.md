@@ -1,14 +1,11 @@
 # Fotos com licenca de uso
 
-**Todas as fotos do site que nao sao do proprio trabalho da Bradotec estao
-aqui.** Sao do Pexels,
+**As fotos de banco do site estao aqui.** Sao do Pexels,
 sob a Licenca Pexels: uso comercial liberado, sem atribuicao obrigatoria e sem
 precisar pedir autorizacao.
 
 | Arquivo | Onde aparece | Origem |
 |---|---|---|
-| `patio-de-veiculos.jpg` | Cabecalho de `/documentacao-veicular` | https://www.pexels.com/photo/rows-of-new-suvs-in-dealership-parking-lot-29566906/ |
-| `reuniao-de-gestao.jpg` | Cabecalho de `/empresas` | https://www.pexels.com/photo/business-partners-having-a-meeting-at-the-office-7433848/ |
 | `treinamento-com-extintor.jpg` | Cabecalho de `/treinamentos` | https://www.pexels.com/photo/people-extinguishing-fire-18340568/ |
 | `fachada-de-edificio.jpg` | Cabecalho de `/sobre` | https://www.pexels.com/photo/low-angle-shot-of-modern-buildings-in-city-16846525/ |
 | `escritorio-atendimento.jpg` | Cabecalho de `/contato` | https://www.pexels.com/photo/interior-of-a-modern-office-space-18033178/ |
@@ -53,7 +50,17 @@ Sao cenas genericas e estrangeiras. Assim que houver foto do proprio trabalho
 da Bradotec para cada assunto, ela e melhor: prova mais e nao carrega essa
 restricao de endosso. Ate la, estas resolvem sem risco juridico.
 
-## As quatro que sairam
+## As duas que sairam para as imagens do cliente
+
+Em 9 de setembro de 2026 o cliente enviou imagens proprias para dois destes
+cabecalhos, e `patio-de-veiculos.jpg` e `reuniao-de-gestao.jpg` foram
+apagadas. As substitutas estao em `../fotos-geradas/`, com o LEIA-ME de la.
+
+A de `/empresas` era a unica foto do site com pessoas em primeiro plano, e
+era tambem a que mais dependia da regra de endosso abaixo. Saiu do projeto
+junto com ela.
+
+## As quatro que sairam antes
 
 Em 9 de setembro de 2026 a pasta `fotos-provisorias/` foi apagada. Eram quatro
 imagens tiradas de artigos de outros sites, sem licenca de uso, colocadas como

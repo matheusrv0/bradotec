@@ -1,8 +1,8 @@
 ---
 import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
-import fotoInstrutor from '@/assets/fotos/instrutor-demonstracao.jpg'
 import fotoTurma from '@/assets/fotos/turma-treinamento.jpg'
+import fotoDemonstracao from '@/assets/fotos-geradas/demonstracao-com-extintor.jpg'
 import fotoTreinamento from '@/assets/fotos-licenciadas/treinamento-com-extintor.jpg'
 import AvisoEscopo from '@/components/AvisoEscopo.astro'
 import BotaoLink from '@/components/BotaoLink.astro'
@@ -25,8 +25,8 @@ const schemaFaq = await schemaFaqDaPagina('treinamentos')
 const cursos = (await getCollection('treinamentos')).sort((a, b) => a.data.ordem - b.data.ordem)
 
 /**
- * Quem aparece na foto. Vem da colecao, e nao escrito aqui, para o nome e a
- * formacao nao divergirem do que /sobre diz sobre a mesma pessoa.
+ * Quem conduz o treinamento. Vem da colecao, e nao escrito aqui, para o nome
+ * e a formacao nao divergirem do que /sobre diz sobre a mesma pessoa.
  */
 const [lider] = (await getCollection('lideranca')).sort((a, b) => a.data.ordem - b.data.ordem)
 
@@ -93,35 +93,42 @@ const motivos = [
         mesmo assunto.
       </p>
 
+      {
+        lider && (
+          <p class="mt-4 max-w-[68ch] text-guia text-ink-soft">
+            Quem conduz é{' '}
+            <a class="font-bold text-wine" href="/sobre#quem-esta-por-tras">
+              {lider.data.nome}
+            </a>
+            , técnico em prevenção e combate a incêndio.
+          </p>
+        )
+      }
+
       {/*
-        Foto real, visivel e sem veu. Ela estava no cabecalho e sumia: e uma
-        imagem vertical, e num bloco largo o corte so se move na vertical, o
-        que jogava o instrutor sempre no lado escurecido para o texto. Aqui
-        ela ocupa a largura toda e o assunto aparece.
+        Imagem ilustrativa, e o texto acima dela e que diz quem conduz o
+        curso. Antes era o contrario: uma foto real do instrutor, com a
+        legenda creditando a pessoa pelo nome. O cliente trocou a imagem, e
+        legenda que credita alguem embaixo de uma cena que nao registra
+        aquele trabalho afirma o que a imagem nao mostra. Ver o LEIA-ME de
+        src/assets/fotos-geradas.
+
+        O recorte e 16/9 e nao 16/7 porque a imagem e quase 16/9 na origem:
+        em 16/7 o corte comia ou as cabecas de quem assiste, em cima, ou a
+        base do fogo, embaixo. Nao ha altura sobrando nas duas pontas.
       */}
       <figure class="m-0 mt-11">
         <Image
-          src={fotoInstrutor}
-          alt={`${lider?.data.nome ?? 'Instrutor da Bradotec'} preparando a demonstração prática com botijão de gás, ao lado das placas de extintor de água e de pó BC`}
-          class="aspect-[16/7] w-full rounded-xl object-cover object-[50%_42%]"
+          src={fotoDemonstracao}
+          alt="Instrutor de costas usando um extintor sobre um foco de fogo controlado, enquanto um grupo observa a distância"
+          class="aspect-[16/9] w-full rounded-xl object-cover object-[50%_50%]"
           widths={[768, 1280, 1920]}
           sizes="(min-width: 1180px) 1140px, 100vw"
           loading="lazy"
         />
         <figcaption class="mt-3 text-apoio text-ash-500">
-          Montagem da demonstração prática, antes da queima controlada.
-          {
-            lider && (
-              <>
-                {' '}
-                Conduzida por{' '}
-                <a class="font-bold text-wine" href="/sobre#quem-esta-por-tras">
-                  {lider.data.nome}
-                </a>
-                , técnico em prevenção e combate a incêndio.
-              </>
-            )
-          }
+          Imagem ilustrativa da etapa prática: extintor em punho sobre um foco de fogo
+          controlado, com a turma a distância de segurança.
         </figcaption>
       </figure>
 

@@ -153,6 +153,7 @@ src/
     marca/           Logo do cliente e tudo derivado dela
     fotos/           Fotos reais da empresa
     fotos-licenciadas/  Pexels: licenca comercial, podem ir ao ar
+    fotos-geradas/   Imagens do cliente, ilustrativas: nao registram trabalho
 e2e/                 Testes que rodam em navegador de verdade
 scripts/
   extrair-logo.mjs   Gera logo, favicon e imagem de compartilhamento da marca
