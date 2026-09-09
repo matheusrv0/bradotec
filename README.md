@@ -90,6 +90,18 @@ escrita no meio do código.
      `https://bradotec.com.br`
 3. Publique. Em segundos o site fica no ar.
 
+> **Endereço e cidade são campos diferentes de propósito.** A sede fica em
+> Cabedelo; o mercado é João Pessoa. `cidade` sai nos títulos e no texto,
+> `cidadeDoEndereco` sai só no endereço postal e no `addressLocality` do
+> schema.org. Enquanto os dois eram um campo só, o Google recebia um endereço
+> em João Pessoa que não existe.
+>
+> **`horario` e `horarioEstruturado` também.** O primeiro é o que a pessoa lê
+> ("Horário comercial"); o segundo é o mesmo horário no formato que o
+> schema.org entende. Enquanto o cliente não informar a hora exata, o segundo
+> fica vazio e o `openingHours` simplesmente não é publicado: dado estruturado
+> inválido é pior que dado ausente.
+
 A variável `SITE_URL` é importante: dela saem o `canonical`, o Open Graph e o
 `sitemap.xml`. Sem ela, o site usa um endereço de exemplo.
 
@@ -169,8 +181,7 @@ Resultado: a home hoje não baixa **nenhum** arquivo de framework.
 
 | Item | Onde entra | Quem resolve |
 |---|---|---|
-| Telefone fixo, e-mail, endereço, CEP, CNPJ, horário | `src/config/site.ts` | Cliente |
-| Link do Instagram | `src/config/site.ts` | Cliente |
+| Horário exato de atendimento (`Mo-Fr 08:00-18:00`) | `horarioEstruturado`, em `src/config/site.ts` | Cliente |
 | Depoimentos e nota do Google reais | `src/config/site.ts` | Cliente |
 | Domínio definitivo | variável `SITE_URL` no deploy | Cliente |
 | Histórico e fundação da empresa | página `sobre` | Cliente |

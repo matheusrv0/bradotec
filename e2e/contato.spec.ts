@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { site } from '../src/config/site'
+import { instagramUsuario, site } from '../src/config/site'
 
 /**
  * O formulario de contato no navegador.
@@ -130,12 +130,26 @@ test.describe('Formulário de contato', () => {
     expect(texto).toContain('Exigência aberta desde o mês passado.')
   })
 
-  test('os dados de contato ainda pendentes aparecem marcados, não escondidos', async ({
-    page,
-  }) => {
-    // A regra do projeto: placeholder aparece sinalizado para ninguem publicar sem ver.
-    const pendentes = page.locator('[title="Dado ainda não informado pelo cliente"]')
-    await expect(pendentes.first()).toBeVisible()
+  /*
+   * Este teste ja verificou o contrario: enquanto telefone, e-mail, endereco e
+   * Instagram eram placeholder, o que se checava era a marca amarela de
+   * pendente. O cliente enviou os dados, a marca sumiu, e o teste passou a
+   * falhar por continuar certo sobre um site que nao existe mais.
+   *
+   * A regra do projeto e a mesma nos dois sentidos: nada de dado inventado, e
+   * nada de dado real escondido. Como /contato e a pagina onde a pessoa vai
+   * atras do telefone, aqui se confere o lado preenchido — cada canal mostra o
+   * valor que esta em src/config/site.ts, e nenhum aparece marcado como
+   * pendente. Se alguem apagar um campo da configuracao, este teste avisa.
+   */
+  test('os canais de contato mostram o dado real, sem marca de pendente', async ({ page }) => {
+    const painel = page.getByRole('heading', { name: 'Outros canais' }).locator('..')
+
+    await expect(painel.locator('[title="Dado ainda não informado pelo cliente"]')).toHaveCount(0)
+
+    for (const valor of [site.telefone, site.email, instagramUsuario, site.horario, site.cep]) {
+      await expect(painel.getByText(valor, { exact: false }).first()).toBeVisible()
+    }
   })
 
   test('a página não promete prazo, aprovação nem resultado', async ({ page }) => {

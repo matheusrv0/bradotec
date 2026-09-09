@@ -32,7 +32,16 @@ export function jsonLdNegocioLocal(siteUrl: string) {
     address: semVazios({
       '@type': 'PostalAddress',
       streetAddress: soSePreenchido(site.endereco),
-      addressLocality: site.cidade,
+      /*
+       * A cidade do ENDERECO, e nao a do mercado. A sede fica em Cabedelo, na
+       * regiao metropolitana; o site fala de Joao Pessoa porque e por ali que
+       * as pessoas procuram. Enquanto os dois eram um campo so, este endereco
+       * ia para o Google com a cidade errada.
+       *
+       * `areaServed`, logo abaixo, continua sendo Joao Pessoa: e onde a
+       * empresa atende, nao onde ela fica.
+       */
+      addressLocality: site.cidadeDoEndereco,
       addressRegion: site.estado,
       postalCode: soSePreenchido(site.cep),
       addressCountry: 'BR',
@@ -41,7 +50,10 @@ export function jsonLdNegocioLocal(siteUrl: string) {
       { '@type': 'City', name: site.cidade },
       { '@type': 'State', name: 'Paraíba' },
     ],
-    openingHours: soSePreenchido(site.horario),
+    // Vazio ate o cliente informar a hora exata: 'Horario comercial' nao e
+    // formato que o schema.org entenda, e dado estruturado invalido e pior
+    // que dado ausente.
+    openingHours: site.horarioEstruturado || undefined,
     sameAs: ehPlaceholder(site.instagram) ? undefined : [site.instagram],
   })
 }

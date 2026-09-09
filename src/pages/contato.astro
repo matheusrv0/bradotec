@@ -5,7 +5,7 @@ import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
 import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
 import DadoCliente from '@/components/DadoCliente.astro'
 import FormularioContato from '@/components/FormularioContato.astro'
-import { site } from '@/config/site'
+import { enderecoCompleto, instagramUsuario, site } from '@/config/site'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const trilha = [
@@ -16,9 +16,9 @@ const trilha = [
 const canais = [
   { rotulo: 'Telefone', valor: site.telefone },
   { rotulo: 'E-mail', valor: site.email },
-  { rotulo: 'Endereço', valor: site.endereco },
+  { rotulo: 'Endereço', valor: enderecoCompleto },
   { rotulo: 'Atendimento', valor: site.horario },
-  { rotulo: 'Instagram', valor: site.instagram },
+  { rotulo: 'Instagram', valor: instagramUsuario },
 ] as const
 ---
 

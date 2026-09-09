@@ -3,7 +3,7 @@ import { Image } from 'astro:assets'
 import logo from '@/assets/marca/logo-bradotec.png'
 import DadoCliente from '@/components/DadoCliente.astro'
 import { navegacaoRodape } from '@/config/navegacao'
-import { ehPlaceholder, site } from '@/config/site'
+import { ehPlaceholder, enderecoCompleto, instagramUsuario, site } from '@/config/site'
 import { linkWhatsapp } from '@/config/whatsapp'
 
 const ano = new Date().getFullYear()
@@ -73,10 +73,24 @@ const hrefEmail = ehPlaceholder(site.email) ? '/contato' : `mailto:${site.email}
               <DadoCliente valor={site.email} />
             </a>
           </li>
-          <li class="py-1"><DadoCliente valor={site.endereco} /></li>
-          <li class="py-1">{site.cidade}, Paraíba</li>
+          {/*
+            Endereco completo, com bairro e CEP. Antes saia so a rua, e a
+            linha seguinte dizia "Joao Pessoa" porque o campo de cidade era um
+            so. A sede fica em Cabedelo: a cidade do endereco e a do mercado
+            passaram a ser campos diferentes.
+          */}
+          <li class="py-1 leading-snug">{enderecoCompleto}</li>
           <li class="py-1"><DadoCliente valor={site.horario} /></li>
-          <li class="py-1"><DadoCliente valor={site.instagram} /></li>
+          <li>
+            <a
+              class="flex min-h-[44px] items-center text-sobre-escuro-fraco no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1"
+              href={site.instagram}
+              rel="noopener"
+              target="_blank"
+            >
+              {instagramUsuario}
+            </a>
+          </li>
         </ul>
       </div>
     </div>

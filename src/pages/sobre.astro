@@ -7,7 +7,7 @@ import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
 import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
 import DadoCliente from '@/components/DadoCliente.astro'
 import Lideranca from '@/components/Lideranca.astro'
-import { site } from '@/config/site'
+import { enderecoCompleto, site } from '@/config/site'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { jsonLdPessoa } from '@/lib/seo'
 
@@ -174,7 +174,7 @@ const oQueFazemos = [
           <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
             Endereço
           </dt>
-          <dd class="mt-1.5 text-ink-soft"><DadoCliente valor={site.endereco} /></dd>
+          <dd class="mt-1.5 text-ink-soft">{enderecoCompleto}</dd>
         </div>
         <div class="rounded-lg border border-line bg-white p-5">
           <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
