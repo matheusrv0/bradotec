@@ -12,7 +12,7 @@ precisar pedir autorizacao.
 | `treinamento-com-extintor.jpg` | Cabecalho de `/treinamentos` | https://www.pexels.com/photo/people-extinguishing-fire-18340568/ |
 | `fachada-de-edificio.jpg` | Cabecalho de `/sobre` | https://www.pexels.com/photo/low-angle-shot-of-modern-buildings-in-city-16846525/ |
 | `escritorio-atendimento.jpg` | Cabecalho de `/contato` | https://www.pexels.com/photo/interior-of-a-modern-office-space-18033178/ |
-| `joao-pessoa-aerea.jpg` | Hero da home | https://www.pexels.com/photo/aerial-shot-of-green-trees-3968090/ |
+| `joao-pessoa-orla.jpg` | Hero da home | https://www.pexels.com/pt-br/foto/mar-cidade-meio-urbano-praia-6272393/ |
 | `saida-de-emergencia.jpg` | Cabecalho de `/seguranca-contra-incendio` | https://www.pexels.com/photo/emergency-exit-sign-in-parking-garage-30634848/ |
 | `extintores-e-sinalizacao.jpg` | Cabecalho de `/avcb` | https://www.pexels.com/photo/pair-of-red-fire-extinguisher-tanks-2282658/ |
 | `documentos-em-mesa.jpg` | Cabecalho de `/regularizacoes` | https://www.pexels.com/photo/handing-out-of-documents-7821684/ |
@@ -62,4 +62,10 @@ notificacao de direito autoral, e era o unico impedimento juridico que ainda
 restava para o site ir ao ar.
 
 A de Joao Pessoa e a unica troca que ganhou em conteudo, e nao so em licenca:
-e a cidade de verdade, vista de cima, com o bairro e o mangue.
+e a orla de verdade, vista de cima, com os predios da beira-mar e o oceano.
+
+Ela passou por duas versoes. A primeira era um bairro com o mangue ao lado,
+tambem de Joao Pessoa; o cliente pediu de volta a vista com predios e mar, que
+e o que a foto sem licenca mostrava. Entre tres candidatas da orla, ficou esta:
+nas outras duas o ceu ocupa dois tercos do quadro e, sob o veu, vira um degrade
+chapado. Aqui a faixa de predios corta o meio da imagem e a cidade aparece.
