@@ -1,5 +1,11 @@
 # build output
-dist/
+#
+# A barra inicial importa: sem ela, `dist/` casa com QUALQUER pasta chamada
+# `dist` em qualquer nivel. Foi assim que `public/studiova/libs/bootstrap/dist/`
+# e `.../aos-master/dist/` deixaram de ser versionados em silencio — o site
+# funcionava na maquina de quem tinha os arquivos no disco e chegava sem
+# Bootstrap e sem AOS em qualquer clone novo, no CI e no deploy.
+/dist/
 # generated types
 .astro/
 

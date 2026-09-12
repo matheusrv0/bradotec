@@ -137,5 +137,12 @@
 
   document.addEventListener('focusout', apagarTinta)
 
-  AOS.init({ once: true })
+  /*
+   * Guarda o `typeof`: sem ela, um `aos.js` que nao chegou derruba o resto
+   * deste arquivo por ReferenceError — cabecalho, voltar-ao-topo, recolhimento
+   * do CTA e o preenchimento dos botoes do quiz iriam junto. O motivo de estar
+   * aqui nao e hipotetico: `aos.js` mora numa pasta `dist/`, e uma regra do
+   * `.gitignore` sem barra inicial o manteve fora do repositorio.
+   */
+  if (typeof AOS !== 'undefined') AOS.init({ once: true })
 })()
