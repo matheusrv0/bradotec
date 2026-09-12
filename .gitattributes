@@ -1,0 +1,18 @@
+# Fim de linha normalizado.
+#
+# O repositorio guarda LF. Sem esta regra, o `core.autocrlf=true` que o Git
+# para Windows instala por padrao converte tudo para CRLF ao baixar, e o
+# Biome passa a acusar erro de formatacao em todo arquivo do projeto — sem
+# que ninguem tenha escrito uma linha errada.
+* text=auto eol=lf
+
+# Binarios nao levam conversao nenhuma.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico  binary
+*.mp4  binary
+*.woff  binary
+*.woff2 binary

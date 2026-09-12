@@ -1,0 +1,61 @@
+---
+/**
+ * Cabecalho numerado de secao — o padrao visual que o template Studiova
+ * repete em toda a home: numero no circulo verde, linha, badge, titulo e
+ * descricao.
+ *
+ * O template tinha essas ~25 linhas de markup copiadas em cada secao.
+ * Aqui existe uma vez.
+ */
+interface Props {
+  /** Numero da secao, ex.: '01'. */
+  numero: string
+  /** Texto do badge ao lado da linha. */
+  etiqueta: string
+  titulo: string
+  descricao?: string
+  /** Inverte as cores para usar sobre fundo escuro. */
+  escuro?: boolean
+}
+
+const { numero, etiqueta, titulo, descricao, escuro = false } = Astro.props
+---
+
+<div class="row gap-7 gap-xl-0">
+  <div class="col-xl-4 col-xxl-4">
+    <div
+      class="d-flex align-items-center gap-7 py-2"
+      data-aos="fade-right"
+      data-aos-delay="100"
+      data-aos-duration="1000"
+    >
+      <span
+        class="round-36 flex-shrink-0 text-dark rounded-circle bg-primary hstack justify-content-center fw-medium"
+      >
+        {numero}
+      </span>
+      <hr class:list={['border-line', escuro && 'bg-white']} />
+      <span class:list={['badge', escuro ? 'text-dark bg-white' : 'text-bg-dark']}>{etiqueta}</span>
+    </div>
+  </div>
+
+  <div class="col-xl-8 col-xxl-7">
+    <div class="row">
+      <div class="col-xxl-9">
+        <div
+          class="d-flex flex-column gap-6"
+          data-aos="fade-up"
+          data-aos-delay="100"
+          data-aos-duration="1000"
+        >
+          <h2 class:list={['mb-0', escuro && 'text-white']}>{titulo}</h2>
+          {
+            descricao && (
+              <p class:list={['fs-5 mb-0', escuro && 'text-white text-opacity-70']}>{descricao}</p>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

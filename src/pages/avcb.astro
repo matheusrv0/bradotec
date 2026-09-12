@@ -1,12 +1,12 @@
 ---
 import { getCollection } from 'astro:content'
 import fotoInspecao from '@/assets/fotos-licenciadas/extintores-e-sinalizacao.jpg'
-import AvisoEscopo from '@/components/AvisoEscopo.astro'
-import BotaoLink from '@/components/BotaoLink.astro'
-import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
-import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
-import Faq from '@/components/Faq.astro'
-import Kicker from '@/components/Kicker.astro'
+import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
+import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
+import Botao from '@/components/studiova/Botao.astro'
+import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import Icone from '@/components/studiova/Icone.astro'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import {
   areaBaseM2,
   emReais,
@@ -18,7 +18,7 @@ import {
   ufrPb,
   validadeDaInspecaoEmAnos,
 } from '@/config/avcb'
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 import { schemaFaqDaPagina } from '@/lib/faq'
 
 const rotuloDoRisco: Record<NivelDeRisco, string> = {
@@ -48,9 +48,11 @@ const doGrupo = (grupo: 'risco' | 'item' | 'cotacao') =>
 const riscos = doGrupo('risco')
 const itens = doGrupo('item')
 const cotacao = doGrupo('cotacao')
+
+const niveis = ['baixo', 'medio', 'alto'] as const
 ---
 
-<BaseLayout
+<LayoutStudiova
   titulo="AVCB: o que é, para que serve e o que é exigido | Bradotec João Pessoa"
   descricao="O que é o AVCB, por que ele é obrigatório, o que costuma ser exigido para obtê-lo e o que está em jogo quando vence, para condomínios, comércios, indústrias e postos de combustível em João Pessoa e região."
   trilha={trilha}
@@ -60,107 +62,128 @@ const cotacao = doGrupo('cotacao')
     foto={fotoInspecao}
     descricaoDaFoto="Dois extintores junto a uma parede escura, sob placas de sinalização de extintor e de gás inflamável"
     enquadramento="50% 80%"
-    cena="rota"
     titulo="AVCB: o que é, para que serve e o que costuma ser exigido"
     subtitulo="O documento que atesta que a edificação está em conformidade com as normas de segurança contra incêndio, e o que acontece quando ele vence."
     trilha={trilha}
   >
-    <div class="mt-6 flex flex-wrap gap-3">
-      <BotaoLink href="/diagnostico" variante="primario">Responder as 4 perguntas</BotaoLink>
-    </div>
+    <Botao href="/diagnostico">Responder as 4 perguntas</Botao>
   </CabecalhoPagina>
 
-  <section class="py-16 lg:py-20" aria-labelledby="o-que-e">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <Kicker>Bradotec Fire</Kicker>
-      <h2 id="o-que-e" class="mt-2 max-w-[20ch] text-secao text-ink">O que é o AVCB</h2>
+  <!-- 01 — O que é -->
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao numero="01" etiqueta="Bradotec Fire" titulo="O que é o AVCB" />
 
-      <div class="mt-6 max-w-[68ch] space-y-5 text-guia text-ink-soft">
-        <p>
-          AVCB é a sigla de <strong class="font-bold text-ink">
-            Auto de Vistoria do Corpo de Bombeiros
-          </strong>. É o documento emitido pelo Corpo de Bombeiros atestando que a edificação está
-          em conformidade com as normas, regras e leis de segurança, prevenção e combate a
-          incêndios.
-        </p>
-        <p>
-          A vistoria pode acontecer a pedido do próprio condomínio ou da empresa, por denúncia, ou
-          como fiscalização sem aviso. Em alguns tipos de edificação o documento equivalente tem
-          outro nome e outro rito, conforme a ocupação, a área e o risco.
-        </p>
-        <p>
-          Não é selo de qualidade nem diferencial: é a condição para a edificação estar regular.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-graphite-900 py-20 text-white lg:py-24" aria-labelledby="em-jogo">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <h2 id="em-jogo" class="max-w-[24ch] text-secao text-white">
-        O que está em jogo quando o AVCB vence
-      </h2>
-      <p class="mt-4 max-w-[66ch] text-guia text-sobre-escuro">
-        A multa costuma ser a primeira coisa que vem à cabeça, e é a menor delas. O que pesa mais
-        aparece depois, e quase sempre no pior momento.
-      </p>
-
-      <dl class="mt-12 grid gap-x-6 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
-        {
-          riscos.map((risco) => (
-            <div class="relative border-t border-white/15 pt-7">
-              <span
-                class="absolute -top-0.5 left-0 h-[3px] w-9 rounded-full bg-wine"
-                aria-hidden="true"
-              />
-              <dt class="text-cartao-lg text-white">{risco.data.titulo}</dt>
-              <dd class="mt-3 text-corpo text-sobre-escuro">{risco.data.descricao}</dd>
+        <div class="row justify-content-end">
+          <div class="col-xl-8">
+            <div
+              class="d-flex flex-column gap-4"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              data-aos-duration="1000"
+            >
+              <p class="mb-0 fs-5">
+                AVCB é a sigla de <strong class="text-dark">Auto de Vistoria do Corpo de
+                Bombeiros</strong>. É o documento emitido pelo Corpo de Bombeiros atestando que a
+                edificação está em conformidade com as normas, regras e leis de segurança,
+                prevenção e combate a incêndios.
+              </p>
+              <p class="mb-0 fs-5">
+                A vistoria pode acontecer a pedido do próprio condomínio ou da empresa, por
+                denúncia, ou como fiscalização sem aviso. Em alguns tipos de edificação o documento
+                equivalente tem outro nome e outro rito, conforme a ocupação, a área e o risco.
+              </p>
+              <p class="mb-0 fs-5">
+                Não é selo de qualidade nem diferencial: é a condição para a edificação estar
+                regular.
+              </p>
             </div>
-          ))
-        }
-      </dl>
-
-      <div class="mt-12 flex flex-wrap gap-3">
-        <BotaoWhatsapp origem="avcb">Quero resolver o AVCB</BotaoWhatsapp>
-        <BotaoLink href="/seguranca-contra-incendio" variante="sobreEscuro">
-          Ver a divisão Fire
-        </BotaoLink>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="exigido">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <h2 id="exigido" class="max-w-[22ch] text-secao text-ink">O que costuma ser exigido</h2>
-      <p class="mt-4 max-w-[66ch] text-guia text-ink-soft">
-        A lista abaixo é o que aparece com mais frequência. A lista definitiva do seu caso sai da
-        análise da edificação. Depende da ocupação, da área, do risco e do que o órgão competente
-        exigir para aquele tipo de imóvel.
-      </p>
+  <!-- 02 — O que está em jogo -->
+  <section class="py-5 py-lg-11 py-xl-12 bg-dark">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="02"
+          etiqueta="O que está em jogo"
+          titulo="O que está em jogo quando o AVCB vence"
+          descricao="A multa costuma ser a primeira coisa que vem à cabeça, e é a menor delas. O que pesa mais aparece depois, e quase sempre no pior momento."
+          escuro
+        />
 
-      {/*
-        Lista, e nao nove cartoes.
+        <div class="row">
+          {
+            riscos.map(({ data }, i) => (
+              <div class="col-md-6 col-lg-4 mb-7">
+                <div
+                  class="d-flex flex-column gap-4 pt-7 border-top border-white border-opacity-10 h-100"
+                  data-aos="fade-up"
+                  data-aos-delay={`${((i % 3) + 1) * 100}`}
+                  data-aos-duration="1000"
+                >
+                  <Icone nome="solar:danger-triangle-bold" class="fs-10 text-primary" />
+                  <h3 class="mb-0 fs-6 text-white">{data.titulo}</h3>
+                  <p class="mb-0 fs-4 text-white text-opacity-70">{data.descricao}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
 
-        Cartao da a cada item peso de bloco proprio, com borda, sombra e
-        respiro em volta. Nove deles viravam nove coisas disputando atencao
-        no meio de uma pagina que ja tinha 26 blocos. Mas isto aqui e uma
-        lista de conferencia: a pessoa quer PERCORRER, nao contemplar item
-        por item. Em lista ocupa menos da metade da altura e le mais rapido.
-      */}
-      <ul class="mt-9 grid list-none gap-x-10 gap-y-4 border-t border-line pt-8 md:grid-cols-2">
-        {
-          itens.map((item) => (
-            <li>
-              <strong class="font-bold text-ink">{item.data.titulo}</strong>
-              <span class="text-ink-soft"> {item.data.descricao}</span>
-            </li>
-          ))
-        }
-      </ul>
+        <div class="hstack gap-3 flex-wrap">
+          <Botao origem="avcb">Quero resolver o AVCB</Botao>
+          <Botao href="/seguranca-contra-incendio" tom="contorno">Ver a divisão Fire</Botao>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 — O que é exigido -->
+  <section class="py-5 py-lg-11 py-xl-12 bg-light-gray">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="03"
+          etiqueta="Documentação"
+          titulo="O que costuma ser exigido"
+          descricao="A lista abaixo é o que aparece com mais frequência. A lista definitiva do seu caso sai da análise da edificação. Depende da ocupação, da área, do risco e do que o órgão competente exigir para aquele tipo de imóvel."
+        />
+
+        {/*
+          Lista, e nao nove cartoes: e uma lista de conferencia, e a pessoa
+          quer percorrer, nao contemplar item por item.
+        */}
+        <div class="row justify-content-end">
+          <div class="col-xl-9">
+            <ul class="list-unstyled mb-0 border-top">
+              {
+                itens.map(({ data }, i) => (
+                  <li
+                    class="py-4 border-bottom"
+                    data-aos="fade-up"
+                    data-aos-delay={`${((i % 4) + 1) * 80}`}
+                    data-aos-duration="800"
+                  >
+                    <strong class="text-dark fs-5">{data.titulo}</strong>
+                    <span class="fs-4"> {data.descricao}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   {/*
+    04 — Base legal.
     Os numeros desta secao saem de src/config/avcb.ts, travados por teste.
     Sao dado de lei estadual publicado para sindico e dono de comercio ler:
     errar aqui nao e defeito de layout, e informar errado sobre multa e prazo.
@@ -169,194 +192,232 @@ const cotacao = doGrupo('cotacao')
     em reais com o mes de referencia ao lado — a UFR-PB e corrigida todo mes
     pelo IPCA, entao valor em real sem data envelhece em semanas.
   */}
-  <section class="py-16 lg:py-20" aria-labelledby="prazo-multa">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <Kicker>Base legal na Paraíba</Kicker>
-      <h2 id="prazo-multa" class="mt-2 max-w-[24ch] text-secao text-ink">
-        Quanto vale a multa e por quanto tempo vale o AVCB
-      </h2>
-      <p class="mt-4 max-w-[70ch] text-guia text-ink-soft">
-        Quase todo texto sobre AVCB que circula na internet é de São Paulo, e fala em validade de
-        três a cinco anos e multa que passa de R$ 200 mil. Nenhum dos dois números vale aqui: os
-        dois são definidos por legislação estadual. Na Paraíba, quem manda é a{' '}
-        <a class="font-bold text-wine" href={leis.base.url} target="_blank" rel="noopener">
-          {leis.base.rotulo}
-        </a>, alterada pela{' '}
-        <a class="font-bold text-wine" href={leis.alteracao.url} target="_blank" rel="noopener">
-          {leis.alteracao.rotulo}
-        </a>.
-      </p>
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="04"
+          etiqueta="Base legal na Paraíba"
+          titulo="Quanto vale a multa e por quanto tempo vale o AVCB"
+        />
 
-      <div class="mt-11 grid gap-8 lg:grid-cols-2">
-        <div class="rounded-xl border border-line bg-white p-7 shadow-card">
-          <h3 class="text-cartao-lg text-ink">O AVCB da Paraíba vale 1 ano</h3>
-          <p class="mt-3 text-ink-soft">
-            É anual, e não de três a cinco anos (art. 3º-A, § 1º). O que se repete no intervalo
-            mais longo é a <strong class="font-bold text-ink">vistoria completa</strong>, cujo
-            prazo depende do risco da edificação (art. 15-A, I):
-          </p>
-
-          <dl class="mt-5 divide-y divide-line-soft border-y border-line-soft">
-            {
-              (['baixo', 'medio', 'alto'] as const).map((risco) => (
-                <div class="flex items-baseline justify-between gap-4 py-3">
-                  <dt class="text-corpo text-ink-soft">Edificação de {rotuloDoRisco[risco]}</dt>
-                  <dd class="text-cartao font-bold text-ink" data-numerico>
-                    {validadeDaInspecaoEmAnos[risco]}
-                    {validadeDaInspecaoEmAnos[risco] === 1 ? ' ano' : ' anos'}
-                  </dd>
-                </div>
-              ))
-            }
-          </dl>
-
-          <p class="mt-5 text-corpo text-ink-soft">
-            Entre uma vistoria e outra, a renovação anual do documento é feita pela
-            <strong class="font-bold text-ink"> RAS, a Renovação Anual Simplificada</strong>, nas
-            edificações de baixo e médio risco. Ela é declarada pelo proprietário, com firma
-            reconhecida, assumindo responsabilidade pela manutenção dos sistemas.
-          </p>
+        <div class="row justify-content-end">
+          <div class="col-xl-9">
+            <p
+              class="mb-0 fs-5"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              data-aos-duration="1000"
+            >
+              Quase todo texto sobre AVCB que circula na internet é de São Paulo, e fala em
+              validade de três a cinco anos e multa que passa de R$ 200 mil. Nenhum dos dois
+              números vale aqui: os dois são definidos por legislação estadual. Na Paraíba, quem
+              manda é a <a class="fw-bold text-primary" href={leis.base.url} target="_blank" rel="noopener">{leis.base.rotulo}</a>,
+              alterada pela <a class="fw-bold text-primary" href={leis.alteracao.url} target="_blank" rel="noopener">{leis.alteracao.rotulo}</a>.
+            </p>
+          </div>
         </div>
 
-        <div class="rounded-xl border border-line bg-white p-7 shadow-card">
-          <h3 class="text-cartao-lg text-ink">A multa é medida em UFR-PB</h3>
-          <p class="mt-3 text-ink-soft">
-            O art. 25, § 6º fixa a multa por nível de risco. O § 7º acrescenta
-            <strong class="font-bold text-ink"> 0,05 UFR-PB por metro quadrado</strong> acima de
-            {' '}{areaBaseM2} m². É isso que faz a multa de um prédio ser muito maior que a de
-            uma sala comercial.
-          </p>
+        <div class="row">
+          <div class="col-lg-6 mb-7 mb-lg-0">
+            <div
+              class="card border bg-white h-100"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              data-aos-duration="1000"
+            >
+              <div class="card-body d-flex flex-column gap-4">
+                <h3 class="mb-0 fs-7">O AVCB da Paraíba vale 1 ano</h3>
+                <p class="mb-0 fs-4">
+                  É anual, e não de três a cinco anos (art. 3º-A, § 1º). O que se repete no
+                  intervalo mais longo é a <strong class="text-dark">vistoria completa</strong>,
+                  cujo prazo depende do risco da edificação (art. 15-A, I):
+                </p>
 
-          <table class="mt-5 w-full border-collapse text-corpo">
-            <caption class="sr-only">
-              Multa por nível de risco, em UFR-PB e em reais
-            </caption>
-            <thead>
-              <tr class="border-b border-line text-left text-rotulo uppercase tracking-[0.06em] text-ash-500">
-                <th class="py-2 font-bold" scope="col">Risco</th>
-                <th class="py-2 text-right font-bold" scope="col">UFR-PB</th>
-                <th class="py-2 text-right font-bold" scope="col">Equivalente</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                (['baixo', 'medio', 'alto'] as const).map((risco) => (
-                  <tr class="border-b border-line-soft">
-                    <th class="py-3 text-left font-normal text-ink-soft" scope="row">
-                      {rotuloDoRisco[risco]}
-                    </th>
-                    <td class="py-3 text-right font-bold text-ink" data-numerico>
-                      {multaEmUfr[risco]}
-                    </td>
-                    <td class="py-3 text-right text-ink" data-numerico>
-                      {emReais(multaEmUfr[risco] * ufrPb.valor)}
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
+                <dl class="mb-0 border-top">
+                  {
+                    niveis.map((risco) => (
+                      <div class="hstack justify-content-between gap-4 py-3 border-bottom">
+                        <dt class="fw-normal fs-4">Edificação de {rotuloDoRisco[risco]}</dt>
+                        <dd class="mb-0 fs-5 fw-bold text-dark">
+                          {validadeDaInspecaoEmAnos[risco]}
+                          {validadeDaInspecaoEmAnos[risco] === 1 ? ' ano' : ' anos'}
+                        </dd>
+                      </div>
+                    ))
+                  }
+                </dl>
 
-          <p class="mt-4 text-apoio text-ash-500">
-            Valores de base, para até {areaBaseM2} m². Equivalência calculada pela UFR-PB de {
-              ufrPb.mes
-            }, de {emReais(ufrPb.valor)}. O índice é corrigido todo mês pelo IPCA, então o valor
-            em reais muda; o valor em UFR-PB, não.
-          </p>
-        </div>
-      </div>
-
-      <div class="mt-6 rounded-xl border-l-4 border-l-wine border-y border-r border-line bg-white p-7 shadow-card">
-        <h3 class="text-cartao font-bold text-ink">Onde a conta cresce</h3>
-        <p class="mt-3 max-w-[76ch] text-ink-soft">
-          Um condomínio de {exemplo.area.toLocaleString('pt-BR')} m² classificado como
-          {' '}{rotuloDoRisco[exemplo.risco]} não paga as {multaEmUfr[exemplo.risco]} UFR-PB de
-          base: paga {multaEmUfrPara(exemplo.risco, exemplo.area).toLocaleString('pt-BR')} UFR-PB,
-          porque {(exemplo.area - areaBaseM2).toLocaleString('pt-BR')} m² excedem a faixa base,
-          cerca de {emReais(multaEmReaisPara(exemplo.risco, exemplo.area))} pela UFR-PB de {
-            ufrPb.mes
-          }. E a multa é a consequência mais barata: interdição, embargo e recusa de seguro não
-          têm teto.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="cotacao">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <h2 id="cotacao" class="max-w-[26ch] text-secao text-ink">
-        O que perguntar antes de contratar
-      </h2>
-      <p class="mt-4 max-w-[68ch] text-guia text-ink-soft">
-        Quatro perguntas que separam orçamento comparável de orçamento que só parece mais barato.
-        Use com qualquer fornecedor, inclusive conosco.
-      </p>
-
-      <ol class="mt-11 grid list-none gap-x-12 border-t border-line md:grid-cols-2">
-        {
-          cotacao.map((pergunta, indice) => (
-            <li class="flex gap-4 border-b border-line py-5">
-              <span
-                class="flex size-7 shrink-0 items-center justify-center rounded-full bg-graphite-900 text-rotulo font-bold text-white"
-                aria-hidden="true"
-              >
-                {indice + 1}
-              </span>
-              <div>
-                <p class="text-cartao font-bold text-ink">{pergunta.data.titulo}</p>
-                <p class="mt-2 text-corpo text-ink-soft">{pergunta.data.descricao}</p>
+                <p class="mb-0 fs-4">
+                  Entre uma vistoria e outra, a renovação anual do documento é feita pela
+                  <strong class="text-dark"> RAS, a Renovação Anual Simplificada</strong>, nas
+                  edificações de baixo e médio risco. Ela é declarada pelo proprietário, com firma
+                  reconhecida, assumindo responsabilidade pela manutenção dos sistemas.
+                </p>
               </div>
-            </li>
-          ))
-        }
-      </ol>
+            </div>
+          </div>
 
-      {/*
-        Ponteiro, e nao copia. As quatro perguntas acima ajudam a avaliar quem
-        ja apareceu; a secao ligada aqui explica de que profissao e conduzir o
-        processo, e por lei. Repetir aquele texto aqui faria duas paginas
-        disputarem a mesma busca, que e o erro que /carregadores-eletricos e o
-        artigo cometeram.
-      */}
-      <p class="mt-8">
-        <a
-          class="group inline-flex items-center gap-2 font-bold text-wine"
-          href="/seguranca-contra-incendio#por-que-despachante"
+          <div class="col-lg-6">
+            <div
+              class="card border bg-white h-100"
+              data-aos="fade-up"
+              data-aos-delay="200"
+              data-aos-duration="1000"
+            >
+              <div class="card-body d-flex flex-column gap-4">
+                <h3 class="mb-0 fs-7">A multa é medida em UFR-PB</h3>
+                <p class="mb-0 fs-4">
+                  O art. 25, § 6º fixa a multa por nível de risco. O § 7º acrescenta
+                  <strong class="text-dark"> 0,05 UFR-PB por metro quadrado</strong> acima de {
+                    areaBaseM2
+                  } m². É isso que faz a multa de um prédio ser muito maior que a de uma sala
+                  comercial.
+                </p>
+
+                <div class="table-responsive">
+                  <table class="table mb-0 align-middle">
+                    <caption class="visually-hidden">
+                      Multa por nível de risco, em UFR-PB e em reais
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th scope="col" class="fs-3 text-uppercase text-muted">Risco</th>
+                        <th scope="col" class="fs-3 text-uppercase text-muted text-end">UFR-PB</th>
+                        <th scope="col" class="fs-3 text-uppercase text-muted text-end">
+                          Equivalente
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        niveis.map((risco) => (
+                          <tr>
+                            <th scope="row" class="fw-normal fs-4">
+                              {rotuloDoRisco[risco]}
+                            </th>
+                            <td class="text-end fw-bold text-dark fs-4">{multaEmUfr[risco]}</td>
+                            <td class="text-end fs-4">
+                              {emReais(multaEmUfr[risco] * ufrPb.valor)}
+                            </td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </table>
+                </div>
+
+                <p class="mb-0 fs-3 text-muted">
+                  Valores de base, para até {areaBaseM2} m². Equivalência calculada pela UFR-PB de {
+                    ufrPb.mes
+                  }, de {emReais(ufrPb.valor)}. O índice é corrigido todo mês pelo IPCA, então o
+                  valor em reais muda; o valor em UFR-PB, não.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="card bg-primary"
+          data-aos="fade-up"
+          data-aos-delay="100"
+          data-aos-duration="1000"
         >
-          Por que conduzir esse processo é trabalho de despachante documentalista
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-            class="shrink-0 transition-[translate] duration-200 ease-saida group-hover:translate-x-1"
-          >
-            <path d="M5 12h13m-5-6 6 6-6 6"></path>
-          </svg>
-        </a>
-      </p>
+          <div class="card-body d-flex flex-column gap-3">
+            <h3 class="mb-0 fs-7">Onde a conta cresce</h3>
+            <p class="mb-0 fs-4">
+              Um condomínio de {exemplo.area.toLocaleString('pt-BR')} m² classificado como {
+                rotuloDoRisco[exemplo.risco]
+              } não paga as {multaEmUfr[exemplo.risco]} UFR-PB de base: paga {
+                multaEmUfrPara(exemplo.risco, exemplo.area).toLocaleString('pt-BR')
+              } UFR-PB, porque {(exemplo.area - areaBaseM2).toLocaleString('pt-BR')} m² excedem a
+              faixa base, cerca de {emReais(multaEmReaisPara(exemplo.risco, exemplo.area))} pela
+              UFR-PB de {ufrPb.mes}. E a multa é a consequência mais barata: interdição, embargo e
+              recusa de seguro não têm teto.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="py-16 lg:py-20" aria-labelledby="nao-sei">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h2 id="nao-sei" class="text-cartao-lg text-ink">
-            Não sabe em que estágio o seu caso está?
-          </h2>
-          <p class="mt-2 max-w-[58ch] text-ink-soft">
-            O Diagnóstico de Regularização são quatro perguntas. Não substitui a análise
-            documental: mostra por onde começa.
-          </p>
+  <!-- 05 — O que perguntar -->
+  <section class="py-5 py-lg-11 py-xl-12 bg-light-gray">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="05"
+          etiqueta="Antes de contratar"
+          titulo="O que perguntar antes de contratar"
+          descricao="Quatro perguntas que separam orçamento comparável de orçamento que só parece mais barato. Use com qualquer fornecedor, inclusive conosco."
+        />
+
+        <div class="row">
+          {
+            cotacao.map(({ data }, i) => (
+              <div class="col-md-6 mb-7">
+                <div
+                  class="d-flex gap-4 align-items-start pt-6 border-top h-100"
+                  data-aos="fade-up"
+                  data-aos-delay={`${((i % 2) + 1) * 100}`}
+                  data-aos-duration="1000"
+                >
+                  <span class="round-36 flex-shrink-0 rounded-circle bg-dark text-white hstack justify-content-center fw-bold fs-3">
+                    {i + 1}
+                  </span>
+                  <div>
+                    <h3 class="mb-2 fs-6">{data.titulo}</h3>
+                    <p class="mb-0 fs-4">{data.descricao}</p>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
         </div>
-        <div class="shrink-0">
-          <BotaoLink href="/diagnostico">Responder as 4 perguntas</BotaoLink>
+
+        {/*
+          Ponteiro, e nao copia. As quatro perguntas acima ajudam a avaliar
+          quem ja apareceu; a secao ligada aqui explica de que profissao e
+          conduzir o processo, e por lei.
+        */}
+        <div class="row justify-content-end">
+          <div class="col-xl-9">
+            <a
+              class="link-hover hstack gap-2 fs-5 fw-bold text-primary w-fit"
+              href="/seguranca-contra-incendio#por-que-despachante"
+            >
+              Por que conduzir esse processo é trabalho de despachante documentalista
+              <Icone nome="lucide:arrow-up-right" class="fs-6 flex-shrink-0" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — Não sabe em que estágio está -->
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div
+        class="card bg-dark"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        data-aos-duration="1000"
+      >
+        <div class="card-body">
+          <div class="row align-items-center gap-4 gap-md-0">
+            <div class="col-md-8">
+              <h2 class="mb-2 fs-8 text-white">Não sabe em que estágio o seu caso está?</h2>
+              <p class="mb-0 fs-4 text-white text-opacity-70">
+                O Diagnóstico de Regularização são quatro perguntas. Não substitui a análise
+                documental: mostra por onde começa.
+              </p>
+            </div>
+            <div class="col-md-4 d-flex justify-content-md-end">
+              <Botao href="/diagnostico">Responder as 4 perguntas</Botao>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -371,5 +432,5 @@ const cotacao = doGrupo('cotacao')
     a análise da sua edificação nem orientação jurídica.
   </AvisoEscopo>
 
-  <Faq pagina="avcb" titulo="Perguntas frequentes sobre AVCB" />
-</BaseLayout>
+  <AcordeaoFaq pagina="avcb" numero="07" titulo="Perguntas frequentes sobre AVCB" />
+</LayoutStudiova>

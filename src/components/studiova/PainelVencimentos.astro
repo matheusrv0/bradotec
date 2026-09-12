@@ -1,0 +1,76 @@
+---
+/**
+ * Elemento-assinatura do hero: em vez de foto de banco de imagens, mostra
+ * exatamente o que a empresa vende — cada documento com situacao e prazo.
+ *
+ * Hoje e ilustrativo. Quando existir backend, esta mesma estrutura recebe
+ * dados reais do cliente logado.
+ *
+ * As cores dos pontos sao as tres divisoes; os tons dos selos moram em
+ * `bradotec-ajustes.css`, para nao repetir valor de cor no markup.
+ */
+const linhas = [
+  {
+    cor: '#8e1c21',
+    titulo: 'Segurança contra incêndio',
+    detalhe: 'Edifício comercial',
+    selo: 'Exigência aberta',
+    tom: 'selo-urgente',
+  },
+  {
+    cor: '#3f5468',
+    titulo: 'Alvará de funcionamento',
+    detalhe: 'Matriz',
+    selo: 'Vence em 30 dias',
+    tom: 'selo-atencao',
+  },
+  {
+    cor: '#3f5468',
+    titulo: 'Licença sanitária',
+    detalhe: 'Filial',
+    selo: 'Regular',
+    tom: 'selo-ok',
+  },
+  {
+    cor: '#2f6259',
+    titulo: 'Licenciamento da frota',
+    detalhe: '6 veículos',
+    selo: 'Em dia',
+    tom: 'selo-ok',
+  },
+] as const
+---
+
+<div
+  class="painel-vencimentos p-6 rounded-4"
+  role="group"
+  aria-label="Exemplo de painel de controle de vencimentos"
+>
+  <div class="hstack justify-content-between gap-3 pb-4 mb-2 border-bottom">
+    <strong class="fs-5 text-white">Painel de vencimentos</strong>
+    <span class="fs-3">exemplo ilustrativo</span>
+  </div>
+
+  {
+    linhas.map((linha, i) => (
+      <div
+        class:list={[
+          'hstack gap-3 py-3 px-1',
+          i < linhas.length - 1 && 'border-bottom',
+        ]}
+      >
+        <span class="painel-ponto flex-shrink-0" style={`background:${linha.cor}`} />
+        <span class="flex-grow-1 min-w-0">
+          <b class="d-block fs-4 text-white">{linha.titulo}</b>
+          <small class="fs-3">{linha.detalhe}</small>
+        </span>
+        <span class:list={['painel-selo flex-shrink-0', linha.tom]}>{linha.selo}</span>
+      </div>
+    ))
+  }
+
+  <p class="mb-0 mt-3 pt-3 fs-3 border-top">
+    É assim que a Bradotec organiza a documentação de quem contrata a gestão recorrente: cada item
+    com responsável, situação e prazo.
+  </p>
+</div>

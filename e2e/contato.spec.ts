@@ -143,7 +143,9 @@ test.describe('Formulário de contato', () => {
    * pendente. Se alguem apagar um campo da configuracao, este teste avisa.
    */
   test('os canais de contato mostram o dado real, sem marca de pendente', async ({ page }) => {
-    const painel = page.getByRole('heading', { name: 'Outros canais' }).locator('..')
+    const painel = page
+      .getByRole('heading', { name: 'Onde encontrar a Bradotec' })
+      .locator('xpath=ancestor::section[1]')
 
     await expect(painel.locator('[title="Dado ainda não informado pelo cliente"]')).toHaveCount(0)
 

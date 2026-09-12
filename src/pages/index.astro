@@ -1,15 +1,18 @@
 ---
+import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
+import fotoMiguel from '@/assets/fotos/miguel-arcanjo.jpg'
+import fotoFrota from '@/assets/fotos-geradas/frota-em-garagem.jpg'
+import fotoCarimbo from '@/assets/fotos-licenciadas/documentos-em-mesa.jpg'
 import fotoJoaoPessoa from '@/assets/fotos-licenciadas/joao-pessoa-orla.jpg'
-import BotaoLink from '@/components/BotaoLink.astro'
-import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
-import CartaoDivisao from '@/components/CartaoDivisao.astro'
-import Faq from '@/components/Faq.astro'
-import FundoIlustrado from '@/components/FundoIlustrado.astro'
-import Lideranca from '@/components/Lideranca.astro'
-import PainelVencimentos from '@/components/PainelVencimentos.astro'
+import fotoSaida from '@/assets/fotos-licenciadas/saida-de-emergencia.jpg'
+import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
+import Botao from '@/components/studiova/Botao.astro'
+import Icone from '@/components/studiova/Icone.astro'
+import PainelVencimentos from '@/components/studiova/PainelVencimentos.astro'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import { site } from '@/config/site'
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 import { schemaFaqDaPagina } from '@/lib/faq'
 
 const titulo = `${site.nome}: regularização, licenças e segurança contra incêndio em ${site.cidade} (${site.estado})`
@@ -19,9 +22,17 @@ const schemaFaq = await schemaFaqDaPagina('home')
 const caminhos = (await getCollection('caminhos')).sort((a, b) => a.data.ordem - b.data.ordem)
 const divisoes = (await getCollection('divisoes')).sort((a, b) => a.data.ordem - b.data.ordem)
 const servicos = (await getCollection('servicos')).sort((a, b) => a.data.ordem - b.data.ordem)
+const lideranca = (await getCollection('lideranca')).sort((a, b) => a.data.ordem - b.data.ordem)[0]
 
-const titulosDaDivisao = (idDivisao: string) =>
-  servicos.filter(({ data }) => data.divisao === idDivisao).map(({ data }) => data.titulo)
+const servicosDaDivisao = (idDivisao: string) =>
+  servicos.filter(({ data }) => data.divisao === idDivisao)
+
+/** Uma foto por divisao, nas abas — as mesmas que cada pagina usa. */
+const fotosDivisao: Record<string, ImageMetadata> = {
+  fire: fotoSaida,
+  documentos: fotoCarimbo,
+  auto: fotoFrota,
+}
 
 const provas = [
   'Segurança contra incêndio e pânico',
@@ -36,246 +47,444 @@ const provas = [
  */
 const diferenciais = [
   {
+    icone: 'solar:map-point-wave-line-duotone',
     titulo: 'Base em João Pessoa',
     descricao: 'Atendimento presencial na capital e na região metropolitana da Paraíba.',
   },
   {
+    icone: 'solar:routing-2-line-duotone',
     titulo: 'Processo acompanhado',
     descricao: 'Do protocolo à conclusão, com retorno sobre cada etapa e cada exigência.',
   },
   {
+    icone: 'solar:diploma-verified-line-duotone',
     titulo: 'Profissionais habilitados',
     descricao: 'Projetos e laudos executados por quem tem habilitação legal para assinar.',
   },
   {
+    icone: 'solar:chat-round-line-line-duotone',
     titulo: 'Retorno direto',
     descricao: 'O atendimento é feito por quem vai conduzir o processo, não por central.',
   },
 ] as const
+
+/** Largura maxima em que a foto do banner e exibida. */
+const LARGURA_BANNER = 1600
 ---
 
-<BaseLayout titulo={titulo} schemasExtras={schemaFaq ? [schemaFaq] : []}>
-  <section
-    class="overflow-hidden bg-graphite-900 bg-[radial-gradient(900px_480px_at_85%_-10%,rgba(142,28,33,0.30),transparent_62%)] py-20 text-white lg:py-24"
-  >
-    <FundoIlustrado
-      cena="fachada"
-      foto={fotoJoaoPessoa}
-      descricaoDaFoto="Vista aérea da orla de João Pessoa, com a praia em curva, os edifícios da beira-mar e o oceano"
+<LayoutStudiova titulo={titulo} schemasExtras={schemaFaq ? [schemaFaq] : []}>
+  <!-- Banner -->
+  <section class="banner-section banner-home position-relative d-flex align-items-center">
+    {/*
+      `width`/`height` explicitos de proposito: sem eles o Astro aponta o
+      `src` de fallback para o arquivo em resolucao cheia, e quem le `src` em
+      vez de `srcset` baixa a foto inteira.
+    */}
+    <Image
+      src={fotoJoaoPessoa}
+      alt="Vista aérea da orla de João Pessoa, com a praia em curva, os edifícios da beira-mar e o oceano"
+      width={LARGURA_BANNER}
+      height={Math.round((LARGURA_BANNER * fotoJoaoPessoa.height) / fotoJoaoPessoa.width)}
+      widths={[640, 960, 1280, LARGURA_BANNER]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="banner-foto"
     />
 
-    <div class="relative mx-auto w-full max-w-wrap px-5">
-      <div class="grid items-center gap-11 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
-        <div>
-          <span
-            class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 py-2 pl-3 pr-4 text-apoio font-bold text-sobre-escuro"
-          >
-            <svg
-              width="17"
-              height="17"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
+    <div class="container">
+      <div class="row align-items-center gap-7 gap-xl-0 position-relative z-1">
+        <div class="col-xl-7">
+          <div class="d-flex flex-column gap-4">
+            <div
+              class="d-flex align-items-center gap-4"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              data-aos-duration="1000"
             >
-              <path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"></path>
-              <circle cx="12" cy="10" r="2.6"></circle>
-            </svg>
-            {site.regiaoAtendida}
-          </span>
+              <img
+                src="/studiova/images/svgs/primary-leaf.svg"
+                alt=""
+                width="40"
+                height="42"
+                class="img-fluid animate-spin flex-shrink-0"
+              />
+              <p class="mb-0 text-white fs-5 text-opacity-75">{site.regiaoAtendida}</p>
+            </div>
 
-          <h1 class="mb-5 text-hero tracking-[-0.03em] text-white">
-            Regularização, licenças e documentação sem complicação.
-          </h1>
+            <h1
+              class="mb-0 text-white lh-1 titulo-hero"
+              data-aos="fade-up"
+              data-aos-delay="200"
+              data-aos-duration="1000"
+            >
+              Regularização, licenças e documentação <span class="text-primary"
+                >sem complicação</span
+              >.
+            </h1>
 
-          {/*
-            Linha de autoridade, informada pelo cliente.
+            <p
+              class="mb-0 fs-5 fw-bold text-white destaque-crdd"
+              data-aos="fade-up"
+              data-aos-delay="250"
+              data-aos-duration="1000"
+            >
+              Único despachante documentalista inscrito no CRDD com atuação em prevenção e
+              segurança contra incêndio na Paraíba.
+            </p>
 
-            E uma afirmacao de exclusividade, e por isso fica escrita de forma
-            verificavel: diz o registro (CRDD), a atuacao e o estado. Quem
-            quiser conferir, consegue. Afirmacao de exclusividade que nao se
-            sustenta e propaganda enganosa pelo art. 37 do CDC, entao ela vive
-            aqui e nao em varios lugares: um texto so para revisar se mudar.
-          */}
-          <p class="mb-6 max-w-[52ch] border-l-2 border-l-wine pl-4 text-guia font-bold text-white">
-            Único despachante documentalista inscrito no CRDD com atuação em prevenção e segurança
-            contra incêndio na Paraíba.
-          </p>
+            <p
+              class="mb-2 fs-5 text-white text-opacity-75"
+              data-aos="fade-up"
+              data-aos-delay="300"
+              data-aos-duration="1000"
+            >
+              Em {site.cidade} e região, a {site.nome} cuida dos processos documentais da sua
+              empresa, condomínio, imóvel e veículo — reunindo gestão, acompanhamento e
+              profissionais especializados para você ter mais segurança e menos burocracia.
+            </p>
 
-          <p class="max-w-[56ch] text-guia text-sobre-escuro">
-            Em {site.cidade} e região, a {site.nome} cuida dos processos documentais da sua empresa,
-            condomínio, imóvel e veículo, reunindo gestão, acompanhamento e profissionais
-            especializados para você ter mais segurança e menos burocracia.
-          </p>
+            <div
+              class="hstack gap-3 flex-wrap"
+              data-aos="fade-up"
+              data-aos-delay="400"
+              data-aos-duration="1000"
+            >
+              <Botao origem="orcamento">Solicitar orçamento</Botao>
+              <Botao href="/diagnostico" tom="contorno">Responder as 4 perguntas</Botao>
+            </div>
 
-          <div class="mt-7 flex flex-wrap gap-3">
-            <BotaoWhatsapp origem="orcamento">Solicitar orçamento</BotaoWhatsapp>
-            <BotaoLink href="/diagnostico" variante="sobreEscuro">
-              Responder as 4 perguntas
-            </BotaoLink>
+            <ul
+              class="list-unstyled mb-0 mt-3 d-flex flex-column gap-2"
+              data-aos="fade-up"
+              data-aos-delay="500"
+              data-aos-duration="1000"
+            >
+              {
+                provas.map((prova) => (
+                  <li class="hstack gap-3 text-white text-opacity-75 fs-4">
+                    <Icone
+                      nome="solar:check-circle-bold"
+                      class="fs-6 text-primary flex-shrink-0"
+                    />
+                    {prova}
+                  </li>
+                ))
+              }
+            </ul>
           </div>
-
-          <ul
-            class="mt-8 flex flex-wrap gap-x-7 gap-y-2.5 border-t border-white/15 pt-6 text-corpo text-sobre-escuro-fraco"
-          >
-            {
-              provas.map((prova) => (
-                <li class="flex items-center gap-2">
-                  <svg
-                    width="17"
-                    height="17"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.7"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    class="shrink-0 text-ok-claro"
-                  >
-                    <path d="m4 12.5 5 5L20 6.5" />
-                  </svg>
-                  {prova}
-                </li>
-              ))
-            }
-          </ul>
         </div>
 
-        <PainelVencimentos />
+        <div class="col-xl-5">
+          <div data-aos="fade-left" data-aos-delay="300" data-aos-duration="1000">
+            <PainelVencimentos />
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="caminhos">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <h2 id="caminhos" class="max-w-[18ch] text-secao text-ink">O que você precisa resolver?</h2>
-      <p class="mt-4 max-w-[62ch] text-guia text-ink-soft">
-        Escolha a situação mais parecida com a sua. Cada caminho leva direto à solução
-        correspondente.
-      </p>
+  <!-- 01 — O que você precisa resolver -->
+  <section class="py-5 py-lg-11 py-xl-12 bg-light-gray" id="resolver">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="01"
+          etiqueta="Comece por aqui"
+          titulo="O que você precisa resolver?"
+          descricao="Escolha a situação mais parecida com a sua. Cada caminho leva direto à solução correspondente."
+        />
 
-      {/*
-        Lista, e nao nove cartoes.
+        <div class="row">
+          {
+            caminhos.map(({ data }, i) => (
+              <div class="col-md-6 col-lg-4 mb-6">
+                <a
+                  href={data.href}
+                  class="card caminho border bg-white h-100 text-decoration-none"
+                  data-aos="fade-up"
+                  data-aos-delay={`${((i % 3) + 1) * 100}`}
+                  data-aos-duration="1000"
+                >
+                  <div class="card-body d-flex flex-column gap-3 p-6">
+                    <div class="hstack justify-content-between gap-3 align-items-start">
+                      <h3 class="mb-0 fs-6 text-dark">{data.titulo}</h3>
+                      <Icone
+                        nome="lucide:arrow-up-right"
+                        class="fs-6 text-primary flex-shrink-0 mt-1"
+                      />
+                    </div>
+                    <p class="mb-0 fs-4">{data.descricao}</p>
+                  </div>
+                </a>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
 
-        Duas razoes. A primeira e de composicao: esta secao e a de "Tres
-        divisoes" usavam a MESMA familia de layout, grade de tres colunas com
-        cartao, uma logo depois da outra. Duas secoes seguidas com o mesmo
-        desenho fazem a pagina parecer template. Agora esta e lista e a
-        outra e cartao, e cada uma se distingue.
+  <!-- 02 — Três divisões -->
+  <section class="services py-5 py-lg-11 py-xl-12 bg-dark" id="divisoes">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="02"
+          etiqueta="Três divisões"
+          titulo="Três divisões, uma só empresa"
+          descricao="A Bradotec organiza o que costuma estar espalhado entre contador, síndico, engenheiro e despachante. Você trata com uma equipe só — e ela coordena o resto."
+          escuro
+        />
 
-        A segunda e de peso: nove caixas com borda e sombra somavam nove
-        blocos disputando atencao logo abaixo do hero. Como lista, o mesmo
-        conteudo ocupa menos e le mais rapido.
-
-        Sem numeracao: sao nove situacoes paralelas, nao uma sequencia.
-        O fio a esquerda acende no hover, que e o que diz que a linha navega.
-      */}
-      <ul class="mt-11 grid list-none gap-x-10 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          caminhos.map((caminho) => (
-            <li>
-              <a
-                class="group flex h-full flex-col border-l-2 border-l-line py-4 pl-5 no-underline transition-[border-color,padding] duration-200 ease-saida hover:border-l-wine hover:pl-6"
-                href={caminho.data.href}
+        <div class="services-tab">
+          <div class="row gap-5 gap-xl-0">
+            <div class="col-xl-4">
+              <div
+                class="tab-content"
+                data-aos="zoom-in"
+                data-aos-delay="100"
+                data-aos-duration="1000"
               >
-                <span class="flex items-center gap-2 text-cartao font-bold text-ink transition-colors group-hover:text-wine">
-                  {caminho.data.titulo}
-                  <svg
-                    width="17"
-                    height="17"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    class="shrink-0 opacity-0 transition-[opacity,translate] duration-200 ease-saida group-hover:translate-x-1 group-hover:opacity-100"
-                  >
-                    <path d="M5 12h13m-5-6 6 6-6 6" />
-                  </svg>
-                </span>
-                <span class="mt-1.5 text-corpo text-ink-soft">{caminho.data.descricao}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <section class="py-16 lg:py-20" aria-labelledby="divisoes">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <h2 id="divisoes" class="max-w-[18ch] text-secao text-ink">Três divisões, uma só empresa</h2>
-      <p class="mt-4 max-w-[64ch] text-guia text-ink-soft">
-        A {site.nome} organiza o que costuma estar espalhado entre contador, síndico, engenheiro e
-        despachante. Você trata com uma equipe só, e ela coordena o resto.
-      </p>
-
-      <div class="mt-11 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {
-          divisoes.map((divisao) => (
-            <CartaoDivisao
-              marca={divisao.data.marca}
-              titulo={divisao.data.titulo}
-              resumo={divisao.data.resumo}
-              href={divisao.data.href}
-              cor={divisao.data.cor}
-              servicos={titulosDaDivisao(divisao.id)}
-              limite={4}
-            />
-          ))
-        }
-      </div>
-
-      <div class="mt-8 flex flex-wrap gap-3">
-        <BotaoLink href="/solucoes">Comparar as três divisões</BotaoLink>
-      </div>
-    </div>
-  </section>
-
-  {/*
-    Secao de autoridade. E a que mais precisa de presenca na pagina, e era a
-    mais apagada: quatro colunas de texto miudo sob um fio de 1px.
-    Ganha respiro, titulo maior e um risco de acento sobre o fio — o acento
-    e decorativo (aria-hidden), por isso pode usar o vermelho da marca sem
-    responder por contraste de texto.
-  */}
-  <section class="bg-graphite-900 py-20 text-white lg:py-24" aria-labelledby="como-atuamos">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <h2 id="como-atuamos" class="max-w-[20ch] text-secao text-white">
-        O que você pode esperar da Bradotec
-      </h2>
-
-      <dl class="mt-12 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          diferenciais.map((item) => (
-            <div class="relative border-t border-white/15 pt-7">
-              <span
-                class="absolute -top-0.5 left-0 h-[3px] w-9 rounded-full bg-wine"
-                aria-hidden="true"
-              />
-              <dt class="text-cartao-lg text-white">{item.titulo}</dt>
-              <dd class="mt-3 text-corpo text-sobre-escuro">{item.descricao}</dd>
+                {
+                  divisoes.map((divisao, i) => (
+                    <div
+                      class:list={['tab-pane', i === 0 && 'active']}
+                      id={divisao.id}
+                      role="tabpanel"
+                      aria-labelledby={`${divisao.id}-tab`}
+                      tabindex="0"
+                    >
+                      <Image
+                        src={fotosDivisao[divisao.id] ?? fotoSaida}
+                        alt=""
+                        width={560}
+                        height={700}
+                        widths={[400, 560]}
+                        sizes="(min-width: 1200px) 33vw, 100vw"
+                        loading="lazy"
+                        class="img-fluid w-100 foto-divisao"
+                      />
+                    </div>
+                  ))
+                }
+              </div>
             </div>
-          ))
-        }
-      </dl>
+
+            <div class="col-xl-8">
+              <div class="d-flex flex-column gap-5">
+                <ul
+                  class="nav nav-tabs"
+                  role="tablist"
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                  data-aos-duration="1000"
+                >
+                  {
+                    divisoes.map((divisao, i) => (
+                      <li
+                        class="nav-item py-4 py-lg-7 border-top border-white border-opacity-10 d-flex align-items-center w-100"
+                        role="presentation"
+                      >
+                        <div class="row w-100 align-items-center gx-3">
+                          <div class="col-lg-6 col-xxl-5">
+                            <span class="badge bg-primary mb-2 fs-3">{divisao.data.marca}</span>
+                            <button
+                              class:list={[
+                                'nav-link fs-9 fw-bold py-1 px-0 border-0 rounded-0 flex-shrink-0 text-start',
+                                i === 0 && 'active',
+                              ]}
+                              id={`${divisao.id}-tab`}
+                              data-bs-toggle="tab"
+                              data-bs-target={`#${divisao.id}`}
+                              type="button"
+                              role="tab"
+                              aria-controls={divisao.id}
+                              aria-selected={i === 0 ? 'true' : 'false'}
+                            >
+                              {divisao.data.titulo}
+                            </button>
+                          </div>
+                          <div class="col-lg-6 col-xxl-7">
+                            <p class="text-white text-opacity-70 mb-3 fs-4">
+                              {divisao.data.resumo}
+                            </p>
+                            <ul class="list-unstyled mb-3 d-flex flex-column gap-1">
+                              {servicosDaDivisao(divisao.id)
+                                .slice(0, 4)
+                                .map(({ data }) => (
+                                  <li class="hstack gap-2 fs-3 text-white text-opacity-60">
+                                    <Icone
+                                      nome="solar:check-circle-bold"
+                                      class="fs-5 text-primary flex-shrink-0"
+                                    />
+                                    {data.titulo}
+                                  </li>
+                                ))}
+                            </ul>
+                            <a
+                              href={divisao.data.href}
+                              class="link-hover hstack gap-2 text-primary fs-4 fw-bold w-fit"
+                            >
+                              Ver a divisão
+                              <Icone nome="lucide:arrow-up-right" class="fs-5" />
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                    ))
+                  }
+                </ul>
+
+                <div class="hstack gap-3 flex-wrap">
+                  <Botao href="/solucoes" tom="contorno">Comparar as três divisões</Botao>
+                  <Botao origem="comecar">Não sei qual é o meu caso</Botao>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  {/*
-    A home nao tem numero de clientes, depoimento nem nota do Google: sao
-    placeholder, e a regra do projeto proibe inventar. Esta faixa e a prova
-    de autoridade que resta, e ela e melhor que as tres juntas, porque tem
-    nome, formacao e cara. Versao curta de proposito: a secao completa mora
-    em /sobre, e a home ja tinha informacao demais.
-  */}
-  <Lideranca compacto />
+  <!-- 03 — O que esperar -->
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="03"
+          etiqueta="Como trabalhamos"
+          titulo="O que você pode esperar da Bradotec"
+          descricao="Sem promessa de prazo que depende de órgão público. O que oferecemos é condução, organização e retorno a cada etapa."
+        />
 
-  <Faq pagina="home" />
-</BaseLayout>
+        <div class="row">
+          {
+            diferenciais.map((item, i) => (
+              <div class="col-md-6 col-lg-3 mb-7 mb-lg-0">
+                <div
+                  class="d-flex flex-column gap-5 pt-8 border-top h-100"
+                  data-aos="fade-up"
+                  data-aos-delay={`${(i + 1) * 100}`}
+                  data-aos-duration="1000"
+                >
+                  <Icone nome={item.icone} class="fs-12 text-primary" />
+                  <h3 class="mb-0 fs-6">{item.titulo}</h3>
+                  <p class="mb-0 fs-4">{item.descricao}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — Quem está por trás -->
+  {
+    lideranca && (
+      <section class="py-5 py-lg-11 py-xl-12 bg-dark">
+        <div class="container">
+          <div class="d-flex flex-column gap-5 gap-xl-10">
+            <TituloSecao
+              numero="04"
+              etiqueta="Autoridade"
+              titulo="Quem está por trás da Bradotec"
+              escuro
+            />
+
+            <div class="row justify-content-between gap-7 gap-xl-0 align-items-center">
+              <div class="col-xl-4">
+                <Image
+                  src={fotoMiguel}
+                  alt={`Retrato de ${lideranca.data.nome}, de terno escuro, sobre fundo preto`}
+                  width={420}
+                  height={631}
+                  widths={[320, 420]}
+                  sizes="(min-width: 1200px) 33vw, 80vw"
+                  loading="lazy"
+                  class="img-fluid rounded-4 w-100"
+                  data-aos="fade-right"
+                  data-aos-delay="100"
+                  data-aos-duration="1000"
+                />
+              </div>
+
+              <div class="col-xl-7">
+                <div
+                  class="d-flex flex-column gap-4"
+                  data-aos="fade-up"
+                  data-aos-delay="200"
+                  data-aos-duration="1000"
+                >
+                  <div>
+                    <h3 class="mb-1 fs-8 text-white">{lideranca.data.nome}</h3>
+                    <p class="mb-0 fs-5 text-primary">{lideranca.data.papel}</p>
+                  </div>
+                  <p class="mb-0 fs-5 text-white text-opacity-75">{lideranca.data.resumoCurto}</p>
+                  <div>
+                    <Botao href="/sobre" tom="contorno">Ver a formação completa</Botao>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- 05 — FAQ -->
+  <AcordeaoFaq pagina="home" numero="05" />
+</LayoutStudiova>
+
+<style>
+  /*
+   * O template poe a marca em 128px no banner, porque vende uma agencia de
+   * design: o nome dela e o produto. Aqui a marca ja esta no cabecalho, entao
+   * o h1 carrega a promessa — na mesma escala de impacto.
+   */
+  .titulo-hero {
+    font-size: clamp(2.25rem, 5.6vw, 4.5rem);
+    letter-spacing: -0.035em;
+  }
+
+  .banner-home {
+    min-height: 100vh;
+    padding-top: 150px;
+    padding-bottom: 80px;
+  }
+
+  .banner-foto {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* A afirmacao do CRDD e o diferencial verificavel da empresa: ganha moldura. */
+  .destaque-crdd {
+    border-left: 3px solid var(--brad-brasa);
+    padding-left: 16px;
+  }
+
+  .foto-divisao {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  /* Cartao de caminho: a borda responde ao passar do mouse. */
+  .caminho {
+    transition:
+      border-color 0.15s,
+      transform 0.15s;
+  }
+
+  .caminho:hover {
+    border-color: var(--brad-vinho);
+    transform: translateY(-2px);
+  }
+</style>

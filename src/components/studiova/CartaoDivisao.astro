@@ -1,0 +1,69 @@
+---
+import Botao from '@/components/studiova/Botao.astro'
+import Icone from '@/components/studiova/Icone.astro'
+
+/**
+ * Cartao de uma divisao. As tres dividem o mesmo layout e mudam so a cor da
+ * faixa e da etiqueta — leem-se como areas da mesma empresa, nao como tres
+ * empresas. As cores moram em `bradotec-ajustes.css` (.divisao-*).
+ */
+interface Props {
+  marca: string
+  titulo: string
+  resumo: string
+  href: string
+  cor: 'fire' | 'doc' | 'auto'
+  /** Titulos dos servicos da divisao, vindos da colecao `servicos`. */
+  servicos: readonly string[]
+  /** Quantos servicos mostrar. Sem limite, mostra todos. */
+  limite?: number
+  /** Atraso da animacao de entrada, em ms. */
+  atraso?: number
+}
+
+const { marca, titulo, resumo, href, cor, servicos, limite, atraso = 100 } = Astro.props
+
+const mostrados = limite ? servicos.slice(0, limite) : servicos
+const restantes = servicos.length - mostrados.length
+const classeCor = { fire: 'divisao-fire', doc: 'divisao-doc', auto: 'divisao-auto' }[cor]
+---
+
+<article
+  class:list={['card divisao border bg-white h-100 d-flex flex-column', classeCor]}
+  data-aos="fade-up"
+  data-aos-delay={String(atraso)}
+  data-aos-duration="1000"
+>
+  <div class="card-body d-flex flex-column justify-content-between gap-6">
+    <div class="d-flex flex-column gap-4">
+      <span class="divisao-etiqueta badge w-fit fs-3">{marca}</span>
+      <h3 class="mb-0 fs-7">{titulo}</h3>
+      <p class="mb-0 fs-4">{resumo}</p>
+
+      <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
+        {
+          mostrados.map((servico) => (
+            <li class="hstack gap-3 align-items-start fs-4">
+              <Icone
+                nome="solar:check-circle-bold"
+                class="divisao-marca fs-6 flex-shrink-0"
+              />
+              <span>{servico}</span>
+            </li>
+          ))
+        }
+        {
+          restantes > 0 && (
+            <li class="fs-4 text-muted ps-5">
+              e mais {restantes} {restantes === 1 ? 'serviço' : 'serviços'}
+            </li>
+          )
+        }
+      </ul>
+    </div>
+
+    <div>
+      <Botao href={href}>Ver a divisão</Botao>
+    </div>
+  </div>
+</article>

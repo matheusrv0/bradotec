@@ -1,0 +1,157 @@
+---
+import { Image } from 'astro:assets'
+
+/**
+ * Faixa de topo das paginas internas, no desenho do template: foto sob um
+ * veu escuro, trilha de navegacao e o titulo grande.
+ *
+ * As oito paginas com foto usam o mesmo tratamento. Duas cores de veu em
+ * paginas vizinhas nao leem como sistema, leem como descuido.
+ *
+ * A foto declara `width`/`height` de proposito. Sem isso o Astro aponta o
+ * `src` de fallback para o arquivo em resolucao cheia — nas paginas com foto
+ * de 3000px isso significava mais de 1 MB servido a quem le o `src` em vez
+ * do `srcset`.
+ */
+interface Props {
+  titulo: string
+  subtitulo?: string
+  trilha: readonly { nome: string; href: string }[]
+  /** Foto de fundo. Sem ela, fica o grafite chapado. */
+  foto?: ImageMetadata
+  /** Texto alternativo da foto. Obrigatorio quando ha foto. */
+  descricaoDaFoto?: string
+  /** Enquadramento do corte, ex.: 'center 30%'. */
+  enquadramento?: string
+}
+
+const { titulo, subtitulo, trilha, foto, descricaoDaFoto, enquadramento } = Astro.props
+const atual = trilha[trilha.length - 1]
+
+/** Largura maxima em que a foto e exibida: ela cobre a faixa inteira. */
+const LARGURA = 1600
+---
+
+<section
+  class="banner-section banner-interno position-relative overflow-hidden d-flex align-items-end"
+>
+  {
+    foto && (
+      <Image
+        src={foto}
+        alt={descricaoDaFoto ?? ''}
+        width={LARGURA}
+        height={Math.round((LARGURA * foto.height) / foto.width)}
+        widths={[640, 960, 1280, LARGURA]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        class="banner-foto"
+        style={enquadramento ? `object-position:${enquadramento}` : undefined}
+      />
+    )
+  }
+
+  <div class="container">
+    <div class="d-flex flex-column gap-4 pb-5 pb-xl-10 position-relative z-1">
+      <nav aria-label="Você está em">
+        <ol
+          class="crumbs list-unstyled hstack gap-2 flex-wrap mb-0 fs-3"
+          data-aos="fade-up"
+          data-aos-delay="50"
+          data-aos-duration="1000"
+        >
+          {
+            trilha.slice(0, -1).map((item) => (
+              <li class="hstack gap-2">
+                <a href={item.href}>{item.nome}</a>
+                <span aria-hidden="true">›</span>
+              </li>
+            ))
+          }
+          <li><span aria-current="page">{atual?.nome}</span></li>
+        </ol>
+      </nav>
+
+      <div class="row">
+        <div class="col-xl-9">
+          <h1
+            class="mb-0 titulo-interno text-white lh-1"
+            data-aos="fade-up"
+            data-aos-delay="100"
+            data-aos-duration="1000"
+          >
+            {titulo}
+          </h1>
+        </div>
+      </div>
+
+      {
+        subtitulo && (
+          <div class="row">
+            <div class="col-xl-8">
+              <p
+                class="mb-0 fs-5 text-white text-opacity-75"
+                data-aos="fade-up"
+                data-aos-delay="200"
+                data-aos-duration="1000"
+              >
+                {subtitulo}
+              </p>
+            </div>
+          </div>
+        )
+      }
+
+      <div data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .banner-interno {
+    min-height: 460px;
+    padding-top: 170px;
+    background: linear-gradient(180deg, #201c1e, #2c2729);
+  }
+
+  /*
+   * O veu que deixa o texto legivel sobre a foto. O `::before` do template
+   * ja faz isso; aqui so garantimos que ele fique acima da imagem.
+   */
+  .banner-interno::before {
+    z-index: 1;
+  }
+
+  .banner-foto {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .titulo-interno {
+    font-size: clamp(2.1rem, 5.4vw, 4rem);
+    letter-spacing: -0.03em;
+  }
+
+  .crumbs,
+  .crumbs a {
+    color: rgb(255 255 255 / 0.65);
+  }
+
+  .crumbs a:hover {
+    color: #fff;
+  }
+
+  @media (max-width: 991.98px) {
+    .banner-interno {
+      min-height: 380px;
+      padding-top: 130px;
+    }
+  }
+</style>

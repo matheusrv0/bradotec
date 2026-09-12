@@ -1,0 +1,422 @@
+---
+import { Font } from 'astro:assets'
+import DadoPendente from '@/components/studiova/DadoPendente.astro'
+import Icone from '@/components/studiova/Icone.astro'
+import LogoMarca from '@/components/studiova/LogoMarca.astro'
+import { MenuDock } from '@/components/studiova/MenuDock'
+import { OriginButton } from '@/components/ui/origin-button'
+import { navegacaoPrincipal, navegacaoRodape, paiNoMenu } from '@/config/navegacao'
+import { enderecoCompleto, instagramUsuario, site } from '@/config/site'
+import { linkWhatsapp } from '@/config/whatsapp'
+import { jsonLdBreadcrumb, jsonLdNegocioLocal } from '@/lib/seo'
+
+/**
+ * Layout do template Studiova (Bootstrap 5.3).
+ *
+ * Nao importa `global.css`: o Tailwind do projeto e o Bootstrap do template
+ * disputariam o reset. O CSS vem de `public/studiova/`, ja com a paleta da
+ * marca — gerada por `scripts/tema-bradotec.mjs` a partir dos mesmos tokens
+ * que `src/styles/global.css` define.
+ *
+ * Todo o resto continua vindo das fontes do projeto: SEO e JSON-LD de
+ * `lib/seo.ts`, navegacao de `config/navegacao.ts`, dados do cliente de
+ * `config/site.ts` e o conteudo das Content Collections.
+ */
+interface Props {
+  titulo: string
+  descricao?: string
+  imagem?: string
+  naoIndexar?: boolean
+  trilha?: readonly { nome: string; href: string }[]
+  schemasExtras?: readonly unknown[]
+}
+
+const {
+  titulo,
+  descricao = site.descricao,
+  imagem = '/og-bradotec.jpg',
+  naoIndexar = false,
+  trilha,
+  schemasExtras = [],
+} = Astro.props
+
+const siteUrl = Astro.site?.href ?? 'https://dominio-do-cliente.example/'
+const canonical = new URL(Astro.url.pathname, siteUrl).href
+
+/**
+ * Trava de indexacao enquanto o dominio real nao foi definido — a mesma
+ * regra do BaseLayout, para as duas camadas visuais nao divergirem.
+ */
+const semDominioDefinido = siteUrl.includes('dominio-do-cliente.example')
+const bloquearIndexacao = naoIndexar || semDominioDefinido
+const imagemAbsoluta = new URL(imagem, siteUrl).href
+
+const schemas: unknown[] = [jsonLdNegocioLocal(siteUrl), ...schemasExtras]
+if (trilha?.length) schemas.push(jsonLdBreadcrumb(trilha, siteUrl))
+
+const rotaAtual = Astro.url.pathname.replace(/\/$/, '') || '/'
+/** Uma pagina fora do menu acende o item do menu a que ela pertence. */
+const rotaDestacada = paiNoMenu[rotaAtual] ?? rotaAtual
+
+/*
+ * Itens do menu do topo.
+ *
+ * O `curto` existe em `navegacao.ts` justamente para este lugar, e estava sem
+ * uso: a versao anterior deste cabecalho escondia o menu inteiro atras do
+ * hamburguer, ate em tela de 1440px, e mostrava o `completo` dentro dele.
+ *
+ * "Inicio" nao vem de `navegacao.ts` porque nao e uma secao do site; e a
+ * propria home. Entra aqui com o mesmo texto nos dois rotulos, e o dock
+ * entende isso como "nao ha dica a mostrar".
+ */
+const itensDoDock = [
+  { href: '/', curto: 'Início', completo: 'Início' },
+  ...navegacaoPrincipal.map(({ href, curto, completo }) => ({ href, curto, completo })),
+]
+
+const whatsapp = linkWhatsapp('padrao')
+const orcamento = linkWhatsapp('orcamento')
+const anoAtual = new Date().getFullYear()
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    <link rel="canonical" href={canonical} />
+    <meta
+      name="robots"
+      content={bloquearIndexacao
+        ? 'noindex, nofollow'
+        : 'index, follow, max-snippet:-1, max-image-preview:large'}
+    />
+
+    <meta name="geo.region" content={`BR-${site.estado}`} />
+    <meta name="geo.placename" content={site.cidade} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.nome} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imagemAbsoluta} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    {/* Fontes servidas do nosso dominio — nada sai para o Google. */}
+    <Font cssVariable="--font-plus-jakarta" preload />
+    <Font cssVariable="--font-instrument" />
+
+    <link rel="stylesheet" href="/studiova/css/aos.css" />
+    {/*
+      `styles-bradotec.css` e o CSS do template com a paleta da marca, gerado
+      por `scripts/tema-bradotec.mjs`. `bradotec-ajustes.css` vem depois e
+      cuida do que a troca de cor sozinha nao resolve.
+    */}
+    <link rel="stylesheet" href="/studiova/css/styles-bradotec.css" />
+    <link rel="stylesheet" href="/studiova/css/bradotec-ajustes.css" />
+
+    <meta name="generator" content={Astro.generator} />
+
+    {
+      schemas.map((schema) => (
+        <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+      ))
+    }
+
+    {
+      site.cloudflareAnalyticsToken && (
+        <script
+          defer
+          is:inline
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={`{"token": "${site.cloudflareAnalyticsToken}"}`}
+        />
+      )
+    }
+  </head>
+
+  <body>
+    <a href="#conteudo" class="pular-para-conteudo">Ir para o conteúdo</a>
+
+    <header class="header border-4 border-primary border-top position-fixed start-0 top-0 w-100">
+      <div class="container">
+        <div class="header-wrapper d-flex align-items-center justify-content-between gap-4">
+          <a href="/" class="logo-link flex-shrink-0" aria-label={`${site.nome} — página inicial`}>
+            <LogoMarca altura={40} />
+          </a>
+
+          {/*
+            So a partir de xl. Abaixo disso as nove palavras nao caberiam na
+            largura do cabecalho, e ali continua valendo o hamburguer.
+
+            `client:idle` e nao `client:load`: os links sao renderizados no
+            servidor e funcionam antes de qualquer JS. O que a ilha
+            acrescenta e a ampliacao no hover, que pode esperar o navegador
+            ficar livre.
+          */}
+          <nav class="dock-nav d-none d-xl-block" aria-label="Navegação principal">
+            <MenuDock itens={itensDoDock} rotaDestacada={rotaDestacada} client:idle />
+          </nav>
+
+          <div class="d-flex align-items-center gap-3">
+            {/*
+              `client:load` e nao `client:visible`: o CTA do cabecalho ja esta
+              na tela quando a pagina abre, e esperar o observador de
+              visibilidade so atrasaria a primeira interacao dele.
+            */}
+            <OriginButton
+              href={orcamento ?? '/contato'}
+              tom="branco"
+              className="btn-cabecalho d-none d-lg-inline-flex"
+              target={orcamento ? '_blank' : undefined}
+              rel={orcamento ? 'noopener' : undefined}
+              client:load
+            >
+              Solicitar orçamento
+            </OriginButton>
+
+            <div class="btn-group d-xl-none">
+              <button
+                class="btn btn-secondary toggle-menu round-45 p-2 d-flex align-items-center justify-content-center bg-white rounded-circle"
+                type="button"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="false"
+                aria-label="Abrir menu"
+              >
+                <Icone
+                  nome="solar:hamburger-menu-line-duotone"
+                  class="menu-icon fs-8 text-dark"
+                />
+              </button>
+
+              <ul class="dropdown-menu dropdown-menu-end p-4">
+                <nav class="d-flex flex-column gap-6" aria-label="Menu">
+                  <div class="hstack justify-content-between border-bottom pb-5">
+                    <p class="mb-0 fs-5 text-dark">Menu</p>
+                    <button
+                      type="button"
+                      class="btn-close opacity-75"
+                      aria-label="Fechar"
+                      data-fechar-menu
+                    ></button>
+                  </div>
+
+                  <ul class="header-menu list-unstyled mb-0 d-flex flex-column gap-2">
+                    <li class="header-item">
+                      <a
+                        href="/"
+                        aria-current={rotaAtual === '/' ? 'page' : undefined}
+                        class:list={[
+                          'header-link hstack gap-2 fs-7 fw-bold text-dark',
+                          rotaAtual === '/' && 'active',
+                        ]}
+                      >
+                        <img
+                          src="/studiova/images/svgs/secondary-leaf.svg"
+                          alt=""
+                          width="20"
+                          height="20"
+                          class="img-fluid animate-spin"
+                        />
+                        Início
+                      </a>
+                    </li>
+
+                    {
+                      navegacaoPrincipal.map((item) => (
+                        <li class="header-item">
+                          <a
+                            href={item.href}
+                            aria-current={rotaAtual === item.href ? 'page' : undefined}
+                            class:list={[
+                              'header-link hstack gap-2 fs-7 fw-bold text-dark',
+                              rotaDestacada === item.href && 'active',
+                            ]}
+                          >
+                            <img
+                              src="/studiova/images/svgs/secondary-leaf.svg"
+                              alt=""
+                              width="20"
+                              height="20"
+                              class="img-fluid animate-spin"
+                            />
+                            {item.completo}
+                          </a>
+                        </li>
+                      ))
+                    }
+                  </ul>
+
+                  <div class="hstack gap-3">
+                    <OriginButton
+                      href="/diagnostico"
+                      tom="suave"
+                      className="w-50"
+                      client:visible
+                    >
+                      Diagnóstico
+                    </OriginButton>
+                    <OriginButton
+                      href={whatsapp ?? '/contato'}
+                      tom="acento"
+                      className="w-50"
+                      target={whatsapp ? '_blank' : undefined}
+                      rel={whatsapp ? 'noopener' : undefined}
+                      client:visible
+                    >
+                      WhatsApp
+                    </OriginButton>
+                  </div>
+
+                  <div class="d-flex flex-column gap-1 fs-5">
+                    <DadoPendente valor={site.telefone} class="text-dark" />
+                    <DadoPendente valor={site.email} class="text-dark fw-bold" />
+                  </div>
+                </nav>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-wrapper overflow-hidden" id="conteudo">
+      <slot />
+    </main>
+
+    <footer class="footer bg-dark py-5 py-lg-11 py-xl-12">
+      <div class="container">
+        <div class="row gap-7 gap-lg-0">
+          <div class="col-lg-4 col-xl-4">
+            <div class="d-flex flex-column gap-6 pe-xl-5">
+              {/* Maior do que no cabecalho: no rodape a marca assina, nao navega. */}
+              <LogoMarca altura={56} />
+              <p class="mb-0 fs-4 text-white text-opacity-70">
+                Gestão documental, regularização, licenciamento e segurança contra incêndio para
+                empresas, condomínios e frotas em {site.regiaoAtendida}.
+              </p>
+              <a
+                href={whatsapp ?? '/contato'}
+                target={whatsapp ? '_blank' : undefined}
+                rel={whatsapp ? 'noopener' : undefined}
+                class="link-hover hstack gap-3 text-white fs-5 w-fit"
+              >
+                <Icone nome="lucide:message-circle" class="fs-7 text-primary" />
+                WhatsApp comercial
+              </a>
+            </div>
+          </div>
+
+          {
+            navegacaoRodape.map((coluna) => (
+              <div class="col-md-6 col-lg-2 col-xl-2">
+                <p class="mb-4 fs-3 fw-bold text-primary text-uppercase">{coluna.titulo}</p>
+                <ul class="footer-menu list-unstyled mb-0 d-flex flex-column gap-2">
+                  {coluna.itens.map((item) => (
+                    <li>
+                      <a class="link-hover fs-4 text-white" href={item.href}>
+                        {item.rotulo}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+
+          <div class="col-md-6 col-lg-4 col-xl-4">
+            <p class="mb-4 fs-3 fw-bold text-primary text-uppercase">Atendimento</p>
+            <ul class="footer-menu list-unstyled mb-0 d-flex flex-column gap-3 fs-4 text-white">
+              <li class="hstack gap-3">
+                <Icone nome="lucide:phone" class="fs-6 text-primary flex-shrink-0" />
+                <DadoPendente valor={site.telefone} />
+              </li>
+              <li class="hstack gap-3">
+                <Icone nome="lucide:mail" class="fs-6 text-primary flex-shrink-0" />
+                <DadoPendente valor={site.email} />
+              </li>
+              <li class="hstack gap-3 align-items-start">
+                <Icone nome="lucide:map-pin" class="fs-6 text-primary flex-shrink-0" />
+                <DadoPendente valor={enderecoCompleto} />
+              </li>
+              <li class="hstack gap-3">
+                <Icone nome="lucide:clock" class="fs-6 text-primary flex-shrink-0" />
+                <DadoPendente valor={site.horario} />
+              </li>
+              <li class="hstack gap-3">
+                <Icone nome="lucide:instagram" class="fs-6 text-primary flex-shrink-0" />
+                <a class="link-hover text-white" href={site.instagram}>{instagramUsuario}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row mt-9 pt-7 border-top border-white border-opacity-10">
+          <div class="col-12 d-flex flex-column gap-2">
+            <p class="mb-0 text-white text-opacity-70 fs-3">
+              © {anoAtual} {site.nome}. CNPJ <DadoPendente valor={site.cnpj} />. Todos os direitos
+              reservados.
+            </p>
+            <p class="mb-0 text-white text-opacity-50 fs-3">
+              A {site.nome} atua na gestão e no acompanhamento administrativo dos processos.
+              Projetos, laudos e serviços técnicos são executados por profissionais e empresas
+              legalmente habilitados.
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="get-template hstack gap-2">
+      {/* Verde do WhatsApp: a cor avisa que o botao abre uma conversa. */}
+      <a
+        class="wa-flutuante hstack gap-2 px-3 py-2 rounded-pill fw-bold text-white text-decoration-none"
+        href={whatsapp ?? '/contato'}
+        target={whatsapp ? '_blank' : undefined}
+        rel={whatsapp ? 'noopener' : undefined}
+        aria-label="Falar no WhatsApp"
+      >
+        <Icone nome="lucide:message-circle" class="fs-6" />
+        <span class="d-none d-sm-inline fs-4">Falar no WhatsApp</span>
+      </a>
+      <button
+        class="btn bg-primary p-2 round-52 rounded-circle hstack justify-content-center flex-shrink-0"
+        id="scrollToTopBtn"
+        aria-label="Voltar ao topo"
+      >
+        <Icone nome="lucide:arrow-up" class="fs-7 text-white" />
+      </button>
+    </div>
+
+    <script>
+      /*
+       * O botao de fechar do menu vem sem acao no template: o dropdown do
+       * Bootstrap esta em `auto-close="outside"`, para o clique dentro do
+       * menu nao fechar enquanto a pessoa copia telefone ou e-mail. Entao
+       * fechar pelo X precisa ser dito explicitamente.
+       */
+      for (const botao of document.querySelectorAll('[data-fechar-menu]')) {
+        botao.addEventListener('click', () => {
+          const alternador = botao
+            .closest('.btn-group')
+            ?.querySelector('[data-bs-toggle="dropdown"]')
+          if (alternador instanceof HTMLElement) alternador.click()
+        })
+      }
+    </script>
+
+    <script is:inline src="/studiova/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script is:inline src="/studiova/libs/aos-master/dist/aos.js"></script>
+    <script is:inline src="/studiova/js/comportamento.js"></script>
+  </body>
+</html>

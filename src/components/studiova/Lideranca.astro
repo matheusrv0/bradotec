@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets'
+import { getCollection } from 'astro:content'
+import retrato from '@/assets/fotos/miguel-arcanjo.jpg'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
+
+/**
+ * Quem esta a frente da Bradotec — a secao completa de /sobre.
+ *
+ * O texto sai da colecao `lideranca`, a mesma que a home usa para a versao
+ * curta. As duas paginas nao podem divergir.
+ *
+ * `limite` e o contrapeso da secao, nao um rodape: curriculo de quem veio da
+ * seguranca publica, numa pagina que vende regularizacao junto ao Corpo de
+ * Bombeiros, precisa dizer no mesmo folego o que a experiencia NAO abrevia.
+ */
+interface Props {
+  numero: string
+}
+const { numero } = Astro.props
+
+const [pessoa] = (await getCollection('lideranca')).sort((a, b) => a.data.ordem - b.data.ordem)
+if (!pessoa) throw new Error('Coleção `lideranca` está vazia.')
+
+const { nome, papel, apresentacao, credenciais, limite } = pessoa.data
+---
+
+<section class="py-5 py-lg-11 py-xl-12 bg-light-gray" id="quem-esta-por-tras">
+  <div class="container">
+    <div class="d-flex flex-column gap-5 gap-xl-10">
+      <TituloSecao numero={numero} etiqueta="Quem está por trás" titulo={nome} descricao={papel} />
+
+      <div class="row gap-7 gap-lg-0">
+        <div class="col-lg-4">
+          {/*
+            O retrato e 2:3. `width`/`height` explicitos para o `src` de
+            fallback nao apontar para o arquivo inteiro.
+          */}
+          <Image
+            src={retrato}
+            alt={`Retrato de ${nome}, de terno escuro, sobre fundo preto`}
+            width={420}
+            height={631}
+            widths={[320, 420, 640]}
+            sizes="(min-width: 992px) 33vw, 100vw"
+            loading="lazy"
+            class="img-fluid rounded-4 w-100 retrato"
+            data-aos="fade-right"
+            data-aos-delay="100"
+            data-aos-duration="1000"
+          />
+        </div>
+
+        <div class="col-lg-8">
+          <div
+            class="d-flex flex-column gap-4"
+            data-aos="fade-up"
+            data-aos-delay="200"
+            data-aos-duration="1000"
+          >
+            {apresentacao.map((paragrafo) => <p class="mb-0 fs-5">{paragrafo}</p>)}
+          </div>
+
+          <dl class="mt-7 mb-0 border-top">
+            {
+              credenciais.map((credencial, i) => (
+                <div
+                  class="border-bottom py-4"
+                  data-aos="fade-up"
+                  data-aos-delay={`${(i + 1) * 80}`}
+                  data-aos-duration="800"
+                >
+                  <dt class="fs-5 fw-bold text-dark">{credencial.titulo}</dt>
+                  <dd class="mb-0 mt-1 fs-4">{credencial.detalhe}</dd>
+                </div>
+              ))
+            }
+          </dl>
+
+          <p class="mb-0 mt-7 fs-4 limite">{limite}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .retrato {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 28%;
+  }
+
+  .limite {
+    border-left: 3px solid var(--brad-vinho);
+    padding-left: 18px;
+  }
+</style>

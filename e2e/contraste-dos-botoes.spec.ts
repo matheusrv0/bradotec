@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { razaoDeContraste } from '../src/lib/contraste'
+import { congelarAnimacoes } from './ajudantes'
 
 /**
  * Contraste de todo botao do site.
@@ -54,6 +55,7 @@ test.describe('Contraste dos botões', () => {
     test(`todo botão de ${rota} é legível`, async ({ page }) => {
       await page.goto(rota)
       await page.waitForLoadState('networkidle')
+      await congelarAnimacoes(page)
 
       const trechos = await page.evaluate(() => {
         /*
@@ -84,8 +86,12 @@ test.describe('Contraste dos botões', () => {
           return [p[0] ?? 0, p[1] ?? 0, p[2] ?? 0, (p[3] ?? 255) / 255]
         }
 
+        // `.botao-origem` e o botao do site. `.btn` ficou so com o
+        // hamburguer e o voltar-ao-topo, que continuam sendo do template, e as
+        // classes com `min-h-` e `rounded` cobrem o que sobrou do sistema
+        // antigo.
         const alvos = document.querySelectorAll<HTMLElement>(
-          'a[class*="min-h-"], button[class*="min-h-"], button[class*="rounded"]'
+          '.botao-origem, a.btn, button.btn, .wa-flutuante, a[class*="min-h-"], button[class*="min-h-"], button[class*="rounded"]'
         )
 
         const saida: {

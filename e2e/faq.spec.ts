@@ -25,7 +25,7 @@ for (const caminho of paginasComFaq) {
     await page.goto(caminho)
 
     const perguntasVisiveis = await page
-      .locator('#faq summary')
+      .locator('#faq .accordion-button')
       .evaluateAll((nos) => nos.map((no) => no.textContent?.trim() ?? ''))
 
     expect(perguntasVisiveis.length).toBeGreaterThan(0)
@@ -45,9 +45,11 @@ for (const caminho of paginasComFaq) {
 test('as respostas do FAQ abrem ao clicar na pergunta', async ({ page }) => {
   await page.goto('/regularizacoes')
 
-  const primeira = page.locator('#faq details').first()
-  await expect(primeira).not.toHaveAttribute('open', '')
+  const primeira = page.locator('#faq .accordion-item').first()
+  const resposta = primeira.locator('.accordion-collapse')
 
-  await primeira.locator('summary').click()
-  await expect(primeira).toHaveAttribute('open', '')
+  await expect(resposta).toBeHidden()
+
+  await primeira.locator('.accordion-button').click()
+  await expect(resposta).toBeVisible()
 })

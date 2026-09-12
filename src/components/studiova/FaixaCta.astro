@@ -1,0 +1,42 @@
+---
+import Botao from '@/components/studiova/Botao.astro'
+import type { OrigemWhatsapp } from '@/config/whatsapp'
+
+/**
+ * Faixa de fechamento das paginas internas: card verde-limao com o titulo,
+ * a frase de apoio e os dois caminhos de contato.
+ */
+interface Props {
+  titulo: string
+  descricao: string
+  /** Origem da mensagem do WhatsApp no botao principal. */
+  origem?: OrigemWhatsapp
+  /** Texto do botao principal. */
+  rotulo?: string
+}
+
+const { titulo, descricao, origem = 'padrao', rotulo = 'Falar no WhatsApp' } = Astro.props
+---
+
+<section class="py-5 py-lg-11 py-xl-12">
+  <div class="container">
+    <div class="card bg-primary" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+      <div class="card-body">
+        <div class="row align-items-center gap-5 gap-xl-0">
+          <div class="col-xl-7">
+            <div class="d-flex flex-column gap-4">
+              <h2 class="mb-0">{titulo}</h2>
+              <p class="mb-0 fs-5">{descricao}</p>
+            </div>
+          </div>
+          <div class="col-xl-5">
+            <div class="hstack gap-3 flex-wrap justify-content-xl-end">
+              <Botao origem={origem} tom="branco">{rotulo}</Botao>
+              <Botao href="/contato" tom="branco">Preencher formulário</Botao>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

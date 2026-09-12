@@ -1,0 +1,49 @@
+---
+import { OriginButton, type TomDoBotao } from '@/components/ui/origin-button'
+import { linkWhatsapp, type OrigemWhatsapp } from '@/config/whatsapp'
+
+/**
+ * O botao do site.
+ *
+ * Antes era a pilula com a seta circular do template. Agora e o botao que se
+ * preenche a partir de onde o ponteiro entra — mesmo desenho em todo o site,
+ * com tres tons para nao perder a hierarquia entre acao principal e
+ * secundaria.
+ *
+ * Com `origem`, vira botao de WhatsApp com a mensagem pre-escrita. Se o numero
+ * ainda for placeholder, cai para /contato em vez de abrir uma conversa
+ * inexistente — mesma regra do <BotaoWhatsapp /> do projeto.
+ *
+ * `client:visible` e nao `client:load`: o link e renderizado no servidor e
+ * funciona antes de qualquer JS. O que a ilha acrescenta e o preenchimento, e
+ * um botao no meio da pagina nao precisa dele antes de aparecer na tela.
+ *
+ * A classe e repassada como `className`: o Astro nao traduz `class` para ilha
+ * React, e a prop chegaria com o nome errado.
+ */
+interface Props {
+  /** Origem da mensagem do WhatsApp. Omitido = link comum. */
+  origem?: OrigemWhatsapp
+  /** Destino quando nao e WhatsApp. */
+  href?: string
+  tom?: TomDoBotao
+  class?: string
+}
+
+const { origem, href = '#', tom = 'acento', class: classe } = Astro.props
+
+const whatsapp = origem ? linkWhatsapp(origem) : null
+const destino = origem ? (whatsapp ?? '/contato') : href
+const externo = Boolean(whatsapp)
+---
+
+<OriginButton
+  href={destino}
+  tom={tom}
+  className={classe}
+  target={externo ? '_blank' : undefined}
+  rel={externo ? 'noopener' : undefined}
+  client:visible
+>
+  <slot />
+</OriginButton>

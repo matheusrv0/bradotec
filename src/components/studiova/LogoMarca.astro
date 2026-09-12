@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets'
+import logo from '@/assets/marca/logo-bradotec.png'
+import { site } from '@/config/site'
+
+/**
+ * A marca, no lockup inteiro (escudo + BRADO + tec).
+ *
+ * O arquivo e branco sobre transparente, gerado por `scripts/extrair-logo.mjs`
+ * a partir do arquivo que o cliente enviou. Por isso so serve sobre fundo
+ * escuro — que e o unico lugar onde o cabecalho do template a usa.
+ *
+ * Sobre fundo claro, use `filtroEscuro`: em vez de manter um segundo PNG que
+ * envelheceria em separado, o mesmo arquivo e invertido por filtro CSS.
+ */
+interface Props {
+  /** Altura em pixels; a largura acompanha a proporcao. */
+  altura?: number
+  /** Inverte a marca para usar sobre fundo claro. */
+  filtroEscuro?: boolean
+  class?: string
+}
+
+const { altura = 44, filtroEscuro = false, class: classe } = Astro.props
+
+/** Proporcao do arquivo: 1058 x 372. */
+const largura = Math.round(altura * (1058 / 372))
+---
+
+<Image
+  src={logo}
+  alt={site.nome}
+  width={largura}
+  height={altura}
+  densities={[1, 2]}
+  loading="eager"
+  class:list={['logo-marca', filtroEscuro && 'logo-escura', classe]}
+/>
+
+<style>
+  .logo-marca {
+    width: auto;
+    display: block;
+
+    /*
+     * `align-self` e `max-width` nao sao zelo excessivo: num container
+     * `d-flex flex-column` o padrao `align-items: stretch` esticava a marca
+     * para a largura da coluna. No rodape ela saia com 400x38 em vez de
+     * 108x38 — achatada, e ampliada 3,7x a partir de um arquivo servido com
+     * 108px, o que borrava as letras em toda pagina do site.
+     */
+    align-self: flex-start;
+    max-width: 100%;
+  }
+
+  /*
+   * A marca branca vira grafite sem um segundo arquivo: inverter leva o
+   * branco a preto, e o matiz da chama e recuperado na sequencia.
+   */
+  .logo-escura {
+    filter: invert(1) brightness(0.16);
+  }
+</style>

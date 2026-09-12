@@ -1,0 +1,334 @@
+---
+import { perguntas, rotas } from '@/config/quiz'
+import { ehPlaceholder, site } from '@/config/site'
+
+/**
+ * Diagnostico de Regularizacao — quatro perguntas, uma por tela.
+ *
+ * Versao com as classes do template Studiova. A estrutura, os atributos
+ * Os botoes daqui NAO sao a ilha `<OriginButton>`, e sao os unicos do site que
+ * nao sao. Levam as mesmas classes e recebem o mesmo efeito por `data-tinta`,
+ * mas em HTML puro: este script liga e desliga `hidden` no "Voltar" e no
+ * "Refazer" e reescreve o `href` do "Falar com um especialista". Uma ilha
+ * React desfaria esse estado no render seguinte — passar o ponteiro no
+ * "Voltar" o faria desaparecer.
+ *
+ * `data-*` e o script sao os mesmos do componente em Tailwind: a logica vive
+ * em src/config/quiz.ts e continua coberta pelos mesmos 18 testes.
+ *
+ * Foi uma ilha React na primeira versao. Medido depois do build, custava
+ * 74 KB de JavaScript comprimido ao visitante — 71 KB deles so de React —
+ * para gerenciar quatro radios. O componente em si eram 2,8 KB.
+ *
+ * A regra do projeto diz que cada ilha React custa download de biblioteca
+ * para o visitante, e aqui a conta nao fechava. As perguntas e os resultados
+ * saem prontos do servidor; o script abaixo so troca o que esta visivel.
+ *
+ * A logica continua em src/config/quiz.ts, com os mesmos 18 testes: o modulo
+ * nunca dependeu de framework. Os testes de navegador tambem seguem valendo,
+ * porque verificam comportamento, nao implementacao.
+ */
+
+/**
+ * O numero e resolvido AQUI, no servidor, e desce como atributo. Importar
+ * site.ts no script do navegador arrastaria o Zod inteiro para o cliente —
+ * 19 KB comprimidos para ler uma string.
+ */
+const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace(/\D/g, '')
+---
+
+<div
+  class="card border bg-white"
+  data-quiz
+  data-passo="0"
+  data-whatsapp={numeroWhatsapp}
+>
+  <div
+    class="quiz-barra"
+    role="progressbar"
+    aria-valuenow="0"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-label="Progresso do diagnóstico"
+    data-barra
+  >
+    <div
+      class="quiz-barra-preenchida"
+      data-barra-preenchida
+    >
+    </div>
+  </div>
+
+  <div data-perguntas>
+    {
+      perguntas.map((pergunta, indice) => (
+        <div class="mt-6" data-pergunta={pergunta.id} hidden={indice > 0}>
+          <p class="mb-2 fs-3 fw-bold text-uppercase text-muted">
+            Pergunta {indice + 1} de {perguntas.length}
+          </p>
+
+          <fieldset class="border-0 p-0 m-0">
+            <legend class="fs-7 fw-bold text-dark mb-4">{pergunta.titulo}</legend>
+
+            <div class="d-flex flex-column gap-3">
+              {pergunta.opcoes.map((opcao) => (
+                <label
+                  class="quiz-opcao"
+                >
+                  <input
+                    type="radio"
+                    name={pergunta.id}
+                    value={opcao.id}
+                    class="flex-shrink-0"
+                  />
+                  {opcao.rotulo}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      ))
+    }
+
+    <p class="mb-0 mt-3 fs-4 fw-bold text-primary" role="alert" data-aviso hidden>
+      Escolha uma opção para continuar.
+    </p>
+
+    <div class="hstack gap-3 flex-wrap mt-5">
+      <button
+        type="button"
+        class="botao-origem botao-origem-suave"
+        data-tinta
+        data-voltar
+        hidden
+      >
+        Voltar
+      </button>
+      <button
+        type="button"
+        class="botao-origem botao-origem-acento"
+        data-tinta
+        data-avancar
+      >
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-6" tabindex="-1" data-resultado hidden>
+    {
+      Object.values(rotas).map((rota) => (
+        <div data-rota={rota.id} hidden>
+          <h3 class="fs-7 fw-bold text-dark mb-4">{rota.titulo}</h3>
+          <p class="mt-3 fs-5">{rota.texto}</p>
+
+          <div class="mt-5 bg-light-gray rounded-3 p-5">
+            <p class="fw-bold text-dark mb-3">Próximos passos que costumamos seguir</p>
+            <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
+              {rota.itens.map((item) => (
+                <li class="hstack gap-3 align-items-start">
+                  <span class="quiz-marcador flex-shrink-0" aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <a
+            class="botao-origem botao-origem-suave mt-5"
+            data-tinta
+            href={rota.href}
+          >
+            Ver essa divisão
+          </a>
+        </div>
+      ))
+    }
+
+    <dl class="mt-5 d-flex flex-column gap-3 border-top pt-5" data-resumo></dl>
+
+    <div class="hstack gap-3 flex-wrap mt-5">
+      <a
+        class="botao-origem botao-origem-acento"
+        data-tinta
+        href="/contato"
+        data-enviar
+      >
+        Falar com um especialista
+      </a>
+      <button
+        type="button"
+        class="botao-origem botao-origem-suave"
+        data-tinta
+        data-refazer
+      >
+        Refazer
+      </button>
+    </div>
+
+    <p
+      class="mt-4 alert alert-warning fs-4 mb-0"
+      data-sem-numero
+      hidden
+    >
+      O número de WhatsApp ainda não foi configurado neste site, então o botão leva à página de
+      contato.
+    </p>
+
+    <p class="mt-5 mb-0 fs-3 text-muted">
+      Este resultado é uma orientação inicial para direcionar o atendimento. A definição do que se
+      aplica ao seu caso depende de análise da documentação e, quando necessário, de profissional
+      legalmente habilitado.
+    </p>
+  </div>
+</div>
+
+<script>
+  import {
+    decidirRota,
+    montarMensagemDoQuiz,
+    perguntas,
+    rotuloDaResposta,
+    type Respostas,
+  } from '@/config/quiz'
+
+  const raiz = document.querySelector<HTMLElement>('[data-quiz]')
+  if (raiz) {
+    const blocos = [...raiz.querySelectorAll<HTMLElement>('[data-pergunta]')]
+    const painelPerguntas = raiz.querySelector<HTMLElement>('[data-perguntas]')
+    const resultado = raiz.querySelector<HTMLElement>('[data-resultado]')
+    const barra = raiz.querySelector<HTMLElement>('[data-barra]')
+    const preenchida = raiz.querySelector<HTMLElement>('[data-barra-preenchida]')
+    const aviso = raiz.querySelector<HTMLElement>('[data-aviso]')
+    const botaoAvancar = raiz.querySelector<HTMLButtonElement>('[data-avancar]')
+    const botaoVoltar = raiz.querySelector<HTMLButtonElement>('[data-voltar]')
+    const botaoRefazer = raiz.querySelector<HTMLButtonElement>('[data-refazer]')
+    const resumo = raiz.querySelector<HTMLElement>('[data-resumo]')
+    const enviar = raiz.querySelector<HTMLAnchorElement>('[data-enviar]')
+    const semNumero = raiz.querySelector<HTMLElement>('[data-sem-numero]')
+
+    let passo = 0
+
+    /** Le as respostas direto do DOM: os radios ja sao a fonte da verdade. */
+    const lerRespostas = (): Respostas =>
+      Object.fromEntries(
+        perguntas
+          .map((pergunta) => {
+            const marcado = raiz.querySelector<HTMLInputElement>(
+              `input[name="${pergunta.id}"]:checked`
+            )
+            return marcado ? [pergunta.id, marcado.value] : null
+          })
+          .filter((par): par is [string, string] => par !== null)
+      )
+
+    const progresso = (indice: number) => Math.round((indice / perguntas.length) * 100)
+
+    const atualizarBarra = (indice: number) => {
+      barra?.setAttribute('aria-valuenow', String(progresso(indice)))
+      if (preenchida) preenchida.style.scale = `${progresso(indice) / 100} 1`
+    }
+
+    const mostrarPasso = (indice: number) => {
+      passo = indice
+      blocos.forEach((bloco, i) => {
+        bloco.hidden = i !== indice
+      })
+      if (botaoVoltar) botaoVoltar.hidden = indice === 0
+      if (botaoAvancar) {
+        botaoAvancar.textContent =
+          indice === perguntas.length - 1 ? 'Ver o caminho indicado' : 'Continuar'
+      }
+      if (aviso) aviso.hidden = true
+      atualizarBarra(indice)
+    }
+
+    const mostrarResultado = () => {
+      const respostas = lerRespostas()
+      const rota = decidirRota(respostas)
+
+      for (const painel of raiz.querySelectorAll<HTMLElement>('[data-rota]')) {
+        painel.hidden = painel.dataset.rota !== rota.id
+      }
+
+      if (resumo) {
+        resumo.replaceChildren(
+          ...perguntas.map((pergunta) => {
+            const item = document.createElement('div')
+            item.className = ''
+
+            const titulo = document.createElement('dt')
+            titulo.className = 'fs-3 fw-bold text-uppercase text-muted'
+            titulo.textContent = pergunta.titulo
+
+            const valor = document.createElement('dd')
+            valor.className = 'fs-5 text-dark'
+            valor.textContent = rotuloDaResposta(pergunta.id, respostas) ?? '...'
+
+            item.append(titulo, valor)
+            return item
+          })
+        )
+      }
+
+      const numero = raiz.dataset.whatsapp ?? ''
+      const temNumero = numero.length > 0
+      if (enviar) {
+        if (temNumero) {
+          const texto = encodeURIComponent(montarMensagemDoQuiz(respostas))
+          enviar.href = `https://wa.me/${numero}?text=${texto}`
+          enviar.target = '_blank'
+          enviar.rel = 'noopener'
+          enviar.textContent = 'Enviar minhas respostas no WhatsApp'
+        } else {
+          enviar.href = '/contato'
+          enviar.textContent = 'Falar com um especialista'
+        }
+      }
+      if (semNumero) semNumero.hidden = temNumero
+
+      if (painelPerguntas) painelPerguntas.hidden = true
+      if (resultado) {
+        resultado.hidden = false
+        // Sem isto o foco fica no botao que acabou de sumir.
+        resultado.focus()
+      }
+      atualizarBarra(perguntas.length)
+    }
+
+    botaoAvancar?.addEventListener('click', () => {
+      const atual = perguntas[passo]
+      if (!atual) return
+
+      if (!raiz.querySelector(`input[name="${atual.id}"]:checked`)) {
+        if (aviso) aviso.hidden = false
+        return
+      }
+
+      if (passo === perguntas.length - 1) {
+        mostrarResultado()
+        return
+      }
+
+      mostrarPasso(passo + 1)
+    })
+
+    botaoVoltar?.addEventListener('click', () => mostrarPasso(Math.max(0, passo - 1)))
+
+    // Escolher uma opcao limpa o aviso na hora.
+    raiz.addEventListener('change', () => {
+      if (aviso) aviso.hidden = true
+    })
+
+    botaoRefazer?.addEventListener('click', () => {
+      for (const entrada of raiz.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+        entrada.checked = false
+      }
+      if (resultado) resultado.hidden = true
+      if (painelPerguntas) painelPerguntas.hidden = false
+      mostrarPasso(0)
+    })
+
+    mostrarPasso(0)
+  }
+</script>

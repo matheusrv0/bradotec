@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
+import type { IdDivisao } from '@/content.config'
+
+/**
+ * Servicos de uma divisao, lidos da colecao `servicos` — a mesma que
+ * /solucoes usa para listar so os titulos. Por construcao nao divergem.
+ */
+interface Props {
+  divisao: IdDivisao
+  numero: string
+  etiqueta: string
+  titulo: string
+  descricao?: string
+  /** true = fundo claro de secao. */
+  claro?: boolean
+}
+
+const { divisao, numero, etiqueta, titulo, descricao, claro = true } = Astro.props
+
+const servicos = (await getCollection('servicos', ({ data }) => data.divisao === divisao)).sort(
+  (a, b) => a.data.ordem - b.data.ordem
+)
+---
+
+<section class:list={['py-5 py-lg-11 py-xl-12', claro && 'bg-light-gray']}>
+  <div class="container">
+    <div class="d-flex flex-column gap-5 gap-xl-10">
+      <TituloSecao numero={numero} etiqueta={etiqueta} titulo={titulo} descricao={descricao} />
+
+      <div class="row">
+        {
+          servicos.map(({ data }, i) => (
+            <div class="col-md-6 col-lg-4 mb-7">
+              <div
+                class="d-flex flex-column gap-3 pt-6 border-top h-100"
+                data-aos="fade-up"
+                data-aos-delay={`${((i % 3) + 1) * 100}`}
+                data-aos-duration="1000"
+              >
+                <span class="round-36 flex-shrink-0 rounded-circle bg-primary hstack justify-content-center fw-bold fs-3">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 class="mb-0 fs-6">{data.titulo}</h3>
+                <p class="mb-0 fs-4">{data.descricao}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

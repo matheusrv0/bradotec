@@ -1,0 +1,962 @@
+/* ============================================================================
+   BRADOTEC — ajustes sobre o template Studiova
+   Carregado DEPOIS de styles-bradotec.css.
+
+   `scripts/tema-bradotec.mjs` troca as cores do template uma a uma, usando os
+   mesmos tokens que src/styles/global.css define. Isso resolve a maior parte
+   e mantem a personalidade do template: o acento segue usado com generosidade
+   — botoes, cards inteiros, marcadores, a barra do cabecalho ao rolar.
+
+   O que a troca de cor sozinha nao alcanca, e que mora aqui:
+
+   1. O verde-limao do Studiova era CLARO e pedia texto escuro por cima.
+      O vinho da marca e ESCURO e pede texto branco. Sem isto, todo botao e
+      todo card do acento ficariam ilegiveis.
+   2. Sobre o grafite das secoes escuras, o vinho cheio nao tem contraste
+      para texto. La ele vira "brasa" — a mesma cor, clareada.
+   3. O piso de qualidade que o template nao traz: foco visivel, movimento
+      reduzido, selecao de texto e barra de rolagem na paleta.
+   4. As pecas que o site tem e o template nao: quiz, formulario com estado
+      de erro, cartao de divisao, painel de vencimentos.
+   ========================================================================== */
+
+:root {
+  /* Espelham os tokens de src/styles/global.css. */
+  --brad-vinho: #8e1c21;
+  --brad-vinho-escuro: #741418;
+  --brad-vinho-suave: #f9eff0;
+  --brad-grafite: #201c1e;
+  --brad-grafite-800: #2c2729;
+  --brad-ink: #1f1b1d;
+  --brad-ink-suave: #554e51;
+  --brad-ash: #6e6668;
+  --brad-linha: #e4e0e1;
+  --brad-linha-forte: #cfc9ca;
+  --brad-canvas: #f7f5f5;
+  --brad-sobre-escuro: #d5cfd0;
+  /*
+   * Verde do WhatsApp, escurecido. O #128c4a da marca deles da 4.31:1 com
+   * texto branco, logo abaixo do minimo de 4.5:1 — e o rotulo do botao e
+   * texto pequeno. Este tom mantem a leitura de "WhatsApp" e passa.
+   */
+  --brad-whatsapp: #0e7539;
+
+  /* Vinho clareado, so para texto sobre fundo escuro. */
+  --brad-brasa: #e79b9d;
+
+  accent-color: var(--brad-vinho);
+}
+
+::selection {
+  background: var(--brad-vinho);
+  color: #fff;
+}
+
+/* ----------------------------------------------------------------------------
+   1. TIPOGRAFIA
+   Titulos em 800 com espacamento negativo — o ar institucional que separa
+   de um Bootstrap qualquer. Corpo em 17px, a medida do site.
+   -------------------------------------------------------------------------- */
+body {
+  font-size: 17px;
+}
+
+h1,
+h2,
+h3,
+h4,
+.h1,
+.h2,
+.h3 {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+/* Link de pular para o conteudo: some ate receber foco pelo teclado. */
+.pular-para-conteudo {
+  position: absolute;
+  left: 12px;
+  top: -80px;
+  z-index: 200;
+  background: #fff;
+  color: var(--brad-grafite);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+
+.pular-para-conteudo:focus {
+  top: 12px;
+}
+
+/* ----------------------------------------------------------------------------
+   2. TEXTO SOBRE O VINHO
+   -------------------------------------------------------------------------- */
+/*
+ * O texto do botao vai em branco venha ele no `.btn-text` do template ou
+ * solto dentro do `.btn`. A regra no proprio `.btn` cobre os dois: sem ela,
+ * um botao escrito sem o span herda a cor escura do corpo e some sobre o
+ * vinho — foi o que aconteceu com o "Continuar" do quiz.
+ */
+.btn,
+.btn .btn-text {
+  color: #fff;
+}
+
+.btn.bg-white,
+.btn.btn-outline-light,
+.btn.bg-light-gray,
+.btn.bg-white .btn-text,
+.btn.btn-outline-light .btn-text,
+.btn.bg-light-gray .btn-text {
+  color: var(--brad-grafite);
+}
+
+.btn:hover .btn-text {
+  color: #fff;
+}
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+}
+
+.text-bg-primary,
+.badge.bg-primary,
+.bg-primary.round-36,
+.bg-primary.round-45,
+.bg-primary.round-52,
+.bg-primary.round-64 {
+  color: #fff !important;
+}
+
+/* Card inteiro no acento: titulo, texto e icones brancos. */
+.card.bg-primary,
+.card.bg-primary h1,
+.card.bg-primary h2,
+.card.bg-primary h3,
+.card.bg-primary h4,
+.card.bg-primary h5,
+.card.bg-primary p,
+.card.bg-primary li,
+.card.bg-primary .text-dark {
+  color: #fff !important;
+}
+
+.card.bg-primary .border-bottom,
+.card.bg-primary .border-top {
+  border-color: rgb(255 255 255 / 0.25) !important;
+}
+
+.card.bg-primary .btn.bg-white .btn-text {
+  color: var(--brad-grafite) !important;
+}
+
+/*
+ * Botao secundario sobre fundo escuro. O template o faz com uma borda sobre
+ * o acento; dois botoes vinho lado a lado brigam entre si e nenhum vira o
+ * principal. Translucido, o vinho continua marcando a acao principal.
+ */
+.btn.btn-contorno {
+  background-color: rgb(255 255 255 / 0.1);
+  border: 1px solid rgb(255 255 255 / 0.3);
+}
+
+.btn.btn-contorno:hover {
+  background-color: rgb(255 255 255 / 0.2);
+}
+
+.btn.btn-contorno .btn-text {
+  color: #fff;
+}
+
+/* ----------------------------------------------------------------------------
+   2b. RESPOSTA AO TOQUE
+   O template so da retorno de hover, e no celular nao existe hover: o dedo
+   toca e a tela fica igual ate a proxima pagina abrir. Em conexao lenta essa
+   e a diferenca entre "nao funcionou" e "ja vai". O site ja resolvia isso.
+   -------------------------------------------------------------------------- */
+.btn,
+.botao-origem[data-tinta],
+.wa-flutuante,
+#scrollToTopBtn {
+  transition:
+    background-color 0.2s ease-in-out,
+    opacity 0.2s ease-in-out,
+    translate 0.1s ease-out,
+    transform 0.1s ease-out,
+    scale 0.1s ease-out;
+}
+
+a.card:active {
+  translate: 0 1px;
+}
+
+/*
+ * Os botoes que sao ilha React recebem o afundamento do `whileTap` do
+ * framer-motion. Os cinco do quiz nao sao ilha, e sem esta regra ficariam sem
+ * retorno nenhum ao toque — que e justamente o defeito que este bloco existe
+ * para corrigir.
+ */
+.botao-origem[data-tinta]:active {
+  scale: 0.985;
+}
+
+/* O flutuante afunda por escala: o translate dele ja e usado na entrada. */
+.wa-flutuante:active,
+#scrollToTopBtn:active {
+  transform: scale(0.94);
+}
+
+/* ----------------------------------------------------------------------------
+   BOTAO QUE SE PREENCHE A PARTIR DO CURSOR
+   Substitui a pilula com seta circular do template em todo o site. O React
+   cuida da geometria — onde o circulo nasce e que diametro cobre a caixa — e
+   daqui sai a paleta. A separacao e de proposito: cor de marca no CSS, junto
+   do resto do tema, e nao espalhada em classe utilitaria dentro do TSX.
+   -------------------------------------------------------------------------- */
+.botao-origem {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+
+  /* 48px: alvo de toque acima dos 44px minimos, como o resto do site. */
+  min-height: 48px;
+  padding: 0 1.75rem;
+
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+
+  /* Sem isolar, o z-index negativo da tinta a levaria para tras do fundo do
+     proprio botao, e ela nunca apareceria. */
+  isolation: isolate;
+
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  appearance: none;
+
+  /* So a cor faz transicao. O circulo e animado pelo JS, e por isso nao entra
+     aqui: as duas animacoes na mesma propriedade se atropelariam. */
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.botao-origem:disabled,
+.botao-origem[aria-busy='true'] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/*
+ * O circulo. Nasce no ponto do cursor, que o JS escreve em `left` e `top`, e
+ * cresce de escala. Escala e nao largura: largura dispara layout a cada
+ * quadro, escala e composta na GPU.
+ */
+/*
+ * A tinta fica em z-index negativo, e o botao isola o proprio contexto de
+ * empilhamento.
+ *
+ * Assim ela e pintada depois do fundo do botao e antes do texto, pela ordem de
+ * pintura do CSS, e o rotulo aparece por cima sem precisar de invólucro. A
+ * primeira versao apoiava o texto num `<span>` com z-index 1, e quebrou no
+ * quiz: o script de lá faz `botao.textContent = ...` ao trocar de passo, o
+ * que apaga o span e levava o rotulo para tras do circulo.
+ */
+.botao-origem-tinta,
+.botao-origem[data-tinta]::after {
+  position: absolute;
+  z-index: -1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background-color: var(--tinta-cor);
+  pointer-events: none;
+}
+
+/*
+ * Botao sem ilha React.
+ *
+ * Os cinco botoes do quiz ficaram em HTML puro porque o script de lá liga e
+ * desliga `hidden` neles, e o React desfaria isso. O efeito e o mesmo: o JS
+ * escreve onde o circulo nasce e que diametro cobre a caixa, e a transicao
+ * fica aqui em vez de vir do framer-motion.
+ */
+.botao-origem[data-tinta]::after {
+  content: '';
+  top: var(--tinta-y, 50%);
+  left: var(--tinta-x, 50%);
+  width: var(--tinta-d, 0);
+  height: var(--tinta-d, 0);
+  scale: 0;
+  transition: scale 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.botao-origem[data-tinta][data-preenchendo='true']::after {
+  scale: 1;
+}
+
+/* Serve ao alinhamento de icone com texto; a camada nao depende mais dele. */
+.botao-origem-rotulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* -- acento: a acao principal. Parte do vinho, e inundado de branco. ------- */
+.botao-origem-acento {
+  --tinta-cor: #fff;
+  background-color: var(--brad-vinho);
+  color: #fff;
+}
+
+.botao-origem-acento[data-preenchendo='true'] {
+  color: var(--brad-vinho);
+}
+
+/*
+ * Sobre fundo escuro o vinho precisa de contorno.
+ *
+ * `#8e1c21` sobre o grafite `#201c1e` da 1.88:1: o rotulo branco continua
+ * legivel, mas a FORMA do botao desaparece — nao se ve onde ele comeca e
+ * termina, e a WCAG 1.4.11 pede 3:1 para o contorno de um controle. Antes a
+ * seta branca circular do template dava esse limite; sem ela, a borda da.
+ * Branco a 55% sobre o vinho, visto contra o grafite, da 6.90:1.
+ *
+ * A lista de seletores e a mesma que este arquivo ja usa para o acento sobre
+ * fundo escuro, logo acima.
+ */
+.bg-dark .botao-origem-acento,
+.footer .botao-origem-acento,
+.banner-section .botao-origem-acento,
+.secao-escura .botao-origem-acento {
+  border-color: rgb(255 255 255 / 0.55);
+}
+
+/* -- suave: acao secundaria sobre fundo claro. ----------------------------- */
+/* Este e o desenho de origem do componente de referencia: cartao de papel com
+   borda fina, que a tinta inunda no hover. Aqui a tinta e o vinho da marca, e
+   nao o quase-preto do original. */
+.botao-origem-suave {
+  --tinta-cor: var(--brad-vinho);
+  background-color: var(--brad-canvas);
+  color: var(--brad-grafite);
+
+  /*
+   * A borda e o unico limite deste tom: o fundo dele (#F7F5F5) da 1.09:1
+   * contra o branco e praticamente desaparece nas secoes claras. Com
+   * `--brad-linha-forte` a borda dava 1.44:1, abaixo dos 3:1 que a WCAG 1.4.11
+   * pede para o contorno de um controle. `--brad-ash` da 5.58:1.
+   */
+  border-color: var(--brad-ash);
+}
+
+.botao-origem-suave[data-preenchendo='true'] {
+  border-color: var(--brad-vinho);
+  color: #fff;
+}
+
+/* -- branco: sobre fundo vinho. Parte do branco, e inundado de grafite. ---- */
+.botao-origem-branco {
+  --tinta-cor: var(--brad-grafite);
+  background-color: #fff;
+  color: var(--brad-grafite);
+}
+
+.botao-origem-branco[data-preenchendo='true'] {
+  color: #fff;
+}
+
+/* -- contorno: acao secundaria sobre fundo escuro. ------------------------- */
+.botao-origem-contorno {
+  --tinta-cor: #fff;
+  background-color: rgb(255 255 255 / 0.06);
+  color: #fff;
+
+  /* 0.42 e nao 0.32: sobre o veu grafite das fotos de capa, 0.32 dava 2.92:1
+     — logo abaixo dos 3:1 da WCAG 1.4.11. Com 0.42 da 4.06:1. */
+  border-color: rgb(255 255 255 / 0.42);
+}
+
+.botao-origem-contorno[data-preenchendo='true'] {
+  border-color: #fff;
+  color: var(--brad-grafite);
+}
+
+/*
+ * Foco visivel com anel fora da borda. `outline` e nao `box-shadow`: o botao
+ * tem `overflow: hidden` para conter o circulo, e sombra interna seria
+ * recortada junto.
+ */
+.botao-origem:focus-visible {
+  outline: 2px solid var(--brad-vinho);
+  outline-offset: 2px;
+}
+
+.botao-origem-branco:focus-visible,
+.botao-origem-contorno:focus-visible {
+  outline-color: #fff;
+}
+
+/* ----------------------------------------------------------------------------
+   MENU DO TOPO EM TEXTO (dock)
+   O template esconde o menu inteiro atras de um hamburguer em toda largura de
+   tela. Em tela larga isso custa dois cliques para chegar em qualquer pagina,
+   e nao mostra o tamanho do site para quem chega. A partir de xl o menu
+   aparece escrito, e o hamburguer some.
+   -------------------------------------------------------------------------- */
+.dock-nav {
+  /* Pode encolher entre a marca e o CTA, mas nunca empurra os dois. */
+  min-width: 0;
+}
+
+.dock {
+  display: flex;
+  align-items: center;
+
+  /* Quatro pixels de intervalo. Somado ao recuo dos dois itens, e a folga que
+     a palavra ampliada tem para crescer sem encostar na vizinha. Mais do que
+     isso nao cabe nos 1140px de container que o template usa no xl. */
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dock-item {
+  position: relative;
+  display: flex;
+}
+
+.dock-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  /* 44px de altura no alvo, como o resto do site. */
+  min-height: 44px;
+  padding-block: 0.6875rem;
+
+  color: rgb(255 255 255 / 0.78);
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  text-decoration: none;
+
+  /*
+   * 13px entre 1200 e 1399, 14px acima disso.
+   *
+   * Nao e capricho: nessa faixa o container do template tem 1140px, e a marca
+   * mais as nove palavras a 14px mais o CTA passavam 55px da largura — os
+   * itens se comprimiam e o texto vazava. A 13px sobram 40px. Medido no
+   * navegador, nao estimado.
+   */
+  font-size: 0.8125rem;
+  --dock-recuo: 0.375rem;
+  padding-inline: var(--dock-recuo);
+
+  /*
+   * Cresce a partir do centro. Com origem na borda, a palavra ampliada
+   * avancaria para um lado so e pareceria escorregar em vez de crescer.
+   */
+  transform-origin: center;
+}
+
+.dock-link:hover,
+.dock-link:focus-visible {
+  color: #fff;
+}
+
+.dock-link-atual {
+  color: #fff;
+}
+
+/*
+ * A pagina aberta ganha sublinhado, e nao apenas cor: distinguir 78% de 100%
+ * de branco e pedir demais, e quem nao distingue os dois tons ficaria sem
+ * saber onde esta.
+ */
+.dock-link-atual::after {
+  content: '';
+  position: absolute;
+  right: var(--dock-recuo);
+  bottom: 0.5rem;
+  left: var(--dock-recuo);
+  height: 2px;
+  border-radius: 2px;
+  background-color: currentcolor;
+}
+
+@media (min-width: 1400px) {
+  .dock-link {
+    --dock-recuo: 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+/*
+ * O CTA nao quebra em duas linhas nem encolhe.
+ *
+ * Com o dock ocupando o meio do cabecalho, o botao passou a ser comprimido e
+ * "Solicitar orcamento" quebrava em duas linhas a 1366px, o que engordava o
+ * cabecalho inteiro. Quem cede espaco e o dock, que tem a largura do texto e
+ * pode diminuir de corpo; o CTA e alvo de clique e tem de manter a forma.
+ */
+.btn-cabecalho {
+  flex-shrink: 0;
+}
+
+.btn-cabecalho .btn-text {
+  white-space: nowrap;
+}
+
+/*
+ * O nome completo, abaixo do item. Fundo grafite e nao vinho: o cabecalho fica
+ * vinho ao rolar, e uma dica vinho sobre vinho desapareceria.
+ */
+.dock-dica {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 50%;
+  z-index: 2;
+
+  /* Propriedade `translate`, e nao `transform`: o framer-motion escreve
+     `transform` neste elemento, e as duas se somam sem se atropelar. */
+  translate: -50% 0;
+
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  background-color: var(--brad-grafite);
+
+  /* A borda clara existe para a dica se separar do cabecalho no topo da
+     pagina, onde o fundo e a foto escura e nao o vinho. */
+  border: 1px solid rgb(255 255 255 / 0.16);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.3);
+
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------------------
+   ALVO DE TOQUE
+   O dedo acerta um alvo de 44px; abaixo disso a pessoa erra e tenta de novo.
+   O template foi desenhado para o ponteiro do mouse, que e preciso, e por
+   isso deixa botao e link mais baixos do que o dedo alcanca.
+   -------------------------------------------------------------------------- */
+
+/* O CTA flutuante tinha 36px de altura — e o botao mais tocado do site. */
+.wa-flutuante {
+  min-height: 44px;
+}
+
+/* Recolhido pelo JS quando o rodape entra na tela. */
+.wa-flutuante[inert] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* A marca no cabecalho e o link para a home em toda pagina; tinha 40px. */
+.logo-link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/*
+ * Link de texto com seta ("Ver a divisao", "Entenda a norma no artigo"): tem
+ * 24px de altura porque e a altura da linha. Cresce a area de toque por um
+ * pseudoelemento posicionado, e nao por padding: padding mudaria o espacamento
+ * entre os elementos, e o desenho da secao depende dele. Fica restrito ao
+ * `main` de proposito — no rodape os links estao empilhados com pouco
+ * intervalo, e areas ampliadas ali se sobreporiam umas as outras, o que e pior
+ * do que area pequena.
+ */
+main .link-hover {
+  position: relative;
+}
+
+main .link-hover::after {
+  content: '';
+  position: absolute;
+  inset-block: -10px;
+  inset-inline: 0;
+}
+
+/*
+ * A trilha de navegacao tem 21px, tres abaixo do minimo de 24px que a WCAG
+ * 2.5.8 pede. Cresce so na vertical: os itens da trilha ficam lado a lado com
+ * 8px de intervalo, e crescer na horizontal faria um alvo invadir o vizinho.
+ */
+.crumbs a {
+  position: relative;
+}
+
+.crumbs a::after {
+  content: '';
+  position: absolute;
+  inset-block: -12px;
+  inset-inline: 0;
+}
+
+/* O "voltar ao topo" so aparece depois que ha o que voltar. Quem mostra e o
+   JS, por classe: o template mexia em `style.display` direto no elemento, e
+   estilo inline nao da para um tema sobrescrever. */
+#scrollToTopBtn.visivel {
+  display: flex;
+}
+
+/* ----------------------------------------------------------------------------
+   3. O ACENTO SOBRE FUNDO ESCURO VIRA BRASA
+   -------------------------------------------------------------------------- */
+.bg-dark .text-primary,
+.footer .text-primary,
+.banner-section .text-primary,
+.secao-escura .text-primary {
+  color: var(--brad-brasa) !important;
+}
+
+/*
+ * Aba selecionada. O template a pinta com o acento, e sobre o grafite o
+ * vinho da 1.88:1 — praticamente invisivel. Aqui a selecionada fica branca e
+ * as outras esmaecidas, que e o contraste que a selecao precisa.
+ *
+ * O seletor repete `.nav-item` de proposito: o do template e
+ * `.services-tab .nav-tabs .nav-item .nav-link.active`, e uma regra mais
+ * curta perderia por especificidade.
+ */
+.services-tab .nav-tabs .nav-item .nav-link {
+  color: rgb(255 255 255 / 0.55);
+}
+
+.services-tab .nav-tabs .nav-item .nav-link.active {
+  color: #fff;
+}
+
+.bg-dark .link-hover.text-primary:hover {
+  color: #fff !important;
+}
+
+/* ----------------------------------------------------------------------------
+   4. CABECALHO
+   Ao rolar, o template pinta a barra com o acento — a assinatura dele, e
+   tambem o que o site ja faz. A marca e branca, entao serve nos dois estados.
+   -------------------------------------------------------------------------- */
+.header .logo-link {
+  display: block;
+  line-height: 0;
+}
+
+.header.fixed-header .toggle-menu {
+  background-color: #fff !important;
+}
+
+.header.fixed-header .toggle-menu .menu-icon {
+  color: var(--brad-grafite) !important;
+}
+
+/* O CTA do cabecalho vira branco quando a barra fica vinho. */
+.header.fixed-header .btn-cabecalho {
+  background-color: #fff;
+}
+
+.header.fixed-header .btn-cabecalho .btn-text {
+  color: var(--brad-grafite);
+}
+
+.header.fixed-header .btn-cabecalho .btn-icon {
+  background-color: var(--brad-vinho) !important;
+  color: #fff !important;
+}
+
+/* ----------------------------------------------------------------------------
+   4b. VEU SOBRE AS FOTOS DE CABECALHO
+   O template escurece a foto com preto a 50%. Medido sobre as fotos reais, o
+   ponto mais claro fica em torno de #7f7f7f: 4.0:1 no titulo branco e 3.0:1
+   no subtitulo, abaixo do minimo de 4.5:1.
+   O veu passa a ser um gradiente do grafite da marca, mais forte embaixo,
+   onde o texto fica. Foto de cabecalho e fundo: legibilidade vem antes.
+   -------------------------------------------------------------------------- */
+.banner-section::before {
+  background: linear-gradient(
+    180deg,
+    rgb(32 28 30 / 0.66) 0%,
+    rgb(32 28 30 / 0.80) 45%,
+    rgb(32 28 30 / 0.9) 100%
+  ) !important;
+}
+
+/* ----------------------------------------------------------------------------
+   5. BOTAO FLUTUANTE DO WHATSAPP
+   Verde do WhatsApp: a cor avisa que abre uma conversa, nao e mais um CTA.
+   -------------------------------------------------------------------------- */
+.wa-flutuante {
+  background: var(--brad-whatsapp);
+  box-shadow: 0 10px 30px -8px rgb(32 28 30 / 0.4);
+}
+
+.wa-flutuante:hover {
+  background: #0b6633;
+  color: #fff;
+}
+
+/* ----------------------------------------------------------------------------
+   6. AS TRES DIVISOES
+   Mesmo layout, muda so a cor da faixa e da etiqueta: leem-se como areas da
+   mesma empresa. A faixa vai como sombra interna porque `.border` do
+   Bootstrap usa !important e venceria um border-top.
+   -------------------------------------------------------------------------- */
+.divisao {
+  box-shadow: inset 0 4px 0 var(--divisao-cor);
+}
+
+.divisao .divisao-etiqueta {
+  color: var(--divisao-cor);
+  background: color-mix(in srgb, var(--divisao-cor) 10%, white);
+}
+
+.divisao .divisao-marca {
+  color: var(--divisao-cor);
+}
+
+.divisao-fire {
+  --divisao-cor: #8e1c21;
+}
+
+.divisao-doc {
+  --divisao-cor: #3f5468;
+}
+
+.divisao-auto {
+  --divisao-cor: #2f6259;
+}
+
+/* ----------------------------------------------------------------------------
+   7. FORMULARIO
+   O template desenha inputs so com a linha de baixo. Aqui eles ganham caixa,
+   estado de erro e foco visiveis.
+   -------------------------------------------------------------------------- */
+.form-control,
+.form-select {
+  border: 1px solid var(--brad-linha-forte);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--brad-ink);
+  background-color: #fff;
+}
+
+.form-control::placeholder {
+  color: #9b9294;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--brad-grafite);
+  box-shadow: 0 0 0 3px rgb(32 28 30 / 0.18);
+}
+
+.form-control[aria-invalid='true'],
+.form-select[aria-invalid='true'] {
+  border-color: var(--brad-vinho);
+}
+
+.form-label {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--brad-ink);
+  margin-bottom: 6px;
+}
+
+.form-aviso-erro {
+  margin-top: 6px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brad-vinho);
+}
+
+/* ----------------------------------------------------------------------------
+   8. QUIZ DE TRIAGEM
+   -------------------------------------------------------------------------- */
+.quiz-barra {
+  height: 6px;
+  width: 100%;
+  background: var(--brad-linha);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/*
+ * A barra cresce por `scale`, e nao por `width`: animar largura obriga o
+ * navegador a refazer o layout a cada quadro. O script ja escreve `scale`.
+ */
+.quiz-barra-preenchida {
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  scale: 0 1;
+  background: var(--brad-vinho);
+  border-radius: 999px;
+  transition: scale 0.2s ease-out;
+}
+
+.quiz-opcao {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--brad-linha);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--brad-ink-suave);
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.quiz-opcao:hover {
+  border-color: var(--brad-linha-forte);
+  background: var(--brad-canvas);
+}
+
+.quiz-opcao:has(input:checked) {
+  border-color: var(--brad-vinho);
+  background: var(--brad-vinho-suave);
+  color: var(--brad-ink);
+}
+
+.quiz-opcao input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brad-vinho);
+}
+
+.quiz-marcador {
+  margin-top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brad-vinho);
+}
+
+/* ----------------------------------------------------------------------------
+   9. PAINEL DE VENCIMENTOS
+   Elemento-assinatura do site: mostra o que a empresa vende em vez de uma
+   foto generica.
+   -------------------------------------------------------------------------- */
+.painel-vencimentos {
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.16);
+  backdrop-filter: blur(6px);
+  color: var(--brad-sobre-escuro);
+}
+
+.painel-vencimentos .border-bottom,
+.painel-vencimentos .border-top {
+  border-color: rgb(255 255 255 / 0.12) !important;
+}
+
+.painel-ponto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.painel-selo {
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.selo-urgente {
+  background: rgb(142 28 33 / 0.3);
+  color: #f1a3a0;
+}
+
+.selo-atencao {
+  background: rgb(138 90 18 / 0.3);
+  color: #e8bb7c;
+}
+
+.selo-ok {
+  background: rgb(29 107 69 / 0.3);
+  color: #8fd0ac;
+}
+
+/* ----------------------------------------------------------------------------
+   10. ACESSIBILIDADE E SUPERFICIES DO NAVEGADOR
+   -------------------------------------------------------------------------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--brad-vinho);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+html {
+  scrollbar-color: var(--brad-grafite-800) var(--brad-linha);
+}
+
+/*
+ * O template anima muita coisa: AOS em quase toda secao, a folha girando sem
+ * parar, o carrossel em autoplay. Para quem pediu menos movimento no sistema,
+ * isso passa de enfeite a enjoo.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .owl-carousel .owl-stage {
+    transition: none !important;
+  }
+}
+
+/*
+ * O rodape precisa de folga: o botao flutuante e fixo no canto e cobriria a
+ * ultima linha. No celular o rotulo do botao some e ele sobe de posicao
+ * relativa ao conteudo, entao a folga precisa ser maior.
+ */
+.footer {
+  padding-bottom: 120px !important;
+}
+
+@media (max-width: 767.98px) {
+  .footer {
+    padding-bottom: 160px !important;
+  }
+}
