@@ -221,11 +221,27 @@ test.describe('Menu escrito no cabecalho', () => {
     const dica = dock(page).getByText('Segurança contra incêndio', { exact: true })
     await expect(dica, 'a dica so existe enquanto o ponteiro esta no item').toHaveCount(0)
 
-    await atalho.hover()
-    await expect(
-      dica,
-      'o rotulo curto cabe no topo, mas so o completo diz o que a pagina e'
-    ).toBeVisible()
+    /*
+     * Sai e volta com o ponteiro, repetindo ate a dica aparecer.
+     *
+     * A dica e a unica parte deste menu que depende de JS, e o menu hidrata em
+     * `client:idle` — de proposito, para nao disputar a primeira pintura com
+     * 112 KB de ilha. Com oito workers em paralelo o idle atrasa, e o
+     * `pointerenter` do primeiro hover acontece antes de existir quem o
+     * escute.
+     *
+     * Um segundo `hover()` no mesmo ponto nao resolve: o ponteiro nao se moveu,
+     * e o navegador nao reemite `pointerenter`. Por isso o `mouse.move` para
+     * fora antes de cada tentativa.
+     */
+    await expect(async () => {
+      await page.mouse.move(0, 0)
+      await atalho.hover()
+      await expect(
+        dica,
+        'o rotulo curto cabe no topo, mas so o completo diz o que a pagina e'
+      ).toBeVisible({ timeout: 500 })
+    }).toPass({ timeout: 10_000 })
   })
 })
 
