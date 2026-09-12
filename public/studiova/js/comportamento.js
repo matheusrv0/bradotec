@@ -10,6 +10,7 @@
 ;(() => {
   const cabecalho = document.querySelector('header')
   const voltarAoTopo = document.getElementById('scrollToTopBtn')
+  const conversa = document.querySelector('.wa-flutuante')
 
   /*
    * Um unico `scroll` para as duas leituras, e passivo: o `window.onscroll`
@@ -24,6 +25,31 @@
 
   window.addEventListener('scroll', aoRolar, { passive: true })
   aoRolar()
+
+  /*
+   * O CTA flutuante se recolhe quando o rodape entra na tela.
+   *
+   * Ate aqui o rodape ganhava folga embaixo para o botao nao cobrir os links,
+   * mas essa folga tem de ser recalibrada a cada mudanca no tamanho do botao —
+   * quatro pixels de altura a mais e o ultimo link volta a ficar coberto.
+   * Recolher resolve na origem, e nao perde nada: o proprio rodape tem o link
+   * do WhatsApp, no lugar onde a pessoa esta olhando.
+   *
+   * `inert` no lugar de so apagar: alvo invisivel que ainda recebe foco e uma
+   * armadilha para quem navega por teclado — o foco sai da tela sem explicacao.
+   * O botao de voltar ao topo fica: no fim da pagina ele e justamente o que
+   * serve.
+   */
+  const rodape = document.querySelector('footer')
+  if (rodape && conversa && 'IntersectionObserver' in window) {
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        for (const entrada of entradas) conversa.toggleAttribute('inert', entrada.isIntersecting)
+      },
+      { threshold: 0 }
+    )
+    observador.observe(rodape)
+  }
 
   voltarAoTopo?.addEventListener('click', () => {
     // `smooth` respeita "reduzir movimento" do sistema no Chrome e no Safari.

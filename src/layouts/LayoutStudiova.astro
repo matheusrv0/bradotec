@@ -260,7 +260,8 @@ const anoAtual = new Date().getFullYear()
         <div class="row gap-7 gap-lg-0">
           <div class="col-lg-4 col-xl-4">
             <div class="d-flex flex-column gap-6 pe-xl-5">
-              <LogoMarca altura={38} />
+              {/* Maior do que no cabecalho: no rodape a marca assina, nao navega. */}
+              <LogoMarca altura={56} />
               <p class="mb-0 fs-4 text-white text-opacity-70">
                 Gestão documental, regularização, licenciamento e segurança contra incêndio para
                 empresas, condomínios e frotas em {site.regiaoAtendida}.

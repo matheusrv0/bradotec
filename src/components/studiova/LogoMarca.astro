@@ -41,6 +41,16 @@ const largura = Math.round(altura * (1058 / 372))
   .logo-marca {
     width: auto;
     display: block;
+
+    /*
+     * `align-self` e `max-width` nao sao zelo excessivo: num container
+     * `d-flex flex-column` o padrao `align-items: stretch` esticava a marca
+     * para a largura da coluna. No rodape ela saia com 400x38 em vez de
+     * 108x38 — achatada, e ampliada 3,7x a partir de um arquivo servido com
+     * 108px, o que borrava as letras em toda pagina do site.
+     */
+    align-self: flex-start;
+    max-width: 100%;
   }
 
   /*

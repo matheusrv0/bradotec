@@ -185,6 +185,7 @@ h4,
 #scrollToTopBtn {
   transition:
     background-color 0.2s ease-in-out,
+    opacity 0.2s ease-in-out,
     translate 0.1s ease-out,
     transform 0.1s ease-out;
 }
@@ -198,6 +199,67 @@ a.card:active {
 .wa-flutuante:active,
 #scrollToTopBtn:active {
   transform: scale(0.94);
+}
+
+/* ----------------------------------------------------------------------------
+   ALVO DE TOQUE
+   O dedo acerta um alvo de 44px; abaixo disso a pessoa erra e tenta de novo.
+   O template foi desenhado para o ponteiro do mouse, que e preciso, e por
+   isso deixa botao e link mais baixos do que o dedo alcanca.
+   -------------------------------------------------------------------------- */
+
+/* O CTA flutuante tinha 36px de altura — e o botao mais tocado do site. */
+.wa-flutuante {
+  min-height: 44px;
+}
+
+/* Recolhido pelo JS quando o rodape entra na tela. */
+.wa-flutuante[inert] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* A marca no cabecalho e o link para a home em toda pagina; tinha 40px. */
+.logo-link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/*
+ * Link de texto com seta ("Ver a divisao", "Entenda a norma no artigo"): tem
+ * 24px de altura porque e a altura da linha. Cresce a area de toque por um
+ * pseudoelemento posicionado, e nao por padding: padding mudaria o espacamento
+ * entre os elementos, e o desenho da secao depende dele. Fica restrito ao
+ * `main` de proposito — no rodape os links estao empilhados com pouco
+ * intervalo, e areas ampliadas ali se sobreporiam umas as outras, o que e pior
+ * do que area pequena.
+ */
+main .link-hover {
+  position: relative;
+}
+
+main .link-hover::after {
+  content: '';
+  position: absolute;
+  inset-block: -10px;
+  inset-inline: 0;
+}
+
+/*
+ * A trilha de navegacao tem 21px, tres abaixo do minimo de 24px que a WCAG
+ * 2.5.8 pede. Cresce so na vertical: os itens da trilha ficam lado a lado com
+ * 8px de intervalo, e crescer na horizontal faria um alvo invadir o vizinho.
+ */
+.crumbs a {
+  position: relative;
+}
+
+.crumbs a::after {
+  content: '';
+  position: absolute;
+  inset-block: -12px;
+  inset-inline: 0;
 }
 
 /* O "voltar ao topo" so aparece depois que ha o que voltar. Quem mostra e o
