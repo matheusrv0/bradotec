@@ -1,0 +1,42 @@
+---
+/**
+ * Grade de cards com icone, titulo e texto — usada nas paginas internas
+ * para listar servicos e situacoes atendidas.
+ */
+export interface ItemCard {
+  /** Nome do icone no Iconify, ex.: 'solar:fire-line-duotone'. */
+  icone: string
+  titulo: string
+  detalhe: string
+}
+
+interface Props {
+  itens: readonly ItemCard[]
+  /** Cards por linha no desktop. */
+  colunas?: 2 | 3
+}
+
+const { itens, colunas = 3 } = Astro.props
+const classeColuna = colunas === 2 ? 'col-md-6' : 'col-md-6 col-lg-4'
+---
+
+<div class="row">
+  {
+    itens.map((item, i) => (
+      <div class:list={[classeColuna, 'mb-7']}>
+        <div
+          class="card border h-100 bg-white"
+          data-aos="fade-up"
+          data-aos-delay={`${(i + 1) * 100}`}
+          data-aos-duration="1000"
+        >
+          <div class="card-body d-flex flex-column gap-5">
+            <iconify-icon icon={item.icone} class="fs-11 text-primary" />
+            <h3 class="mb-0 fs-7">{item.titulo}</h3>
+            <p class="mb-0">{item.detalhe}</p>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</div>

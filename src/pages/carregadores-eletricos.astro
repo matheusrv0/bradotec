@@ -1,25 +1,20 @@
 ---
 import { getCollection } from 'astro:content'
-import AvisoEscopo from '@/components/AvisoEscopo.astro'
-import BotaoLink from '@/components/BotaoLink.astro'
-import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
-import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
-import Kicker from '@/components/Kicker.astro'
+import fotoPredios from '@/assets/fotos-geradas/predios-ao-anoitecer.jpg'
+import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
+import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import { site } from '@/config/site'
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 
 /**
  * Pagina de SERVICO, nao de conteudo.
  *
- * Ela ja foi as duas coisas ao mesmo tempo, e isso quebrava nos dois lados: o
- * botao "ver como funciona o servico", vindo do artigo, caia numa pagina que
- * repetia o proprio artigo. Quatro secoes iguais, palavra por palavra.
- *
- * A divisao agora e clara. O artigo explica a NT 040/2025: o que mudou, o que
- * e proibido, o que e exigido, de quem e a responsabilidade, com ilustracoes e
- * checklist. Esta pagina responde a outra pergunta, que e a de quem ja
- * entendeu o problema: o que a Bradotec faz, em que ordem, e o que nao e
- * responsabilidade dela.
+ * O artigo explica a NT 040/2025: o que mudou, o que e proibido, o que e
+ * exigido, de quem e a responsabilidade. Esta pagina responde a outra
+ * pergunta, a de quem ja entendeu o problema: o que a Bradotec faz, em que
+ * ordem, e o que nao e responsabilidade dela.
  *
  * O contexto aqui e curto de proposito. Serve para quem cai direto do Google,
  * e termina apontando para o artigo em vez de recontar.
@@ -41,169 +36,200 @@ const norma = {
   orgao: 'Corpo de Bombeiros Militar da Paraíba',
   fonte: 'https://bravo.bombeiros.pb.gov.br/portal/normas-tecnicas/',
 } as const
+
+const casos = [
+  {
+    titulo: 'O morador instalou por conta',
+    texto:
+      'Alguém comprou um carro elétrico e resolveu sozinho. O condomínio descobre depois, e a instalação está na área comum.',
+  },
+  {
+    titulo: 'A assembleia vai decidir',
+    texto:
+      'Há pedido de instalação em pauta, e o síndico precisa saber o que a norma exige antes de autorizar.',
+  },
+  {
+    titulo: 'O AVCB está para renovar',
+    texto:
+      'O SAVE entra no processo de segurança contra incêndio da edificação, e é ali que ele é verificado.',
+  },
+] as const
 ---
 
-<BaseLayout
+<LayoutStudiova
   titulo={`Regularização de carregador de veículo elétrico em condomínio | ${site.nome}`}
   descricao="A Bradotec conduz a regularização do carregador de carro elétrico do condomínio em João Pessoa e na Paraíba: diagnóstico da instalação, coordenação do projeto e acompanhamento junto ao Corpo de Bombeiros."
   trilha={trilha}
 >
   <CabecalhoPagina
-    cena="rota"
+    foto={fotoPredios}
+    descricaoDaFoto="Avenida de edifícios residenciais ao anoitecer, com a pista molhada refletindo as luzes"
+    enquadramento="50% 50%"
     titulo="Regularização de carregador de veículo elétrico"
     subtitulo="Diagnóstico da instalação, coordenação da rede técnica e acompanhamento do processo junto ao Corpo de Bombeiros. O síndico trata com um interlocutor só."
     trilha={trilha}
   >
-    <div class="mt-6 flex flex-wrap gap-3">
-      <BotaoLink href="/contato" variante="primario">Agendar o diagnóstico</BotaoLink>
-    </div>
+    <BotaoSeta href="/contato">Agendar o diagnóstico</BotaoSeta>
   </CabecalhoPagina>
 
-  <section class="py-16 lg:py-20" aria-labelledby="por-que-agora">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <div class="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-        <div>
-          <Kicker>Bradotec Fire</Kicker>
-          <h2 id="por-que-agora" class="mt-2 max-w-[22ch] text-secao text-ink">Por que agora</h2>
-          <p class="mt-5 max-w-[62ch] text-guia text-ink-soft">
-            O {norma.orgao} publicou a {norma.numero}, que regula a recarga de veículos elétricos
-            em condomínios residenciais. Ela vale desde 1º de janeiro de 2026, para edificações
-            novas e existentes, em todo o estado.
-          </p>
-          <p class="mt-4 max-w-[62ch] text-guia text-ink-soft">
-            Tomada comum, extensão e adaptador saíram. A instalação passou a exigir circuito
-            exclusivo, proteções próprias, ponto de desligamento manual e, conforme o
-            enquadramento, detecção de incêndio na garagem.
-          </p>
-          <p class="mt-6 text-apoio text-ash-500">
-            Texto oficial em{' '}
-            <a class="font-bold text-wine" href={norma.fonte} rel="noopener" target="_blank">
-              bombeiros.pb.gov.br
-            </a>.
-          </p>
-        </div>
+  <!-- 01 — Por que agora -->
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao numero="01" etiqueta="Bradotec Fire" titulo="Por que agora" />
 
-        {/*
-          O prazo continua aqui, e nao so no artigo, porque e o unico dado
-          desta pagina que muda a decisao de quem le. Sem ele, "regularizar
-          carregador" vira assunto para a proxima assembleia.
-        */}
-        <div class="border-l-[5px] border-l-wine bg-wine-soft p-7">
-          <p class="text-rotulo font-bold uppercase tracking-[0.08em] text-wine">
-            O que muda a urgência
-          </p>
-          <p class="mt-3 text-cartao-lg font-bold text-wine">
-            A carência não vale para a instalação elétrica.
-          </p>
-          <p class="mt-3 text-corpo text-ink-soft">
-            Edificações existentes têm prazo para as adequações gerais de segurança contra
-            incêndio. As instalações elétricas do SAVE, não: precisam estar em conformidade desde a
-            entrada em vigor da norma. Carregador ligado de forma improvisada está irregular agora.
-          </p>
-          <a class="mt-5 inline-flex items-center gap-2 font-bold text-wine" href={artigo}>
-            Entenda a norma no artigo
-            <svg
-              width="17"
-              height="17"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              class="shrink-0"
+        <div class="row justify-content-between gap-7 gap-xl-0">
+          <div class="col-xl-6">
+            <div
+              class="d-flex flex-column gap-4"
+              data-aos="fade-right"
+              data-aos-delay="100"
+              data-aos-duration="1000"
             >
-              <path d="M5 12h13m-5-6 6 6-6 6" />
-            </svg>
-          </a>
+              <p class="mb-0 fs-5">
+                O {norma.orgao} publicou a {norma.numero}, que regula a recarga de veículos
+                elétricos em condomínios residenciais. Ela vale desde 1º de janeiro de 2026, para
+                edificações novas e existentes, em todo o estado.
+              </p>
+              <p class="mb-0 fs-5">
+                Tomada comum, extensão e adaptador saíram. A instalação passou a exigir circuito
+                exclusivo, proteções próprias, ponto de desligamento manual e, conforme o
+                enquadramento, detecção de incêndio na garagem.
+              </p>
+              <p class="mb-0 fs-3 text-muted">
+                Texto oficial em{' '}
+                <a class="fw-bold text-primary" href={norma.fonte} rel="noopener" target="_blank">
+                  bombeiros.pb.gov.br
+                </a>.
+              </p>
+            </div>
+          </div>
+
+          {/*
+            O prazo continua aqui, e nao so no artigo, porque e o unico dado
+            desta pagina que muda a decisao de quem le. Sem ele, "regularizar
+            carregador" vira assunto para a proxima assembleia.
+          */}
+          <div class="col-xl-5">
+            <div
+              class="card bg-primary"
+              data-aos="fade-left"
+              data-aos-delay="200"
+              data-aos-duration="1000"
+            >
+              <div class="card-body d-flex flex-column gap-4">
+                <span class="badge bg-white text-primary w-fit fs-3">O que muda a urgência</span>
+                <h3 class="mb-0 fs-7">A carência não vale para a instalação elétrica.</h3>
+                <p class="mb-0 fs-4">
+                  Edificações existentes têm prazo para as adequações gerais de segurança contra
+                  incêndio. As instalações elétricas do SAVE, não: precisam estar em conformidade
+                  desde a entrada em vigor da norma. Carregador ligado de forma improvisada está
+                  irregular agora.
+                </p>
+                <a class="link-hover hstack gap-2 fs-5 fw-bold text-white w-fit" href={artigo}>
+                  Entenda a norma no artigo
+                  <iconify-icon icon="lucide:arrow-up-right" class="fs-6" />
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   {/*
-    O miolo da pagina. Numerado de proposito, ao contrario dos caminhos da
-    home: aqui a ordem carrega informacao. Nao da para adequar o circuito
+    02 — O miolo da pagina. Numerado de proposito, ao contrario dos caminhos
+    da home: aqui a ordem carrega informacao. Nao da para adequar o circuito
     antes de saber a viabilidade eletrica do predio.
   */}
-  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="como-resolve">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <h2 id="como-resolve" class="max-w-[24ch] text-secao text-ink">Como a Bradotec resolve</h2>
-      <p class="mt-4 max-w-[68ch] text-guia text-ink-soft">
-        Na ordem em que fazemos. O síndico não coordena ninguém: quem articula engenheiro,
-        instalador e processo é a Bradotec.
-      </p>
+  <section class="py-5 py-lg-11 py-xl-12 bg-light-gray">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="02"
+          etiqueta="Processo"
+          titulo="Como a Bradotec resolve"
+          descricao="Na ordem em que fazemos. O síndico não coordena ninguém: quem articula engenheiro, instalador e processo é a Bradotec."
+        />
 
-      <ol class="mt-11 grid list-none gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          etapas.map((etapa, i) => (
-            <li class="border-t-2 border-t-line pt-5">
-              <span class="text-rotulo font-bold tabular-nums text-wine">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <p class="mt-1.5 text-cartao-lg text-ink">{etapa.data.titulo}</p>
-              <p class="mt-2 text-corpo text-ink-soft">{etapa.data.descricao}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <section class="py-16 lg:py-20" aria-labelledby="quem-contrata">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
-        <div>
-          <h2 id="quem-contrata" class="max-w-[20ch] text-secao text-ink">Quem costuma chamar</h2>
-          <p class="mt-4 max-w-[50ch] text-guia text-ink-soft">
-            Em geral a conversa começa por um destes três caminhos.
-          </p>
-        </div>
-
-        <ul class="grid list-none border-t border-line">
+        <div class="row">
           {
-            [
-              {
-                titulo: 'O morador instalou por conta',
-                texto:
-                  'Alguém comprou um carro elétrico e resolveu sozinho. O condomínio descobre depois, e a instalação está na área comum.',
-              },
-              {
-                titulo: 'A assembleia vai decidir',
-                texto:
-                  'Há pedido de instalação em pauta, e o síndico precisa saber o que a norma exige antes de autorizar.',
-              },
-              {
-                titulo: 'O AVCB está para renovar',
-                texto:
-                  'O SAVE entra no processo de segurança contra incêndio da edificação, e é ali que ele é verificado.',
-              },
-            ].map((caso) => (
-              <li class="border-b border-line py-5">
-                <p class="text-cartao font-bold text-ink">{caso.titulo}</p>
-                <p class="mt-1.5 text-corpo text-ink-soft">{caso.texto}</p>
-              </li>
+            etapas.map(({ data }, i) => (
+              <div class="col-md-6 col-lg-4 mb-7">
+                <div
+                  class="d-flex flex-column gap-4 pt-7 border-top h-100"
+                  data-aos="fade-up"
+                  data-aos-delay={`${((i % 3) + 1) * 100}`}
+                  data-aos-duration="1000"
+                >
+                  <h2 class="mb-0 fs-12 text-primary">{String(i + 1).padStart(2, '0')}</h2>
+                  <h3 class="mb-0 fs-6">{data.titulo}</h3>
+                  <p class="mb-0 fs-4">{data.descricao}</p>
+                </div>
+              </div>
             ))
           }
-        </ul>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="bg-graphite-900 py-16 text-white lg:py-20" aria-labelledby="diagnostico-save">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <div class="max-w-[62ch]">
-        <h2 id="diagnostico-save" class="max-w-[24ch] text-secao text-white">
-          Tem carregador no seu condomínio?
-        </h2>
-        <p class="mt-4 text-guia text-sobre-escuro">
-          O diagnóstico compara o que está instalado com o que a norma exige e devolve a lista do
-          que precisa mudar. Se nada precisar, você fica sabendo disso também.
-        </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <BotaoWhatsapp origem="save">Agendar o diagnóstico</BotaoWhatsapp>
-          <BotaoLink href={artigo} variante="sobreEscuro">Ler o artigo sobre a norma</BotaoLink>
+  <!-- 03 — Quem costuma chamar -->
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="03"
+          etiqueta="Casos"
+          titulo="Quem costuma chamar"
+          descricao="Em geral a conversa começa por um destes três caminhos."
+        />
+
+        <div class="row justify-content-end">
+          <div class="col-xl-8">
+            <ul class="list-unstyled mb-0 border-top">
+              {
+                casos.map((caso, i) => (
+                  <li
+                    class="py-5 border-bottom"
+                    data-aos="fade-up"
+                    data-aos-delay={`${(i + 1) * 100}`}
+                    data-aos-duration="1000"
+                  >
+                    <p class="mb-2 fs-5 fw-bold text-dark">{caso.titulo}</p>
+                    <p class="mb-0 fs-4">{caso.texto}</p>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 — Diagnóstico -->
+  <section class="py-5 py-lg-11 py-xl-12 bg-dark">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-8">
+          <div
+            class="d-flex flex-column gap-4"
+            data-aos="fade-up"
+            data-aos-delay="100"
+            data-aos-duration="1000"
+          >
+            <h2 class="mb-0 text-white">Tem carregador no seu condomínio?</h2>
+            <p class="mb-3 fs-5 text-white text-opacity-75">
+              O diagnóstico compara o que está instalado com o que a norma exige e devolve a lista
+              do que precisa mudar. Se nada precisar, você fica sabendo disso também.
+            </p>
+            <div class="hstack gap-3 flex-wrap">
+              <BotaoSeta origem="save">Agendar o diagnóstico</BotaoSeta>
+              <BotaoSeta href={artigo} tom="contorno">Ler o artigo sobre a norma</BotaoSeta>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -215,4 +241,4 @@ const norma = {
     engenheiros e empresas legalmente habilitados. A análise, a vistoria e a aprovação são do órgão
     competente, e o prazo delas não depende da Bradotec.
   </AvisoEscopo>
-</BaseLayout>
+</LayoutStudiova>

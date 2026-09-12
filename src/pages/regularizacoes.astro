@@ -1,13 +1,12 @@
 ---
 import fotoCarimbo from '@/assets/fotos-licenciadas/documentos-em-mesa.jpg'
-import AvisoEscopo from '@/components/AvisoEscopo.astro'
-import BotaoLink from '@/components/BotaoLink.astro'
-import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
-import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
-import Faq from '@/components/Faq.astro'
-import Kicker from '@/components/Kicker.astro'
-import SecaoServicos from '@/components/SecaoServicos.astro'
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
+import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
+import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import SecaoServicos from '@/components/studiova/SecaoServicos.astro'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 import { schemaFaqDaPagina } from '@/lib/faq'
 
 const trilha = [
@@ -27,7 +26,7 @@ const situacoes = [
 ] as const
 ---
 
-<BaseLayout
+<LayoutStudiova
   titulo="Regularização de empresas e imóveis em João Pessoa (PB) | Bradotec"
   descricao="Licenças, alvarás, certidões, protocolos e regularização de empresas e imóveis em João Pessoa/PB, com resposta a exigências e controle de vencimentos conduzidos até a conclusão."
   trilha={trilha}
@@ -36,63 +35,71 @@ const situacoes = [
   <CabecalhoPagina
     foto={fotoCarimbo}
     descricaoDaFoto="Documentos passando de mão em mão sobre uma mesa de escritório"
-    cena="fachada"
     titulo="Regularizações, licenças e gestão documental"
     subtitulo="Licenças, certidões, protocolos e regularização de empresas e imóveis em João Pessoa, com o processo acompanhado até a conclusão."
     trilha={trilha}
   >
-    <div class="mt-6 flex flex-wrap gap-3">
-      <BotaoLink href="/contato" variante="primario">Solicitar orçamento</BotaoLink>
-    </div>
+    <BotaoSeta href="/contato">Solicitar orçamento</BotaoSeta>
   </CabecalhoPagina>
 
-  <section class="py-16 lg:py-20" aria-labelledby="o-que-resolvemos">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <Kicker class="text-div-doc">Bradotec Documentos</Kicker>
-      <h2 id="o-que-resolvemos" class="mt-2 text-secao text-ink">O que resolvemos</h2>
-      <p class="mt-4 max-w-[66ch] text-guia text-ink-soft">
-        A maior parte dos problemas documentais não é falta de vontade: é falta de alguém para
-        conduzir. É exatamente essa parte que a Bradotec assume.
-      </p>
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <TituloSecao
+        numero="01"
+        etiqueta="Bradotec Documentos"
+        titulo="O que resolvemos"
+        descricao="A maior parte dos problemas documentais não é falta de vontade: é falta de alguém para conduzir. É exatamente essa parte que a Bradotec assume."
+      />
     </div>
   </section>
 
   <SecaoServicos
     divisao="documentos"
-    id="servicos-documentos"
+    numero="02"
+    etiqueta="Serviços"
     titulo="Frentes que a divisão Documentos conduz"
   />
 
-  <section class="py-16 lg:py-20" aria-labelledby="situacoes">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <h2 id="situacoes" class="text-secao text-ink">Situações mais comuns</h2>
+  <section class="py-5 py-lg-11 py-xl-12 bg-dark">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao numero="03" etiqueta="Casos" titulo="Situações mais comuns" escuro />
 
-      <ul class="mt-11 grid list-none gap-x-12 border-t border-line md:grid-cols-2">
-        {
-          situacoes.map((situacao) => (
-            <li class="flex items-start gap-3 border-b border-line py-5 text-corpo text-ink-soft">
-              <span
-                class="mt-[0.45em] size-1.5 shrink-0 rounded-full bg-div-doc"
-                aria-hidden="true"
-              />
-              {situacao}
-            </li>
-          ))
-        }
-      </ul>
+        <div class="row justify-content-end">
+          <div class="col-xl-8">
+            <ul class="list-unstyled mb-0">
+              {
+                situacoes.map((situacao, i) => (
+                  <li
+                    class="py-5 border-top border-white border-opacity-10 hstack gap-5 align-items-start"
+                    data-aos="fade-up"
+                    data-aos-delay={`${(i + 1) * 100}`}
+                    data-aos-duration="1000"
+                  >
+                    <span class="round-36 flex-shrink-0 rounded-circle bg-primary hstack justify-content-center fw-medium fs-3">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <span class="fs-5 text-white text-opacity-75">{situacao}</span>
+                  </li>
+                ))
+              }
+            </ul>
 
-      <div class="mt-8 flex flex-wrap gap-3">
-        <BotaoWhatsapp origem="licenca">Solicitar orçamento</BotaoWhatsapp>
-        <BotaoLink href="/diagnostico" variante="contorno">Responder as 4 perguntas</BotaoLink>
+            <div class="hstack gap-3 flex-wrap mt-7">
+              <BotaoSeta origem="licenca">Solicitar orçamento</BotaoSeta>
+              <BotaoSeta href="/diagnostico" tom="contorno">Responder as 4 perguntas</BotaoSeta>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <AvisoEscopo titulo="Sobre prazos">
-    O tempo de cada processo depende da documentação existente, das exigências emitidas e da análise
-    do órgão público responsável. Informamos o que está sob nosso controle e comunicamos o andamento
-    a cada etapa, sem prometer prazo que não depende de nós.
+    O tempo de cada processo depende da documentação existente, das exigências emitidas e da
+    análise do órgão público responsável. Informamos o que está sob nosso controle e comunicamos o
+    andamento a cada etapa, sem prometer prazo que não depende de nós.
   </AvisoEscopo>
 
-  <Faq pagina="regularizacoes" />
-</BaseLayout>
+  <AcordeaoFaq pagina="regularizacoes" numero="04" />
+</LayoutStudiova>

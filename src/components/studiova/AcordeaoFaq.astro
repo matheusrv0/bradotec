@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
+import type { PaginaComFaq } from '@/content.config'
+
+/**
+ * FAQ no acordeao do Bootstrap, lendo a MESMA Content Collection que o
+ * componente Tailwind original usa. O JSON-LD continua saindo de
+ * `schemaFaqDaPagina()`, entao pagina e Google nunca divergem.
+ */
+interface Props {
+  pagina: PaginaComFaq
+  numero: string
+  titulo?: string
+  descricao?: string
+}
+
+const {
+  pagina,
+  numero,
+  titulo = 'Perguntas frequentes',
+  descricao = 'As dúvidas que mais aparecem antes do primeiro contato.',
+} = Astro.props
+
+const perguntas = (await getCollection('faq', ({ data }) => data.paginas.includes(pagina))).map(
+  (entrada) => entrada.data
+)
+
+const idAcordeao = `faq-${pagina}`
+---
+
+{
+  perguntas.length > 0 && (
+    <section class="faq py-5 py-lg-11 py-xl-12" id="faq">
+      <div class="container">
+        <div class="d-flex flex-column gap-5 gap-xl-11">
+          <TituloSecao numero={numero} etiqueta="Dúvidas" titulo={titulo} descricao={descricao} />
+
+          <div class="row justify-content-end">
+            <div class="col-xl-8">
+              <div
+                class="accordion accordion-flush"
+                id={idAcordeao}
+                data-aos="fade-up"
+                data-aos-delay="200"
+                data-aos-duration="1000"
+              >
+                {perguntas.map((item, i) => (
+                  <div class:list={['accordion-item', i === perguntas.length - 1 && 'border-bottom']}>
+                    <h2 class="accordion-header">
+                      <button
+                        class="accordion-button collapsed fs-7 fw-bold"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={`#${idAcordeao}-${i}`}
+                        aria-expanded="false"
+                        aria-controls={`${idAcordeao}-${i}`}
+                      >
+                        {item.pergunta}
+                      </button>
+                    </h2>
+                    <div
+                      id={`${idAcordeao}-${i}`}
+                      class="accordion-collapse collapse"
+                      data-bs-parent={`#${idAcordeao}`}
+                    >
+                      <div class="accordion-body pt-0 fs-5 text-dark">{item.resposta}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

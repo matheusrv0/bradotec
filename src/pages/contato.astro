@@ -1,12 +1,12 @@
 ---
 import fotoAtendimento from '@/assets/fotos-licenciadas/escritorio-atendimento.jpg'
-import BotaoLink from '@/components/BotaoLink.astro'
-import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
-import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
-import DadoCliente from '@/components/DadoCliente.astro'
-import FormularioContato from '@/components/FormularioContato.astro'
+import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import DadoPendente from '@/components/studiova/DadoPendente.astro'
+import FormularioContato from '@/components/studiova/FormularioContato.astro'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import { enderecoCompleto, instagramUsuario, site } from '@/config/site'
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 
 const trilha = [
   { nome: 'Início', href: '/' },
@@ -14,15 +14,16 @@ const trilha = [
 ] as const
 
 const canais = [
-  { rotulo: 'Telefone', valor: site.telefone },
-  { rotulo: 'E-mail', valor: site.email },
-  { rotulo: 'Endereço', valor: enderecoCompleto },
-  { rotulo: 'Atendimento', valor: site.horario },
-  { rotulo: 'Instagram', valor: instagramUsuario },
+  { icone: 'lucide:phone', rotulo: 'Telefone', valor: site.telefone },
+  { icone: 'lucide:mail', rotulo: 'E-mail', valor: site.email },
+  { icone: 'lucide:map-pin', rotulo: 'Endereço', valor: enderecoCompleto },
+  { icone: 'lucide:clock', rotulo: 'Atendimento', valor: site.horario },
+  { icone: 'lucide:instagram', rotulo: 'Instagram', valor: instagramUsuario },
+  { icone: 'lucide:map', rotulo: 'Região', valor: site.regiaoAtendida },
 ] as const
 ---
 
-<BaseLayout
+<LayoutStudiova
   titulo={`Contato: falar com a ${site.nome} em ${site.cidade} (${site.estado})`}
   descricao="Fale com a Bradotec em João Pessoa/PB por WhatsApp, telefone ou e-mail. Conte a sua situação de regularização, licença, segurança contra incêndio ou documentação veicular."
   trilha={trilha}
@@ -31,64 +32,87 @@ const canais = [
     foto={fotoAtendimento}
     descricaoDaFoto="Escritório com estações de trabalho e janelas amplas ao fundo"
     enquadramento="50% 46%"
-    cena="fachada"
     titulo="Falar com a Bradotec"
     subtitulo="Conte a sua situação pelo canal que preferir. O retorno é feito por quem vai conduzir o processo."
     trilha={trilha}
   >
-    <div class="mt-6 flex flex-wrap gap-3">
-      <BotaoLink href="#formulario" variante="sobreEscuro">Ir para o formulário</BotaoLink>
-    </div>
+    <BotaoSeta href="#formulario" tom="contorno">Ir para o formulário</BotaoSeta>
   </CabecalhoPagina>
 
-  <section class="py-16 lg:py-20" aria-labelledby="formulario">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <div class="grid items-start gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-        <div class="rounded-xl border border-line bg-white p-7 shadow-card md:p-8">
-          <h2 id="formulario" class="text-secao text-ink">
-            Solicitar orçamento ou diagnóstico
-          </h2>
-          <div class="mt-6">
-            <FormularioContato />
-          </div>
-        </div>
+  <section class="py-5 py-lg-11 py-xl-12" id="formulario">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="01"
+          etiqueta="Formulário"
+          titulo="Solicitar orçamento ou diagnóstico"
+          descricao="Quanto mais específico for o que você contar, mais direto será o retorno."
+        />
 
-        <div class="flex flex-col gap-5">
-          <div class="rounded-xl border border-line bg-canvas p-6">
-            <h2 class="text-guia text-ink">WhatsApp comercial</h2>
-            <p class="mt-2 text-corpo text-ink-soft">
-              Canal mais rápido para orçamento, diagnóstico e dúvidas.
-            </p>
-            <div class="mt-4">
-              <BotaoWhatsapp origem="padrao" larguraTotal>Abrir conversa</BotaoWhatsapp>
+        <div class="row justify-content-between gap-7 gap-xl-0">
+          <div class="col-xl-4">
+            <div
+              class="card bg-primary"
+              data-aos="fade-right"
+              data-aos-delay="100"
+              data-aos-duration="1000"
+            >
+              <div class="card-body d-flex flex-column gap-4">
+                <iconify-icon icon="lucide:message-circle" class="fs-11" />
+                <h3 class="mb-0 fs-7">WhatsApp comercial</h3>
+                <p class="mb-0 fs-4">Canal mais rápido para orçamento, diagnóstico e dúvidas.</p>
+                <div>
+                  <BotaoSeta origem="padrao" tom="branco">Abrir conversa</BotaoSeta>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="rounded-xl border border-line bg-white p-6">
-            <h2 class="text-guia text-ink">Outros canais</h2>
-            <dl class="mt-4 flex flex-col gap-3.5">
-              {
-                canais.map((canal) => (
-                  <div>
-                    <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
-                      {canal.rotulo}
-                    </dt>
-                    <dd class="mt-1 text-corpo text-ink-soft">
-                      <DadoCliente valor={canal.valor} />
-                    </dd>
-                  </div>
-                ))
-              }
-              <div>
-                <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
-                  Região
-                </dt>
-                <dd class="mt-1 text-corpo text-ink-soft">{site.regiaoAtendida}</dd>
+          <div class="col-xl-7">
+            <div
+              class="card border bg-white"
+              data-aos="fade-up"
+              data-aos-delay="200"
+              data-aos-duration="1000"
+            >
+              <div class="card-body">
+                <FormularioContato />
               </div>
-            </dl>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-</BaseLayout>
+
+  <section class="py-5 py-lg-11 py-xl-12 bg-light-gray">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao numero="02" etiqueta="Canais" titulo="Onde encontrar a Bradotec" />
+
+        <div class="row">
+          {
+            canais.map((canal, i) => (
+              <div class="col-md-6 col-lg-4 mb-6">
+                <div
+                  class="card border h-100 bg-white"
+                  data-aos="fade-up"
+                  data-aos-delay={`${((i % 3) + 1) * 100}`}
+                  data-aos-duration="1000"
+                >
+                  <div class="card-body d-flex flex-column gap-3 p-6">
+                    <iconify-icon icon={canal.icone} class="fs-9 text-primary" />
+                    <p class="mb-0 fs-3 fw-bold text-uppercase text-muted">{canal.rotulo}</p>
+                    <p class="mb-0 fs-5 text-dark">
+                      <DadoPendente valor={canal.valor} />
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</LayoutStudiova>

@@ -1,14 +1,14 @@
 ---
 import { getCollection } from 'astro:content'
 import fotoFachada from '@/assets/fotos-licenciadas/fachada-de-edificio.jpg'
-import AvisoEscopo from '@/components/AvisoEscopo.astro'
-import BotaoLink from '@/components/BotaoLink.astro'
-import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
-import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
-import DadoCliente from '@/components/DadoCliente.astro'
-import Lideranca from '@/components/Lideranca.astro'
+import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
+import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import DadoPendente from '@/components/studiova/DadoPendente.astro'
+import Lideranca from '@/components/studiova/Lideranca.astro'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import { enderecoCompleto, site } from '@/config/site'
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 import { jsonLdPessoa } from '@/lib/seo'
 
 const trilha = [
@@ -23,19 +23,23 @@ const schemaPessoa = pessoa ? jsonLdPessoa(pessoa.data, siteUrl) : undefined
 /** Os quatro princípios, nas palavras do cliente. */
 const comoTrabalhamos = [
   {
+    icone: 'solar:user-check-rounded-line-duotone',
     titulo: 'Um responsável',
     descricao: 'Um número para ligar, em vez de juntar as peças sozinho.',
   },
   {
+    icone: 'solar:radar-2-line-duotone',
     titulo: 'Antecipação',
     descricao: 'Conhecemos o que será exigido antes de virar exigência.',
   },
   {
+    icone: 'solar:refresh-circle-line-duotone',
     titulo: 'Continuidade',
     descricao:
       'Não entregamos o documento e desaparecemos. Mantemos o calendário de conformidade da edificação e avisamos antes de cada vencimento.',
   },
   {
+    icone: 'solar:eye-scan-line-duotone',
     titulo: 'Transparência',
     descricao: 'Você sabe em que etapa o processo está, o que falta e qual o prazo.',
   },
@@ -59,9 +63,16 @@ const oQueFazemos = [
   },
   { texto: 'Gestão do calendário de conformidade da edificação', href: '/empresas' },
 ] as const
+
+const dadosDaEmpresa = [
+  { icone: 'lucide:map-pin', rotulo: 'Endereço', valor: enderecoCompleto },
+  { icone: 'lucide:clock', rotulo: 'Atendimento', valor: site.horario },
+  { icone: 'lucide:file-text', rotulo: 'CNPJ', valor: site.cnpj },
+  { icone: 'lucide:phone', rotulo: 'Telefone', valor: site.telefone },
+] as const
 ---
 
-<BaseLayout
+<LayoutStudiova
   titulo={`A ${site.nome}: despachadoria e soluções documentais em ${site.cidade} (${site.estado})`}
   descricao="A Bradotec reúne gestão documental, regularização, licenciamento e segurança contra incêndio em um só interlocutor, para empresas, condomínios, instituições e frotas em João Pessoa e região."
   trilha={trilha}
@@ -71,134 +82,195 @@ const oQueFazemos = [
     foto={fotoFachada}
     descricaoDaFoto="Fachada de um edifício comercial vista de baixo, contra o céu"
     enquadramento="50% 40%"
-    cena="fachada"
     titulo="A Bradotec"
     subtitulo="Uma central de soluções documentais em João Pessoa: gestão, regularização, licenciamento e segurança contra incêndio reunidos em um só interlocutor."
     trilha={trilha}
   >
-    <div class="mt-6 flex flex-wrap gap-3">
-      <BotaoWhatsapp origem="padrao">Falar com um especialista</BotaoWhatsapp>
-    </div>
+    <BotaoSeta origem="padrao">Falar com um especialista</BotaoSeta>
   </CabecalhoPagina>
 
-  <section class="py-16 lg:py-20" aria-labelledby="por-que-existe">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="por-que-existe" class="max-w-[24ch] text-secao text-ink">
-        Por que a Bradotec existe
-      </h2>
-      <p class="mt-5 text-guia text-ink-soft">
-        A Bradotec nasceu de uma constatação simples: a maior parte dos condomínios de {site.cidade}
-        {' '}não está irregular por má vontade, e sim porque ninguém acompanha. O projeto é feito, o
-        processo é protocolado, e depois cada um segue seu caminho. Quando a fiscalização chega ou o
-        alvará é negado, o síndico descobre sozinho que algo venceu.
-      </p>
-      <p class="mt-4 text-guia text-ink-soft">
-        Nosso trabalho é impedir que isso aconteça. Conduzimos a regularização do início ao fim e
-        continuamos acompanhando depois dela, mantendo o controle de todos os vencimentos da
-        edificação e avisando com antecedência.
-      </p>
-    </div>
-  </section>
+  <!-- 01 — Por que existe -->
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao numero="01" etiqueta="A origem" titulo="Por que a Bradotec existe" />
 
-  <Lideranca />
-
-  <section class="py-16 lg:py-20" aria-labelledby="rede-tecnica">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="rede-tecnica" class="max-w-[22ch] text-secao text-ink">Nossa rede técnica</h2>
-      <p class="mt-5 text-guia text-ink-soft">
-        Os serviços que exigem responsável técnico habilitado são executados por profissionais
-        registrados: engenheiros, eletricistas e empresas especializadas em sistemas de proteção
-        contra incêndio.
-      </p>
-      <p class="mt-4 border-l-2 border-l-wine pl-5 text-guia text-ink">
-        A diferença é que o síndico não precisa coordenar ninguém. Quem articula a rede, acompanha
-        a execução e responde pelo prazo é a Bradotec.
-      </p>
-    </div>
-  </section>
-
-  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="como-trabalhamos">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="como-trabalhamos" class="text-secao text-ink">Como trabalhamos</h2>
-
-      <dl class="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2">
-        {
-          comoTrabalhamos.map((item) => (
-            <div class="border-t border-line pt-5">
-              <dt class="text-cartao font-bold text-ink">{item.titulo}</dt>
-              <dd class="mt-1.5 text-corpo text-ink-soft">{item.descricao}</dd>
+        <div class="row justify-content-end">
+          <div class="col-xl-8">
+            <div
+              class="d-flex flex-column gap-4"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              data-aos-duration="1000"
+            >
+              <p class="mb-0 fs-5">
+                A Bradotec nasceu de uma constatação simples: a maior parte dos condomínios de {
+                  site.cidade
+                } não está irregular por má vontade, e sim porque ninguém acompanha. O projeto é
+                feito, o processo é protocolado, e depois cada um segue seu caminho. Quando a
+                fiscalização chega ou o alvará é negado, o síndico descobre sozinho que algo
+                venceu.
+              </p>
+              <p class="mb-0 fs-5">
+                Nosso trabalho é impedir que isso aconteça. Conduzimos a regularização do início ao
+                fim e continuamos acompanhando depois dela, mantendo o controle de todos os
+                vencimentos da edificação e avisando com antecedência.
+              </p>
             </div>
-          ))
-        }
-      </dl>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="py-16 lg:py-20" aria-labelledby="o-que-fazemos">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="o-que-fazemos" class="text-secao text-ink">O que fazemos</h2>
-      <ul class="mt-6 grid list-none gap-x-8 gap-y-1 sm:grid-cols-2">
-        {
-          oQueFazemos.map((item) => (
-            <li class="flex items-start gap-3 border-b border-line-soft py-3 text-corpo text-ink-soft">
-              <span class="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-wine" aria-hidden="true" />
-              {'href' in item ? (
-                <a class="font-bold text-ink hover:text-wine" href={item.href}>
-                  {item.texto}
-                </a>
-              ) : (
-                item.texto
-              )}
-            </li>
-          ))
-        }
-      </ul>
-      <p class="mt-6 text-apoio text-ash-500">
-        A atuação se organiza em três divisões, Fire, Documentos e Auto.{' '}
-        <a class="font-bold text-wine" href="/solucoes">
-          Ver todas as soluções
-        </a>.
-      </p>
+  <Lideranca numero="02" />
+
+  <!-- 03 — Rede técnica -->
+  <section class="py-5 py-lg-11 py-xl-12 bg-dark">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="03"
+          etiqueta="Execução"
+          titulo="Nossa rede técnica"
+          descricao="Os serviços que exigem responsável técnico habilitado são executados por profissionais registrados: engenheiros, eletricistas e empresas especializadas em sistemas de proteção contra incêndio."
+          escuro
+        />
+
+        <div class="row justify-content-end">
+          <div class="col-xl-8">
+            <p
+              class="mb-0 fs-5 text-white destaque-rede"
+              data-aos="fade-up"
+              data-aos-delay="200"
+              data-aos-duration="1000"
+            >
+              A diferença é que o síndico não precisa coordenar ninguém. Quem articula a rede,
+              acompanha a execução e responde pelo prazo é a Bradotec.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="onde-atuamos">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="onde-atuamos" class="text-secao text-ink">Onde atuamos</h2>
-      <p class="mt-4 text-ink-soft">
-        Base em {site.cidade}, {site.estado}, com atendimento em {site.regiaoAtendida}.
-      </p>
+  <!-- 04 — Como trabalhamos -->
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao numero="04" etiqueta="Princípios" titulo="Como trabalhamos" />
 
-      <dl class="mt-6 grid gap-4 sm:grid-cols-2">
-        <div class="rounded-lg border border-line bg-white p-5">
-          <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
-            Endereço
-          </dt>
-          <dd class="mt-1.5 text-ink-soft">{enderecoCompleto}</dd>
+        <div class="row">
+          {
+            comoTrabalhamos.map((item, i) => (
+              <div class="col-md-6 col-lg-3 mb-7 mb-lg-0">
+                <div
+                  class="d-flex flex-column gap-5 pt-8 border-top h-100"
+                  data-aos="fade-up"
+                  data-aos-delay={`${(i + 1) * 100}`}
+                  data-aos-duration="1000"
+                >
+                  <iconify-icon icon={item.icone} class="fs-12 text-primary" />
+                  <h3 class="mb-0 fs-6">{item.titulo}</h3>
+                  <p class="mb-0 fs-4">{item.descricao}</p>
+                </div>
+              </div>
+            ))
+          }
         </div>
-        <div class="rounded-lg border border-line bg-white p-5">
-          <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
-            Atendimento
-          </dt>
-          <dd class="mt-1.5 text-ink-soft"><DadoCliente valor={site.horario} /></dd>
-        </div>
-        <div class="rounded-lg border border-line bg-white p-5">
-          <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">CNPJ</dt>
-          <dd class="mt-1.5 text-ink-soft"><DadoCliente valor={site.cnpj} /></dd>
-        </div>
-        <div class="rounded-lg border border-line bg-white p-5">
-          <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
-            Telefone
-          </dt>
-          <dd class="mt-1.5 text-ink-soft"><DadoCliente valor={site.telefone} /></dd>
-        </div>
-      </dl>
+      </div>
+    </div>
+  </section>
 
-      <p class="mt-5 text-apoio text-ash-500">
-        Histórico da empresa, ano de fundação, demais integrantes da equipe e números de
-        atendimento não foram informados e, por isso, não foram criados. Assim que forem enviados,
-        entram nesta página.
-      </p>
+  <!-- 05 — O que fazemos -->
+  <section class="py-5 py-lg-11 py-xl-12 bg-light-gray">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="05"
+          etiqueta="Escopo"
+          titulo="O que fazemos"
+          descricao="A atuação se organiza em três divisões: Fire, Documentos e Auto."
+        />
+
+        <div class="row justify-content-end">
+          <div class="col-xl-8">
+            <ul class="list-unstyled mb-0 border-top">
+              {
+                oQueFazemos.map((item, i) => (
+                  <li
+                    class="py-4 border-bottom hstack gap-4 align-items-start"
+                    data-aos="fade-up"
+                    data-aos-delay={`${(i + 1) * 80}`}
+                    data-aos-duration="800"
+                  >
+                    <iconify-icon
+                      icon="solar:check-circle-bold"
+                      class="fs-6 text-primary flex-shrink-0"
+                    />
+                    {
+                      'href' in item ? (
+                        <a class="fs-5 fw-bold text-dark link-hover" href={item.href}>
+                          {item.texto}
+                        </a>
+                      ) : (
+                        <span class="fs-5">{item.texto}</span>
+                      )
+                    }
+                  </li>
+                ))
+              }
+            </ul>
+
+            <div class="mt-7">
+              <BotaoSeta href="/solucoes">Ver todas as soluções</BotaoSeta>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 — Onde atuamos -->
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="06"
+          etiqueta="Dados da empresa"
+          titulo="Onde atuamos"
+          descricao={`Base em ${site.cidade}, ${site.estado}, com atendimento em ${site.regiaoAtendida}.`}
+        />
+
+        <div class="row">
+          {
+            dadosDaEmpresa.map((dado, i) => (
+              <div class="col-md-6 col-lg-3 mb-6">
+                <div
+                  class="card border h-100 bg-white"
+                  data-aos="fade-up"
+                  data-aos-delay={`${(i + 1) * 100}`}
+                  data-aos-duration="1000"
+                >
+                  <div class="card-body d-flex flex-column gap-3 p-6">
+                    <iconify-icon icon={dado.icone} class="fs-9 text-primary" />
+                    <p class="mb-0 fs-3 fw-bold text-uppercase text-muted">{dado.rotulo}</p>
+                    <p class="mb-0 fs-4 text-dark">
+                      <DadoPendente valor={dado.valor} />
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        <p class="mb-0 fs-3 text-muted">
+          Histórico da empresa, ano de fundação, demais integrantes da equipe e números de
+          atendimento não foram informados e, por isso, não foram criados. Assim que forem
+          enviados, entram nesta página.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -209,18 +281,35 @@ const oQueFazemos = [
     análise, vistoria e aprovação são de responsabilidade dos órgãos competentes.
   </AvisoEscopo>
 
-  <section class="bg-graphite-900 py-16 text-white lg:py-20">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 class="max-w-[24ch] text-secao text-white">
-        Quer saber o que está vencido no seu condomínio?
-      </h2>
-      <p class="mt-3 max-w-[58ch] text-sobre-escuro">
-        A conversa inicial serve exatamente para isso, sem compromisso de contratação.
-      </p>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <BotaoWhatsapp origem="condominio">Falar no WhatsApp</BotaoWhatsapp>
-        <BotaoLink href="/diagnostico" variante="sobreEscuro">Responder as 4 perguntas</BotaoLink>
+  <!-- 07 — Fechamento -->
+  <section class="py-5 py-lg-11 py-xl-12 bg-dark">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-8">
+          <div
+            class="d-flex flex-column gap-4"
+            data-aos="fade-up"
+            data-aos-delay="100"
+            data-aos-duration="1000"
+          >
+            <h2 class="mb-0 text-white">Quer saber o que está vencido no seu condomínio?</h2>
+            <p class="mb-3 fs-5 text-white text-opacity-75">
+              A conversa inicial serve exatamente para isso, sem compromisso de contratação.
+            </p>
+            <div class="hstack gap-3 flex-wrap">
+              <BotaoSeta origem="condominio">Falar no WhatsApp</BotaoSeta>
+              <BotaoSeta href="/diagnostico" tom="contorno">Responder as 4 perguntas</BotaoSeta>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-</BaseLayout>
+</LayoutStudiova>
+
+<style>
+  .destaque-rede {
+    border-left: 3px solid var(--brad-brasa);
+    padding-left: 20px;
+  }
+</style>

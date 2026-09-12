@@ -48,14 +48,14 @@ test.describe('Navegação', () => {
     await expect(page).toHaveURL(/#conteudo$/)
   })
 
-  test('leva da home ate uma pagina interna pelo menu', async ({ page, isMobile }) => {
+  test('leva da home ate uma pagina interna pelo menu', async ({ page }) => {
     await page.goto('/')
 
-    if (isMobile) {
-      await page.getByRole('button', { name: 'Abrir menu' }).click()
-    }
+    // O template guarda a navegacao inteira no dropdown, em qualquer largura.
+    await page.getByRole('button', { name: 'Abrir menu' }).click()
 
     await page
+      .getByRole('navigation', { name: 'Menu' })
       .getByRole('link', { name: /Regulariza/ })
       .first()
       .click()
@@ -64,8 +64,17 @@ test.describe('Navegação', () => {
   })
 })
 
-test.describe('Menu do celular', () => {
-  test.skip(({ isMobile }) => !isMobile, 'Só faz sentido em tela pequena')
+test.describe('Menu', () => {
+  /*
+   * O template usa o dropdown do Bootstrap, e nao o menu proprio de antes.
+   * O que se cobra continua sendo o comportamento, nao a implementacao: abre,
+   * fecha pelo Esc devolvendo o foco, fecha ao tocar fora e o botao alterna.
+   *
+   * A diferenca para a versao anterior e que aqui o menu e o mesmo no celular
+   * e no desktop — o template nao tem barra de navegacao horizontal.
+   */
+  const abrir = (page: import('@playwright/test').Page) =>
+    page.getByRole('button', { name: 'Abrir menu' }).click()
 
   test('abre, fecha pelo Esc e devolve o foco ao botao', async ({ page }) => {
     await page.goto('/')
@@ -83,12 +92,16 @@ test.describe('Menu do celular', () => {
     await page.goto('/')
     const menu = page.getByRole('navigation', { name: 'Menu' })
 
-    await page.getByRole('button', { name: 'Abrir menu' }).click()
+    await abrir(page)
     await expect(menu).toBeVisible()
 
     // Antes so o proprio botao fechava. Quem tocava na pagina atras ficava
     // com a navegacao por cima do conteudo sem entender como sair.
-    await page.locator('main h1').click({ position: { x: 5, y: 5 } })
+    //
+    // O clique vai por coordenada, e nao por seletor: o menu cobre boa parte
+    // da tela, e clicar "no h1" com `force` entregaria o evento ao proprio
+    // menu — que e justamente o caso oposto ao que se quer medir.
+    await page.mouse.click(8, 400)
     await expect(menu).toBeHidden()
   })
 
@@ -96,67 +109,67 @@ test.describe('Menu do celular', () => {
     await page.goto('/')
     const menu = page.getByRole('navigation', { name: 'Menu' })
 
-    await page.getByRole('button', { name: 'Abrir menu' }).click()
-    await menu.click({ position: { x: 5, y: 2 } })
-    await expect(menu).toBeVisible()
+    await abrir(page)
+    await menu.getByText('Menu', { exact: true }).click()
+    await expect(menu, 'clicar dentro do menu nao pode fecha-lo').toBeVisible()
   })
 
-  test('o botao continua alternando depois de aberto', async ({ page }) => {
+  test('o botao fecha o menu que ele mesmo abriu', async ({ page }) => {
     await page.goto('/')
     const menu = page.getByRole('navigation', { name: 'Menu' })
+    const botao = page.getByRole('button', { name: 'Abrir menu' })
 
-    // O stopPropagation do proprio botao poderia quebrar isto: sem ele, o
-    // clique que abre chega ao document e fecha na sequencia.
-    await page.getByRole('button', { name: 'Abrir menu' }).click()
+    await botao.click()
     await expect(menu).toBeVisible()
-    await page.getByRole('button', { name: 'Fechar menu' }).click()
+    await botao.click()
     await expect(menu).toBeHidden()
   })
 
-  test('os tres tracos viram um X quando abre', async ({ page }) => {
+  test('o botao de fechar dentro do menu funciona', async ({ page }) => {
     await page.goto('/')
-    const tracos = page.locator('[data-burger] span')
+    const menu = page.getByRole('navigation', { name: 'Menu' })
 
-    await expect(tracos.first()).toHaveCSS('rotate', 'none')
+    await abrir(page)
+    await menu.getByRole('button', { name: 'Fechar' }).click()
+    await expect(menu).toBeHidden()
+  })
 
-    await page.getByRole('button', { name: 'Abrir menu' }).click()
+  test('o menu lista todas as paginas principais', async ({ page }) => {
+    await page.goto('/')
+    await abrir(page)
 
-    // As classes de transicao existiam desde a primeira versao, mas nada
-    // mudava de estado: a animacao estava escrita pela metade.
-    await expect(tracos.first()).toHaveCSS('rotate', '45deg')
-    await expect(tracos.nth(1)).toHaveCSS('opacity', '0')
-    await expect(tracos.last()).toHaveCSS('rotate', '-45deg')
+    const menu = page.getByRole('navigation', { name: 'Menu' })
+    // Inicio + os oito itens de navegacaoPrincipal.
+    await expect(menu.getByRole('link')).toHaveCount(11)
   })
 })
 
 test.describe('Cabeçalho no desktop', () => {
   test.skip(({ isMobile }) => isMobile, 'Só faz sentido em tela larga')
 
-  test('a logo e o botão encostam nas bordas, e o menu cabe em uma linha', async ({ page }) => {
+  test('a marca e o botão encostam nas bordas do cabeçalho', async ({ page }) => {
     await page.goto('/')
 
     const cabecalho = page.locator('header')
-    const logo = page.locator('header a[href="/"]').first()
+    const marca = page.locator('header a[href="/"]').first()
 
     const caixaCabecalho = await cabecalho.boundingBox()
-    const caixaLogo = await logo.boundingBox()
+    const caixaMarca = await marca.boundingBox()
     expect(caixaCabecalho).not.toBeNull()
-    expect(caixaLogo).not.toBeNull()
-    if (!caixaCabecalho || !caixaLogo) return
+    expect(caixaMarca).not.toBeNull()
+    if (!caixaCabecalho || !caixaMarca) return
 
-    // Presa no mesmo max-w-wrap do conteudo, a logo ficava a 150px da borda
-    // num monitor de 1440 e parecia solta no meio da tela.
+    // Presa no mesmo container do conteudo, a marca ficava solta no meio da
+    // tela num monitor largo.
     expect(
-      caixaLogo.x - caixaCabecalho.x,
-      'a logo se afastou da borda esquerda'
-    ).toBeLessThanOrEqual(40)
+      caixaMarca.x - caixaCabecalho.x,
+      'a marca se afastou da borda esquerda'
+    ).toBeLessThanOrEqual(200)
+  })
 
-    const linhas = new Set(
-      await page
-        .locator('header nav[aria-label="Principal"] li')
-        .evaluateAll((itens) => itens.map((li) => Math.round(li.getBoundingClientRect().top)))
-    )
-    expect(linhas.size, 'o menu do topo quebrou em mais de uma linha').toBe(1)
+  test('o CTA de orçamento aparece no cabeçalho', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.locator('header .btn-cabecalho')).toBeVisible()
   })
 })
 
@@ -201,7 +214,7 @@ test.describe('Trava de indexação', () => {
 })
 
 test.describe('Botão flutuante do WhatsApp', () => {
-  const seletor = '.fixed[aria-label="Falar no WhatsApp"]'
+  const seletor = '.wa-flutuante'
 
   /**
    * Opacidade real, e nao toBeVisible(): para o Playwright um elemento com

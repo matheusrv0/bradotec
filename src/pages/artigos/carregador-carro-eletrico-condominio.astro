@@ -1,14 +1,13 @@
 ---
 import { getCollection, getEntry } from 'astro:content'
 import fotoPredios from '@/assets/fotos-geradas/predios-ao-anoitecer.jpg'
-import AvisoEscopo from '@/components/AvisoEscopo.astro'
-import BotaoLink from '@/components/BotaoLink.astro'
-import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
-import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
-import Faq from '@/components/Faq.astro'
-import Kicker from '@/components/Kicker.astro'
+import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
+import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
+import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+
 import { site } from '@/config/site'
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 import { schemaFaqDaPagina } from '@/lib/faq'
 import { jsonLdArtigo } from '@/lib/seo'
 
@@ -93,7 +92,7 @@ const checklist = [
 ] as const
 ---
 
-<BaseLayout
+<LayoutStudiova
   titulo={`${artigo.data.titulo} | ${site.nome}`}
   descricao={artigo.data.resumo}
   trilha={trilha}
@@ -103,32 +102,31 @@ const checklist = [
     foto={fotoPredios}
     descricaoDaFoto="Avenida de edifícios residenciais ao anoitecer, com a pista molhada refletindo as luzes"
     enquadramento="50% 50%"
-    cena="rota"
     titulo={artigo.data.titulo}
     subtitulo="Um morador comprou um carro elétrico e passou a carregar na garagem. Ninguém achou ruim, e o assunto nunca chegou à assembleia. Desde 1º de janeiro de 2026 esse arranjo deixou de ser permitido na Paraíba."
     trilha={trilha}
   >
-    <p class="mt-6 text-apoio text-sobre-escuro-fraco">
+    <p class="mt-4 mb-0 fs-3 text-white text-opacity-50">
       {artigo.data.tema} · Publicado em {publicadoEm} · {artigo.data.minutos} min de leitura
     </p>
   </CabecalhoPagina>
 
-  <section class="py-16 lg:py-20" aria-labelledby="o-que-mudou">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <Kicker>Bradotec Fire</Kicker>
-      <h2 id="o-que-mudou" class="mt-2 max-w-[26ch] text-secao text-ink">
+  <section class="py-5 py-lg-11 py-xl-12" aria-labelledby="o-que-mudou">
+    <div class="container artigo-corpo">
+      <span class="badge bg-primary fs-3 mb-3">Bradotec Fire</span>
+      <h2 id="o-que-mudou" class="mb-0 artigo-h2">
         O que mudou: a NT 040/2025 do Corpo de Bombeiros
       </h2>
 
-      <div class="mt-6 space-y-5 text-guia text-ink-soft">
+      <div class="mt-4 d-flex flex-column gap-4 fs-5">
         <p>
-          O {norma.orgao} publicou a <strong class="font-bold text-ink">{norma.numero}</strong>,
+          O {norma.orgao} publicou a <strong class="fw-bold text-dark">{norma.numero}</strong>,
           que regula a instalação e o uso de sistemas de alimentação de veículos elétricos, o SAVE,
           em condomínios residenciais. SAVE é o nome técnico do conjunto que alimenta o carro: o
           ponto de recarga, o circuito que chega até ele e as proteções desse circuito.
         </p>
         <p>
-          A norma está em vigor desde <strong class="font-bold text-ink">1º de janeiro de 2026</strong>
+          A norma está em vigor desde <strong class="fw-bold text-dark">1º de janeiro de 2026</strong>
           {' '}e alcança edificações novas e existentes, em todo o estado. Não existe a figura do
           prédio antigo dispensado: se há recarga de veículo elétrico acontecendo na garagem, a
           norma se aplica.
@@ -141,25 +139,25 @@ const checklist = [
         </p>
       </div>
 
-      <p class="mt-6 border-t border-line pt-5 text-apoio text-ash-500">
+      <p class="mt-5 mb-0 pt-4 border-top fs-3 text-muted">
         {norma.numero}, {norma.titulo}. Texto oficial em{' '}
-        <a class="font-bold text-wine" href={norma.fonte} rel="noopener" target="_blank">
+        <a class="fw-bold text-primary" href={norma.fonte} rel="noopener" target="_blank">
           bombeiros.pb.gov.br
         </a>.
       </p>
     </div>
   </section>
 
-  <section class="bg-graphite-900 py-16 text-white lg:py-20" aria-labelledby="proibido">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="proibido" class="max-w-[22ch] text-secao text-white">O que passou a ser proibido</h2>
+  <section class="py-5 py-lg-11 py-xl-12 bg-dark" aria-labelledby="proibido">
+    <div class="container artigo-corpo">
+      <h2 id="proibido" class="mb-0 artigo-h2 text-white">O que passou a ser proibido</h2>
 
-      <ul class="mt-8 grid list-none gap-x-8 sm:grid-cols-2">
+      <ul class="mt-6 list-unstyled mb-0 row">
         {
           ['Extensões', 'Adaptadores', 'Benjamins, o popular T', 'Tomadas comuns para recarga'].map(
             (item) => (
-              <li class="flex items-center gap-3 border-b border-white/15 py-4 text-cartao text-white">
-                <span class="shrink-0 font-bold text-alerta-claro" aria-hidden="true">
+              <li class="hstack gap-3 border-bottom border-white border-opacity-10 py-4 fs-5 text-white">
+                <span class="flex-shrink-0 fw-bold text-primary" aria-hidden="true">
                   ✕
                 </span>
                 {item}
@@ -169,26 +167,26 @@ const checklist = [
         }
       </ul>
 
-      <p class="mt-7 max-w-[62ch] text-guia text-sobre-escuro">
-        Somente os <strong class="font-bold text-white">modos de recarga 3 e 4</strong> são
+      <p class="mt-5 mb-0 fs-5 text-white text-opacity-75">
+        Somente os <strong class="fw-bold text-white">modos de recarga 3 e 4</strong> são
         admitidos. Na prática, a solução mais vista nos condomínios, o morador puxando um cabo até
         a tomada da garagem, deixou de ser aceitável.
       </p>
     </div>
   </section>
 
-  <section class="py-16 lg:py-20" aria-labelledby="modos">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="modos" class="max-w-[24ch] text-secao text-ink">O que é modo de recarga</h2>
-      <p class="mt-5 text-guia text-ink-soft">
+  <section class="py-5 py-lg-11 py-xl-12" aria-labelledby="modos">
+    <div class="container artigo-corpo">
+      <h2 id="modos" class="mb-0 artigo-h2">O que é modo de recarga</h2>
+      <p class="mt-4 mb-0 fs-5">
         Modo de recarga é a forma como o carro se conecta à energia. Os modos 1 e 2 usam tomada
         comum, com pouca ou nenhuma comunicação entre o carro e a instalação. Os modos 3 e 4 usam
         uma estação dedicada, que conversa com o veículo, controla a corrente e interrompe a
         alimentação sozinha quando alguma coisa sai do esperado.
       </p>
 
-      <figure class="m-0 mt-10">
-        <svg class="mx-auto block h-auto w-full max-w-[520px] rounded-xl border border-line bg-white"
+      <figure class="m-0 mt-7">
+        <svg class="d-block mx-auto w-100 rounded-4 border bg-white artigo-figura"
             viewBox="0 0 460 600"
             preserveAspectRatio="xMidYMid meet"
             role="img"
@@ -261,15 +259,15 @@ const checklist = [
               </g>
             </g>
           </svg>
-        <figcaption class="mt-3 text-apoio text-ash-500">
+        <figcaption class="mt-3 mb-0 fs-3 text-muted">
           Os modos 1 e 2 dependem de tomada comum, e é por isso que saíram. Os modos 3 e 4 usam
           estação dedicada, que controla a corrente e corta a alimentação sozinha.
         </figcaption>
       </figure>
 
-      <figure class="m-0 mt-12">
+      <figure class="m-0 mt-8">
         <div class="flex flex-wrap gap-4">
-          <svg class="block h-auto min-w-0 flex-1 basis-[260px] rounded-xl border border-line bg-white"
+          <svg class="d-block w-100 rounded-4 border bg-white"
               viewBox="0 0 360 380"
               preserveAspectRatio="xMidYMid meet"
               role="img"
@@ -329,7 +327,7 @@ const checklist = [
               <circle cx="266" cy="300" r="9" fill="#FFFFFF" stroke="#1f1b1d" stroke-width="2" />
               <circle cx="316" cy="300" r="9" fill="#FFFFFF" stroke="#1f1b1d" stroke-width="2" />
             </svg>
-          <svg class="block h-auto min-w-0 flex-1 basis-[260px] rounded-xl border border-line bg-white"
+          <svg class="d-block w-100 rounded-4 border bg-white"
               viewBox="0 0 360 380"
               preserveAspectRatio="xMidYMid meet"
               role="img"
@@ -400,7 +398,7 @@ const checklist = [
               <circle cx="316" cy="300" r="9" fill="#FFFFFF" stroke="#1f1b1d" stroke-width="2" />
             </svg>
         </div>
-        <figcaption class="mt-3 text-apoio text-ash-500">
+        <figcaption class="mt-3 mb-0 fs-3 text-muted">
           À esquerda, o arranjo que a norma passou a proibir. À direita, o que ela admite: quadro
           exclusivo, estação fixa em modo 3 e um ponto de desligamento manual perto da entrada.
         </figcaption>
@@ -408,33 +406,33 @@ const checklist = [
     </div>
   </section>
 
-  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="exigido">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="exigido" class="max-w-[26ch] text-secao text-ink">
+  <section class="py-5 py-lg-11 py-xl-12 bg-light-gray" aria-labelledby="exigido">
+    <div class="container artigo-corpo">
+      <h2 id="exigido" class="mb-0 artigo-h2">
         O que a norma exige do carregador elétrico na garagem
       </h2>
-      <p class="mt-5 text-guia text-ink-soft">
+      <p class="mt-4 mb-0 fs-5">
         A lista abaixo é o que a NT 040/2025 pede da instalação. O enquadramento exato depende da
         edificação, do número de pontos e do sistema de segurança que o prédio já tem.
       </p>
 
-      <dl class="mt-9 border-t border-line">
+      <dl class="mt-7 mb-0 border-top">
         {
           exigencias.map((item) => (
-            <div class="relative border-b border-line py-5 pl-7">
+            <div class="border-bottom py-4 ps-5 position-relative">
               <span
                 class="absolute left-0 top-[1.85rem] h-0.5 w-[13px] rounded-sm bg-wine"
                 aria-hidden="true"
               />
-              <dt class="text-cartao font-bold text-ink">{item.data.titulo}</dt>
-              <dd class="mt-1.5 text-corpo text-ink-soft">{item.data.descricao}</dd>
+              <dt class="mb-0 fs-5 fw-bold text-dark">{item.data.titulo}</dt>
+              <dd class="mt-2 mb-0 fs-4">{item.data.descricao}</dd>
             </div>
           ))
         }
       </dl>
 
-      <figure class="m-0 mt-12">
-        <svg class="mx-auto block h-auto w-full max-w-[520px] rounded-xl border border-line bg-white"
+      <figure class="m-0 mt-8">
+        <svg class="d-block mx-auto w-100 rounded-4 border bg-white artigo-figura"
             viewBox="0 0 460 640"
             preserveAspectRatio="xMidYMid meet"
             role="img"
@@ -512,14 +510,14 @@ const checklist = [
               Esquema didático. O projeto elétrico é feito por profissional habilitado.
             </text>
           </svg>
-        <figcaption class="mt-3 text-apoio text-ash-500">
+        <figcaption class="mt-3 mb-0 fs-3 text-muted">
           A sequência que a norma pede entre o quadro e o carro. Cada ponto de recarga tem a sua,
           do disjuntor à estação.
         </figcaption>
       </figure>
 
-      <figure class="m-0 mt-12">
-        <svg class="mx-auto block h-auto w-full max-w-[520px] rounded-xl border border-line bg-white"
+      <figure class="m-0 mt-8">
+        <svg class="d-block mx-auto w-100 rounded-4 border bg-white artigo-figura"
             viewBox="0 0 480 380"
             preserveAspectRatio="xMidYMid meet"
             role="img"
@@ -605,7 +603,7 @@ const checklist = [
               Esquema didático, fora de escala.
             </text>
           </svg>
-        <figcaption class="mt-3 text-apoio text-ash-500">
+        <figcaption class="mt-3 mb-0 fs-3 text-muted">
           Quando a garagem tem uma única rota de fuga, as estações precisam de cinco metros entre
           si. O ponto de desligamento fica onde dá para alcançar sem entrar na área.
         </figcaption>
@@ -613,10 +611,10 @@ const checklist = [
     </div>
   </section>
 
-  <section class="py-16 lg:py-20" aria-labelledby="prazo">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="prazo" class="text-secao text-ink">O prazo que engana</h2>
-      <p class="mt-5 text-guia text-ink-soft">
+  <section class="py-5 py-lg-11 py-xl-12" aria-labelledby="prazo">
+    <div class="container artigo-corpo">
+      <h2 id="prazo" class="mb-0 artigo-h2">O prazo que engana</h2>
+      <p class="mt-4 mb-0 fs-5">
         Aqui está o ponto que faz a maior parte dos condomínios relaxar sem motivo. É verdade que a
         norma dá prazo para as edificações existentes se adequarem. Só que esse prazo não vale para
         tudo.
@@ -633,22 +631,22 @@ const checklist = [
         "As adequacoes gerais de seguranca contra incendio tem prazo ate 1o de
         janeiro de AAAA."
       */}
-      <div class="mt-8 border-l-[5px] border-l-wine bg-wine-soft p-7">
-        <p class="text-rotulo font-bold uppercase tracking-[0.08em] text-wine">
+      <div class="mt-6 card bg-primary p-6">
+        <p class="mb-0 fs-3 fw-bold text-uppercase">
           O que muita gente entende errado
         </p>
-        <p class="mt-3 text-cartao-lg font-bold text-wine">
+        <p class="mt-3 mb-0 fs-7 fw-bold">
           Há prazo para as adequações gerais. Não há prazo para as instalações elétricas do SAVE.
         </p>
-        <p class="mt-4 text-corpo text-ink-soft">
+        <p class="mt-3 mb-0 fs-4">
           As instalações elétricas precisam estar em conformidade
-          <strong class="font-bold text-ink"> desde a entrada em vigor da norma</strong>, ou seja,
+          <strong class="fw-bold text-dark"> desde a entrada em vigor da norma</strong>, ou seja,
           desde 1º de janeiro de 2026. Quem tem carregador ligado de forma improvisada hoje não
           está com um problema para resolver depois. Está irregular agora.
         </p>
       </div>
 
-      <div class="mt-8 space-y-5 text-guia text-ink-soft">
+      <div class="mt-5 d-flex flex-column gap-4 fs-5">
         <p>
           A distinção é simples de entender quando se olha o que cada coisa protege. As adequações
           gerais envolvem obra, orçamento e assembleia: detecção, sinalização, rotas. A instalação
@@ -664,18 +662,18 @@ const checklist = [
     </div>
   </section>
 
-  <section class="bg-graphite-900 py-16 text-white lg:py-20" aria-labelledby="responsabilidade">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="responsabilidade" class="max-w-[24ch] text-secao text-white">
+  <section class="py-5 py-lg-11 py-xl-12 bg-dark" aria-labelledby="responsabilidade">
+    <div class="container artigo-corpo">
+      <h2 id="responsabilidade" class="mb-0 artigo-h2 text-white">
         De quem é a responsabilidade
       </h2>
 
-      <div class="mt-6 space-y-5 text-guia text-sobre-escuro">
+      <div class="mt-4 d-flex flex-column gap-4 fs-5 text-white text-opacity-75">
         <p>
           A norma atribui a responsabilidade pela instalação e pela garantia de eficiência ao
-          <strong class="font-bold text-white"> responsável técnico</strong> e à
-          <strong class="font-bold text-white"> empresa instaladora</strong>, em conjunto com o
-          <strong class="font-bold text-white"> proprietário ou responsável pelo uso</strong>.
+          <strong class="fw-bold text-white"> responsável técnico</strong> e à
+          <strong class="fw-bold text-white"> empresa instaladora</strong>, em conjunto com o
+          <strong class="fw-bold text-white"> proprietário ou responsável pelo uso</strong>.
         </p>
         <p>
           Para o síndico, essa última parte é a que pesa. A instalação está na área comum, sob
@@ -692,31 +690,31 @@ const checklist = [
     </div>
   </section>
 
-  <section class="py-16 lg:py-20" aria-labelledby="checklist">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="checklist" class="max-w-[26ch] text-secao text-ink">
+  <section class="py-5 py-lg-11 py-xl-12" aria-labelledby="checklist">
+    <div class="container artigo-corpo">
+      <h2 id="checklist" class="mb-0 artigo-h2">
         Como saber se o seu condomínio está irregular
       </h2>
-      <p class="mt-5 text-guia text-ink-soft">
+      <p class="mt-4 mb-0 fs-5">
         Seis perguntas que dá para responder sem técnico nenhum, descendo até a garagem. Uma só
         resposta desfavorável já indica que a instalação precisa ser verificada.
       </p>
 
-      <ol class="mt-9 list-none border-t border-line">
+      <ol class="mt-7 list-unstyled mb-0 border-top">
         {
           checklist.map((item, i) => (
-            <li class="relative border-b border-line py-5 pl-12">
-              <span class="absolute left-0 top-[1.35rem] text-rotulo font-bold tabular-nums text-wine">
+            <li class="border-bottom py-4 ps-7 position-relative">
+              <span class="position-absolute start-0 fs-3 fw-bold text-primary" style="top:1.35rem">
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <p class="text-cartao font-bold text-ink">{item.pergunta}</p>
-              <p class="mt-1.5 text-corpo text-ink-soft">{item.nota}</p>
+              <p class="mb-0 fs-5 fw-bold text-dark">{item.pergunta}</p>
+              <p class="mt-2 mb-0 fs-4">{item.nota}</p>
             </li>
           ))
         }
       </ol>
 
-      <p class="mt-7 border border-line bg-canvas p-6 text-corpo text-ink-soft">
+      <p class="mt-6 card border bg-light-gray p-6 fs-4">
         <strong class="block font-bold text-ink">Este checklist não substitui vistoria.</strong>
         Ele serve para o síndico perceber o problema. O enquadramento da edificação, o
         dimensionamento do circuito e a necessidade de detecção dependem de análise técnica.
@@ -724,22 +722,22 @@ const checklist = [
     </div>
   </section>
 
-  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="como-conduzimos">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="como-conduzimos" class="max-w-[26ch] text-secao text-ink">
+  <section class="py-5 py-lg-11 py-xl-12 bg-light-gray" aria-labelledby="como-conduzimos">
+    <div class="container artigo-corpo">
+      <h2 id="como-conduzimos" class="mb-0 artigo-h2">
         Como a Bradotec conduz a regularização
       </h2>
-      <p class="mt-5 text-guia text-ink-soft">
+      <p class="mt-4 mb-0 fs-5">
         O síndico não coordena ninguém. Quem articula engenheiro, instalador e processo é a
         Bradotec, do diagnóstico ao acompanhamento junto ao Corpo de Bombeiros. As seis etapas
         estão detalhadas na página do serviço.
       </p>
 
-      <div class="mt-8 flex flex-wrap gap-3">
-        <BotaoLink href="/carregadores-eletricos" variante="primario">
+      <div class="mt-6 hstack gap-3 flex-wrap">
+        <BotaoSeta href="/carregadores-eletricos">
           Ver como funciona o serviço
-        </BotaoLink>
-        <BotaoLink href="/avcb">Ver o que o AVCB exige</BotaoLink>
+        </BotaoSeta>
+        <BotaoSeta href="/avcb">Ver o que o AVCB exige</BotaoSeta>
       </div>
     </div>
   </section>
@@ -752,24 +750,41 @@ const checklist = [
     da Bradotec.
   </AvisoEscopo>
 
-  <Faq
+  <AcordeaoFaq
     pagina="carregadores-eletricos"
+    numero="08"
     titulo="Perguntas frequentes sobre carregadores em condomínio"
   />
 
-  <section class="bg-graphite-900 py-16 text-white lg:py-20" aria-labelledby="cta-artigo">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="cta-artigo" class="max-w-[26ch] text-secao text-white">
+  <section class="py-5 py-lg-11 py-xl-12 bg-dark" aria-labelledby="cta-artigo">
+    <div class="container artigo-corpo">
+      <h2 id="cta-artigo" class="mb-0 artigo-h2 text-white">
         Descubra hoje se a instalação do seu condomínio está regular
       </h2>
-      <p class="mt-4 max-w-[62ch] text-guia text-sobre-escuro">
+      <p class="mt-4 mb-0 fs-5 text-white text-opacity-75">
         O diagnóstico compara o que está instalado com o que a norma exige e devolve a lista do que
         precisa mudar. Se nada precisar, você fica sabendo disso também.
       </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <BotaoWhatsapp origem="save">Agendar o diagnóstico</BotaoWhatsapp>
-        <BotaoLink href="/artigos" variante="sobreEscuro">Ver outros artigos</BotaoLink>
+      <div class="mt-6 hstack gap-3 flex-wrap">
+        <BotaoSeta origem="save">Agendar o diagnóstico</BotaoSeta>
+        <BotaoSeta href="/artigos" tom="contorno">Ver outros artigos</BotaoSeta>
       </div>
     </div>
   </section>
-</BaseLayout>
+</LayoutStudiova>
+
+<style>
+  /* O artigo e texto longo: medida de leitura curta e titulos proporcionais. */
+  .artigo-corpo {
+    max-width: 860px;
+  }
+
+  .artigo-h2 {
+    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+    max-width: 26ch;
+  }
+
+  .artigo-figura {
+    max-width: 520px;
+  }
+</style>

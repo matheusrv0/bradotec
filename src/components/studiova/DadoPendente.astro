@@ -1,0 +1,27 @@
+---
+import { ehPlaceholder } from '@/config/site'
+
+/**
+ * Versao Bootstrap do <DadoCliente />: mostra o dado do cliente e, se ainda
+ * for placeholder `[ASSIM]`, exibe marcado como pendente em vez de fingir
+ * que existe. Mesma regra do projeto, so com as classes do template.
+ */
+interface Props {
+  valor: string
+  class?: string
+}
+const { valor, class: classe } = Astro.props
+---
+
+{
+  ehPlaceholder(valor) ? (
+    <span
+      class:list={['badge bg-warning-subtle text-warning-emphasis border border-warning fw-normal fs-3', classe]}
+      title="Dado ainda nao informado pelo cliente"
+    >
+      {valor}
+    </span>
+  ) : (
+    <span class={classe}>{valor}</span>
+  )
+}

@@ -1,0 +1,57 @@
+---
+import { linkWhatsapp, type OrigemWhatsapp } from '@/config/whatsapp'
+
+/**
+ * Botao do template: pilula com a seta que desliza de dentro no hover.
+ *
+ * O template tem UM desenho de botao — a pilula com a seta — e usa o acento
+ * em todas as variacoes. Aqui ele ganhou a hierarquia do site atual: o
+ * vermelho marca a acao principal e a secundaria fica translucida, para os
+ * dois nao brigarem. Nao existe variacao escura: `.btn-dark` deixa o
+ * `.btn-text` na cor escura e o texto desaparece.
+ *
+ * Com `origem`, vira botao de WhatsApp com a mensagem pre-escrita. Se o
+ * numero ainda for placeholder, cai para /contato em vez de abrir uma
+ * conversa inexistente — mesma regra do <BotaoWhatsapp /> do projeto.
+ */
+interface Props {
+  /** Origem da mensagem do WhatsApp. Omitido = link comum. */
+  origem?: OrigemWhatsapp
+  /** Destino quando nao e WhatsApp. */
+  href?: string
+  /**
+   * - `acento`: pilula vermelha — a acao principal
+   * - `branco`: pilula branca, para usar sobre fundo vermelho
+   * - `contorno`: pilula translucida com borda, para a acao secundaria
+   *   sobre fundo escuro
+   */
+  tom?: 'acento' | 'branco' | 'contorno'
+}
+
+const { origem, href = '#', tom = 'acento' } = Astro.props
+
+const whatsapp = origem ? linkWhatsapp(origem) : null
+const destino = origem ? (whatsapp ?? '/contato') : href
+const externo = Boolean(whatsapp)
+
+const classeBotao = {
+  acento: 'btn',
+  branco: 'btn bg-white',
+  contorno: 'btn btn-contorno',
+}[tom]
+
+const classeIcone = tom === 'branco' ? 'bg-primary text-white' : 'bg-white text-dark'
+---
+
+<a
+  href={destino}
+  class={classeBotao}
+  target={externo ? '_blank' : undefined}
+  rel={externo ? 'noopener' : undefined}
+>
+  <span class="btn-text"><slot /></span>
+  <iconify-icon
+    icon="lucide:arrow-up-right"
+    class={`btn-icon ${classeIcone} round-52 rounded-circle hstack justify-content-center fs-7 shadow-sm`}
+  />
+</a>

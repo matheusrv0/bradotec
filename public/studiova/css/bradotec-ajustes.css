@@ -1,0 +1,547 @@
+/* ============================================================================
+   BRADOTEC — ajustes sobre o template Studiova
+   Carregado DEPOIS de styles-bradotec.css.
+
+   `scripts/tema-bradotec.mjs` troca as cores do template uma a uma, usando os
+   mesmos tokens que src/styles/global.css define. Isso resolve a maior parte
+   e mantem a personalidade do template: o acento segue usado com generosidade
+   — botoes, cards inteiros, marcadores, a barra do cabecalho ao rolar.
+
+   O que a troca de cor sozinha nao alcanca, e que mora aqui:
+
+   1. O verde-limao do Studiova era CLARO e pedia texto escuro por cima.
+      O vinho da marca e ESCURO e pede texto branco. Sem isto, todo botao e
+      todo card do acento ficariam ilegiveis.
+   2. Sobre o grafite das secoes escuras, o vinho cheio nao tem contraste
+      para texto. La ele vira "brasa" — a mesma cor, clareada.
+   3. O piso de qualidade que o template nao traz: foco visivel, movimento
+      reduzido, selecao de texto e barra de rolagem na paleta.
+   4. As pecas que o site tem e o template nao: quiz, formulario com estado
+      de erro, cartao de divisao, painel de vencimentos.
+   ========================================================================== */
+
+:root {
+  /* Espelham os tokens de src/styles/global.css. */
+  --brad-vinho: #8e1c21;
+  --brad-vinho-escuro: #741418;
+  --brad-vinho-suave: #f9eff0;
+  --brad-grafite: #201c1e;
+  --brad-grafite-800: #2c2729;
+  --brad-ink: #1f1b1d;
+  --brad-ink-suave: #554e51;
+  --brad-ash: #6e6668;
+  --brad-linha: #e4e0e1;
+  --brad-linha-forte: #cfc9ca;
+  --brad-canvas: #f7f5f5;
+  --brad-sobre-escuro: #d5cfd0;
+  /*
+   * Verde do WhatsApp, escurecido. O #128c4a da marca deles da 4.31:1 com
+   * texto branco, logo abaixo do minimo de 4.5:1 — e o rotulo do botao e
+   * texto pequeno. Este tom mantem a leitura de "WhatsApp" e passa.
+   */
+  --brad-whatsapp: #0e7539;
+
+  /* Vinho clareado, so para texto sobre fundo escuro. */
+  --brad-brasa: #e79b9d;
+
+  accent-color: var(--brad-vinho);
+}
+
+::selection {
+  background: var(--brad-vinho);
+  color: #fff;
+}
+
+/* ----------------------------------------------------------------------------
+   1. TIPOGRAFIA
+   Titulos em 800 com espacamento negativo — o ar institucional que separa
+   de um Bootstrap qualquer. Corpo em 17px, a medida do site.
+   -------------------------------------------------------------------------- */
+body {
+  font-size: 17px;
+}
+
+h1,
+h2,
+h3,
+h4,
+.h1,
+.h2,
+.h3 {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+/* Link de pular para o conteudo: some ate receber foco pelo teclado. */
+.pular-para-conteudo {
+  position: absolute;
+  left: 12px;
+  top: -80px;
+  z-index: 200;
+  background: #fff;
+  color: var(--brad-grafite);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+
+.pular-para-conteudo:focus {
+  top: 12px;
+}
+
+/* ----------------------------------------------------------------------------
+   2. TEXTO SOBRE O VINHO
+   -------------------------------------------------------------------------- */
+/*
+ * O texto do botao vai em branco venha ele no `.btn-text` do template ou
+ * solto dentro do `.btn`. A regra no proprio `.btn` cobre os dois: sem ela,
+ * um botao escrito sem o span herda a cor escura do corpo e some sobre o
+ * vinho — foi o que aconteceu com o "Continuar" do quiz.
+ */
+.btn,
+.btn .btn-text {
+  color: #fff;
+}
+
+.btn.bg-white,
+.btn.btn-outline-light,
+.btn.bg-light-gray,
+.btn.bg-white .btn-text,
+.btn.btn-outline-light .btn-text,
+.btn.bg-light-gray .btn-text {
+  color: var(--brad-grafite);
+}
+
+.btn:hover .btn-text {
+  color: #fff;
+}
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+}
+
+.text-bg-primary,
+.badge.bg-primary,
+.bg-primary.round-36,
+.bg-primary.round-45,
+.bg-primary.round-52,
+.bg-primary.round-64 {
+  color: #fff !important;
+}
+
+/* Card inteiro no acento: titulo, texto e icones brancos. */
+.card.bg-primary,
+.card.bg-primary h1,
+.card.bg-primary h2,
+.card.bg-primary h3,
+.card.bg-primary h4,
+.card.bg-primary h5,
+.card.bg-primary p,
+.card.bg-primary li,
+.card.bg-primary .text-dark {
+  color: #fff !important;
+}
+
+.card.bg-primary .border-bottom,
+.card.bg-primary .border-top {
+  border-color: rgb(255 255 255 / 0.25) !important;
+}
+
+.card.bg-primary .btn.bg-white .btn-text {
+  color: var(--brad-grafite) !important;
+}
+
+/*
+ * Botao secundario sobre fundo escuro. O template o faz com uma borda sobre
+ * o acento; dois botoes vinho lado a lado brigam entre si e nenhum vira o
+ * principal. Translucido, o vinho continua marcando a acao principal.
+ */
+.btn.btn-contorno {
+  background-color: rgb(255 255 255 / 0.1);
+  border: 1px solid rgb(255 255 255 / 0.3);
+}
+
+.btn.btn-contorno:hover {
+  background-color: rgb(255 255 255 / 0.2);
+}
+
+.btn.btn-contorno .btn-text {
+  color: #fff;
+}
+
+/* ----------------------------------------------------------------------------
+   2b. RESPOSTA AO TOQUE
+   O template so da retorno de hover, e no celular nao existe hover: o dedo
+   toca e a tela fica igual ate a proxima pagina abrir. Em conexao lenta essa
+   e a diferenca entre "nao funcionou" e "ja vai". O site ja resolvia isso.
+   -------------------------------------------------------------------------- */
+.btn,
+.wa-flutuante,
+#scrollToTopBtn {
+  transition:
+    background-color 0.2s ease-in-out,
+    translate 0.1s ease-out,
+    transform 0.1s ease-out;
+}
+
+.btn:active,
+a.card:active {
+  translate: 0 1px;
+}
+
+/* O flutuante afunda por escala: o translate dele ja e usado na entrada. */
+.wa-flutuante:active,
+#scrollToTopBtn:active {
+  transform: scale(0.94);
+}
+
+/* O "voltar ao topo" so aparece depois que ha o que voltar. Quem mostra e o
+   JS, por classe: o template mexia em `style.display` direto no elemento, e
+   estilo inline nao da para um tema sobrescrever. */
+#scrollToTopBtn.visivel {
+  display: flex;
+}
+
+/* ----------------------------------------------------------------------------
+   3. O ACENTO SOBRE FUNDO ESCURO VIRA BRASA
+   -------------------------------------------------------------------------- */
+.bg-dark .text-primary,
+.footer .text-primary,
+.banner-section .text-primary,
+.secao-escura .text-primary {
+  color: var(--brad-brasa) !important;
+}
+
+/*
+ * Aba selecionada. O template a pinta com o acento, e sobre o grafite o
+ * vinho da 1.88:1 — praticamente invisivel. Aqui a selecionada fica branca e
+ * as outras esmaecidas, que e o contraste que a selecao precisa.
+ *
+ * O seletor repete `.nav-item` de proposito: o do template e
+ * `.services-tab .nav-tabs .nav-item .nav-link.active`, e uma regra mais
+ * curta perderia por especificidade.
+ */
+.services-tab .nav-tabs .nav-item .nav-link {
+  color: rgb(255 255 255 / 0.55);
+}
+
+.services-tab .nav-tabs .nav-item .nav-link.active {
+  color: #fff;
+}
+
+.bg-dark .link-hover.text-primary:hover {
+  color: #fff !important;
+}
+
+/* ----------------------------------------------------------------------------
+   4. CABECALHO
+   Ao rolar, o template pinta a barra com o acento — a assinatura dele, e
+   tambem o que o site ja faz. A marca e branca, entao serve nos dois estados.
+   -------------------------------------------------------------------------- */
+.header .logo-link {
+  display: block;
+  line-height: 0;
+}
+
+.header.fixed-header .toggle-menu {
+  background-color: #fff !important;
+}
+
+.header.fixed-header .toggle-menu .menu-icon {
+  color: var(--brad-grafite) !important;
+}
+
+/* O CTA do cabecalho vira branco quando a barra fica vinho. */
+.header.fixed-header .btn-cabecalho {
+  background-color: #fff;
+}
+
+.header.fixed-header .btn-cabecalho .btn-text {
+  color: var(--brad-grafite);
+}
+
+.header.fixed-header .btn-cabecalho .btn-icon {
+  background-color: var(--brad-vinho) !important;
+  color: #fff !important;
+}
+
+/* ----------------------------------------------------------------------------
+   4b. VEU SOBRE AS FOTOS DE CABECALHO
+   O template escurece a foto com preto a 50%. Medido sobre as fotos reais, o
+   ponto mais claro fica em torno de #7f7f7f: 4.0:1 no titulo branco e 3.0:1
+   no subtitulo, abaixo do minimo de 4.5:1.
+   O veu passa a ser um gradiente do grafite da marca, mais forte embaixo,
+   onde o texto fica. Foto de cabecalho e fundo: legibilidade vem antes.
+   -------------------------------------------------------------------------- */
+.banner-section::before {
+  background: linear-gradient(
+    180deg,
+    rgb(32 28 30 / 0.66) 0%,
+    rgb(32 28 30 / 0.80) 45%,
+    rgb(32 28 30 / 0.9) 100%
+  ) !important;
+}
+
+/* ----------------------------------------------------------------------------
+   5. BOTAO FLUTUANTE DO WHATSAPP
+   Verde do WhatsApp: a cor avisa que abre uma conversa, nao e mais um CTA.
+   -------------------------------------------------------------------------- */
+.wa-flutuante {
+  background: var(--brad-whatsapp);
+  box-shadow: 0 10px 30px -8px rgb(32 28 30 / 0.4);
+}
+
+.wa-flutuante:hover {
+  background: #0b6633;
+  color: #fff;
+}
+
+/* ----------------------------------------------------------------------------
+   6. AS TRES DIVISOES
+   Mesmo layout, muda so a cor da faixa e da etiqueta: leem-se como areas da
+   mesma empresa. A faixa vai como sombra interna porque `.border` do
+   Bootstrap usa !important e venceria um border-top.
+   -------------------------------------------------------------------------- */
+.divisao {
+  box-shadow: inset 0 4px 0 var(--divisao-cor);
+}
+
+.divisao .divisao-etiqueta {
+  color: var(--divisao-cor);
+  background: color-mix(in srgb, var(--divisao-cor) 10%, white);
+}
+
+.divisao .divisao-marca {
+  color: var(--divisao-cor);
+}
+
+.divisao-fire {
+  --divisao-cor: #8e1c21;
+}
+
+.divisao-doc {
+  --divisao-cor: #3f5468;
+}
+
+.divisao-auto {
+  --divisao-cor: #2f6259;
+}
+
+/* ----------------------------------------------------------------------------
+   7. FORMULARIO
+   O template desenha inputs so com a linha de baixo. Aqui eles ganham caixa,
+   estado de erro e foco visiveis.
+   -------------------------------------------------------------------------- */
+.form-control,
+.form-select {
+  border: 1px solid var(--brad-linha-forte);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--brad-ink);
+  background-color: #fff;
+}
+
+.form-control::placeholder {
+  color: #9b9294;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--brad-grafite);
+  box-shadow: 0 0 0 3px rgb(32 28 30 / 0.18);
+}
+
+.form-control[aria-invalid='true'],
+.form-select[aria-invalid='true'] {
+  border-color: var(--brad-vinho);
+}
+
+.form-label {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--brad-ink);
+  margin-bottom: 6px;
+}
+
+.form-aviso-erro {
+  margin-top: 6px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brad-vinho);
+}
+
+/* ----------------------------------------------------------------------------
+   8. QUIZ DE TRIAGEM
+   -------------------------------------------------------------------------- */
+.quiz-barra {
+  height: 6px;
+  width: 100%;
+  background: var(--brad-linha);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/*
+ * A barra cresce por `scale`, e nao por `width`: animar largura obriga o
+ * navegador a refazer o layout a cada quadro. O script ja escreve `scale`.
+ */
+.quiz-barra-preenchida {
+  height: 100%;
+  width: 100%;
+  transform-origin: left;
+  scale: 0 1;
+  background: var(--brad-vinho);
+  border-radius: 999px;
+  transition: scale 0.2s ease-out;
+}
+
+.quiz-opcao {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--brad-linha);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--brad-ink-suave);
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.quiz-opcao:hover {
+  border-color: var(--brad-linha-forte);
+  background: var(--brad-canvas);
+}
+
+.quiz-opcao:has(input:checked) {
+  border-color: var(--brad-vinho);
+  background: var(--brad-vinho-suave);
+  color: var(--brad-ink);
+}
+
+.quiz-opcao input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brad-vinho);
+}
+
+.quiz-marcador {
+  margin-top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brad-vinho);
+}
+
+/* ----------------------------------------------------------------------------
+   9. PAINEL DE VENCIMENTOS
+   Elemento-assinatura do site: mostra o que a empresa vende em vez de uma
+   foto generica.
+   -------------------------------------------------------------------------- */
+.painel-vencimentos {
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.16);
+  backdrop-filter: blur(6px);
+  color: var(--brad-sobre-escuro);
+}
+
+.painel-vencimentos .border-bottom,
+.painel-vencimentos .border-top {
+  border-color: rgb(255 255 255 / 0.12) !important;
+}
+
+.painel-ponto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.painel-selo {
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.selo-urgente {
+  background: rgb(142 28 33 / 0.3);
+  color: #f1a3a0;
+}
+
+.selo-atencao {
+  background: rgb(138 90 18 / 0.3);
+  color: #e8bb7c;
+}
+
+.selo-ok {
+  background: rgb(29 107 69 / 0.3);
+  color: #8fd0ac;
+}
+
+/* ----------------------------------------------------------------------------
+   10. ACESSIBILIDADE E SUPERFICIES DO NAVEGADOR
+   -------------------------------------------------------------------------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--brad-vinho);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+html {
+  scrollbar-color: var(--brad-grafite-800) var(--brad-linha);
+}
+
+/*
+ * O template anima muita coisa: AOS em quase toda secao, a folha girando sem
+ * parar, o carrossel em autoplay. Para quem pediu menos movimento no sistema,
+ * isso passa de enfeite a enjoo.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .owl-carousel .owl-stage {
+    transition: none !important;
+  }
+}
+
+/*
+ * O rodape precisa de folga: o botao flutuante e fixo no canto e cobriria a
+ * ultima linha. No celular o rotulo do botao some e ele sobe de posicao
+ * relativa ao conteudo, entao a folga precisa ser maior.
+ */
+.footer {
+  padding-bottom: 120px !important;
+}
+
+@media (max-width: 767.98px) {
+  .footer {
+    padding-bottom: 160px !important;
+  }
+}

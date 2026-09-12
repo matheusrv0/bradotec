@@ -11,7 +11,10 @@ import { expect, test } from '@playwright/test'
 /** Responde uma pergunta pelo rotulo e avanca. */
 async function responder(page: import('@playwright/test').Page, rotulo: string, ultima = false) {
   await page.getByRole('radio', { name: rotulo }).check()
-  await page.getByRole('button', { name: ultima ? 'Ver o caminho indicado' : 'Continuar' }).click()
+  // Pelo `data-*`, e nao pelo nome: no template o rotulo do botao vive num
+  // <span> interno, e o nome acessivel colide com outros botoes da pagina.
+  await page.locator('[data-avancar]').click()
+  if (ultima) return
 }
 
 test.describe('Diagnóstico de Regularização', () => {
@@ -59,7 +62,7 @@ test.describe('Diagnóstico de Regularização', () => {
   test('não avança sem resposta e avisa o motivo', async ({ page }) => {
     await page.goto('/diagnostico')
 
-    await page.getByRole('button', { name: 'Continuar' }).click()
+    await page.locator('[data-avancar]').click()
 
     await expect(page.getByRole('alert')).toHaveText('Escolha uma opção para continuar.')
     // Continua na primeira pergunta.
@@ -70,7 +73,7 @@ test.describe('Diagnóstico de Regularização', () => {
     await page.goto('/diagnostico')
 
     await responder(page, 'Uma empresa ou comércio')
-    await page.getByRole('button', { name: 'Voltar' }).click()
+    await page.locator('[data-voltar]').click()
 
     await expect(page.getByRole('radio', { name: 'Uma empresa ou comércio' })).toBeChecked()
   })

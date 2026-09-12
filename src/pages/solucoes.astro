@@ -1,10 +1,12 @@
 ---
 import { getCollection } from 'astro:content'
-import BotaoLink from '@/components/BotaoLink.astro'
-import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
-import CartaoDivisao from '@/components/CartaoDivisao.astro'
-import Faq from '@/components/Faq.astro'
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import fotoPredios from '@/assets/fotos-geradas/predios-ao-anoitecer.jpg'
+import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
+import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import CartaoDivisao from '@/components/studiova/CartaoDivisao.astro'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 import { schemaFaqDaPagina } from '@/lib/faq'
 
 const trilha = [
@@ -25,75 +27,114 @@ const titulosDaDivisao = (idDivisao: string) =>
   servicos.filter(({ data }) => data.divisao === idDivisao).map(({ data }) => data.titulo)
 ---
 
-<BaseLayout
+<LayoutStudiova
   titulo="Soluções documentais em João Pessoa (PB): incêndio, licenças e veicular | Bradotec"
   descricao="Todas as soluções da Bradotec em João Pessoa/PB: segurança contra incêndio e pânico, regularização e licenças, documentação veicular e gestão documental recorrente para empresas e condomínios."
   trilha={trilha}
   schemasExtras={schemaFaq ? [schemaFaq] : []}
 >
   <CabecalhoPagina
-    cena="fachada"
+    foto={fotoPredios}
+    descricaoDaFoto="Avenida de edifícios residenciais ao anoitecer, com a pista molhada refletindo as luzes"
     titulo="Todas as soluções"
     subtitulo="Três divisões que funcionam como uma central única de soluções documentais para quem tem empresa, imóvel, condomínio ou frota em João Pessoa."
     trilha={trilha}
   >
-    <div class="mt-6 flex flex-wrap gap-3">
-      <BotaoLink href="/contato" variante="primario">Solicitar orçamento</BotaoLink>
-    </div>
+    <BotaoSeta href="/contato">Solicitar orçamento</BotaoSeta>
   </CabecalhoPagina>
 
-  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="divisoes">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <h2 id="divisoes" class="sr-only">As três divisões da Bradotec</h2>
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {
-          divisoes.map((divisao) => (
-            <CartaoDivisao
-              marca={divisao.data.marca}
-              titulo={divisao.data.titulo}
-              resumo={divisao.data.resumo}
-              href={divisao.data.href}
-              cor={divisao.data.cor}
-              servicos={titulosDaDivisao(divisao.id)}
-            />
-          ))
-        }
+  <section class="py-5 py-lg-11 py-xl-12 bg-light-gray">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="01"
+          etiqueta="Comparar"
+          titulo="As três divisões da Bradotec"
+          descricao="Mesmo layout, mesma equipe. Muda só a frente que cada uma conduz."
+        />
+
+        <div class="row">
+          {
+            divisoes.map((divisao, i) => (
+              <div class="col-lg-4 mb-6 d-flex">
+                <CartaoDivisao
+                  marca={divisao.data.marca}
+                  titulo={divisao.data.titulo}
+                  resumo={divisao.data.resumo}
+                  href={divisao.data.href}
+                  cor={divisao.data.cor}
+                  servicos={titulosDaDivisao(divisao.id)}
+                  atraso={(i + 1) * 100}
+                />
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="py-16 lg:py-20" aria-labelledby="diagnostico">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <div class="grid gap-8 rounded-xl border border-line bg-white p-8 shadow-card lg:grid-cols-[1.15fr_0.85fr] lg:p-10">
-        <div>
-          <h2 id="diagnostico" class="text-secao text-ink">
-            Diagnóstico de Regularização
-          </h2>
-          <p class="mt-3 max-w-[62ch] text-ink-soft">
-            Se você não sabe qual divisão resolve o seu caso, comece por aqui. Identificamos
-            pendências, documentos necessários e próximos passos antes de qualquer contratação.
-          </p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <BotaoLink href="/diagnostico" variante="escuro">Responder as 4 perguntas</BotaoLink>
+  <section class="py-5 py-lg-11 py-xl-12 bg-dark">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="02"
+          etiqueta="Por onde começar"
+          titulo="Ainda não sabe qual divisão resolve o seu caso?"
+          escuro
+        />
+
+        <div class="row justify-content-end gap-7 gap-xl-0">
+          <div class="col-xl-4">
+            <div
+              class="card bg-primary h-100"
+              data-aos="fade-up"
+              data-aos-delay="100"
+              data-aos-duration="1000"
+            >
+              <div class="card-body d-flex flex-column justify-content-between gap-6">
+                <div class="d-flex flex-column gap-4">
+                  <iconify-icon icon="solar:document-add-bold" class="fs-12" />
+                  <h3 class="mb-0 fs-7">Diagnóstico de Regularização</h3>
+                  <p class="mb-0 fs-4">
+                    Se você não sabe qual divisão resolve o seu caso, comece por aqui.
+                    Identificamos pendências, documentos necessários e próximos passos antes de
+                    qualquer contratação.
+                  </p>
+                </div>
+                <div>
+                  <BotaoSeta href="/diagnostico" tom="branco">Responder as 4 perguntas</BotaoSeta>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4">
+            <div
+              class="card bg-white h-100"
+              data-aos="fade-up"
+              data-aos-delay="200"
+              data-aos-duration="1000"
+            >
+              <div class="card-body d-flex flex-column justify-content-between gap-6">
+                <div class="d-flex flex-column gap-4">
+                  <iconify-icon icon="solar:calendar-mark-bold" class="fs-12 text-primary" />
+                  <h3 class="mb-0 fs-7">Gestão documental recorrente</h3>
+                  <p class="mb-0 fs-4">
+                    Para empresas e condomínios que preferem manter a documentação acompanhada o
+                    ano inteiro, em vez de correr atrás quando o prazo estoura.
+                  </p>
+                </div>
+                <div>
+                  <BotaoSeta href="/empresas">Ver soluções para empresas</BotaoSeta>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div class="rounded-lg border border-line-soft bg-canvas p-6">
-          <h3 class="text-cartao text-ink">Gestão documental recorrente</h3>
-          <p class="mt-3 text-corpo text-ink-soft">
-            Para empresas e condomínios que preferem manter a documentação acompanhada o ano
-            inteiro, em vez de correr atrás quando o prazo estoura.
-          </p>
-          <a
-            class="mt-5 inline-flex font-bold text-graphite-900 underline underline-offset-4 hover:text-wine"
-            href="/empresas"
-          >
-            Ver soluções para empresas
-          </a>
-        </div>
       </div>
     </div>
   </section>
 
-  <Faq pagina="solucoes" />
-</BaseLayout>
+  <AcordeaoFaq pagina="solucoes" numero="03" />
+</LayoutStudiova>

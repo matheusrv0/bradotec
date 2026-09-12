@@ -1,8 +1,9 @@
 ---
-import BotaoLink from '@/components/BotaoLink.astro'
-import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
-import Quiz from '@/components/Quiz.astro'
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import fotoPredios from '@/assets/fotos-geradas/predios-ao-anoitecer.jpg'
+import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import Quiz from '@/components/studiova/Quiz.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 
 const trilha = [
   { nome: 'Início', href: '/' },
@@ -10,33 +11,47 @@ const trilha = [
 ] as const
 ---
 
-<BaseLayout
+<LayoutStudiova
   titulo="Diagnóstico de Regularização em 4 perguntas | Bradotec"
   descricao="Responda quatro perguntas e descubra por qual divisão da Bradotec o seu caso começa: segurança contra incêndio, licenças e regularização ou documentação veicular. Sem compromisso de contratação."
   trilha={trilha}
 >
   <CabecalhoPagina
-    cena="fachada"
+    foto={fotoPredios}
+    descricaoDaFoto="Edifícios ao anoitecer, com as janelas começando a acender"
     titulo="Diagnóstico de Regularização"
     subtitulo="Quatro perguntas para saber por onde o seu caso começa. Serve para direcionar o atendimento. Não substitui a análise da documentação."
     trilha={trilha}
   />
 
-  <section class="py-16 lg:py-20" aria-labelledby="quiz">
-    <div class="mx-auto w-full max-w-[820px] px-5">
-      <h2 id="quiz" class="sr-only">As quatro perguntas</h2>
-      <Quiz />
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-8">
+          <h2 class="visually-hidden">As quatro perguntas</h2>
+          <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+            <Quiz />
+          </div>
 
-      <div class="mt-8 rounded-xl border border-line bg-canvas p-6">
-        <h2 class="text-cartao text-ink">Prefere falar direto?</h2>
-        <p class="mt-2 text-corpo text-ink-soft">
-          Se você já sabe o que precisa, não é obrigatório responder o diagnóstico.
-        </p>
-        <div class="mt-4 flex flex-wrap gap-3">
-          <BotaoLink href="/contato">Falar com um especialista</BotaoLink>
-          <BotaoLink href="/solucoes">Ver todas as soluções</BotaoLink>
+          <div
+            class="card border bg-light-gray mt-7"
+            data-aos="fade-up"
+            data-aos-delay="200"
+            data-aos-duration="1000"
+          >
+            <div class="card-body d-flex flex-column gap-4">
+              <h2 class="mb-0 fs-7">Prefere falar direto?</h2>
+              <p class="mb-0 fs-4">
+                Se você já sabe o que precisa, não é obrigatório responder o diagnóstico.
+              </p>
+              <div class="hstack gap-3 flex-wrap">
+                <BotaoSeta href="/contato">Falar com um especialista</BotaoSeta>
+                <BotaoSeta href="/solucoes" tom="branco">Ver todas as soluções</BotaoSeta>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
-</BaseLayout>
+</LayoutStudiova>

@@ -1,9 +1,9 @@
 ---
 import { getCollection } from 'astro:content'
 import fotoProcesso from '@/assets/fotos-geradas/processo-carimbado.jpg'
-import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
+import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import { site } from '@/config/site'
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 
 const trilha = [
   { nome: 'Início', href: '/' },
@@ -23,7 +23,7 @@ const emPortugues = (iso: string) =>
   })
 ---
 
-<BaseLayout
+<LayoutStudiova
   titulo={`Artigos técnicos sobre segurança contra incêndio e regularização | ${site.nome}`}
   descricao="Artigos da Bradotec sobre normas técnicas, segurança contra incêndio e regularização de edificações na Paraíba, escritos para síndicos, administradoras e responsáveis por operações."
   trilha={trilha}
@@ -32,73 +32,76 @@ const emPortugues = (iso: string) =>
     foto={fotoProcesso}
     descricaoDaFoto="Pasta com documentos assinados e carimbados sobre uma mesa escura, ao lado de um carimbo e de uma planta"
     enquadramento="50% 45%"
-    cena="fachada"
     titulo="Artigos técnicos"
     subtitulo="O que muda na norma, explicado para quem administra a edificação e precisa decidir o que fazer."
     trilha={trilha}
   />
 
-  <section class="py-16 lg:py-20" aria-labelledby="lista">
-    <div class="mx-auto w-full max-w-[860px] px-5">
-      <h2 id="lista" class="sr-only">Lista de artigos</h2>
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-9">
+          <h2 class="visually-hidden">Lista de artigos</h2>
 
-      {
-        artigos.length === 0 && (
-          <p class="text-guia text-ink-soft">
-            Nenhum artigo publicado ainda. O primeiro sai assim que houver norma nova que mude
-            alguma coisa na prática.
-          </p>
-        )
-      }
+          {
+            artigos.length === 0 && (
+              <p class="fs-5 mb-0">
+                Nenhum artigo publicado ainda. O primeiro sai assim que houver norma nova que mude
+                alguma coisa na prática.
+              </p>
+            )
+          }
 
-      {/*
-        Lista, e nao grade de cartoes. Com um artigo so, uma grade de tres
-        colunas mostraria um cartao solitario e dois vazios. A lista cresce
-        sem mudar de forma, e o titulo do artigo e o que a pessoa le.
-      */}
-      <ul class="flex list-none flex-col">
-        {
-          artigos.map((artigo) => (
-            <li class="border-b border-line first:border-t">
-              <a
-                class="group block py-8 no-underline transition-[padding] duration-200 ease-saida hover:pl-2"
-                href={`/artigos/${artigo.data.slug}`}
-              >
-                <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-rotulo font-bold uppercase tracking-[0.08em] text-wine">
-                  {artigo.data.tema}
-                  <span class="font-bold normal-case tracking-normal text-ash-500">
-                    {emPortugues(artigo.data.data)} · {artigo.data.minutos} min de leitura
-                  </span>
-                </p>
-
-                <h3 class="mt-3 max-w-[30ch] text-cartao-lg font-extrabold leading-[1.2] text-ink transition-colors group-hover:text-wine sm:text-secao">
-                  {artigo.data.titulo}
-                </h3>
-
-                <p class="mt-3 max-w-[66ch] text-corpo text-ink-soft">{artigo.data.resumo}</p>
-
-                <span class="mt-4 inline-flex items-center gap-2 font-bold text-wine">
-                  Ler o artigo
-                  <svg
-                    width="17"
-                    height="17"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    class="shrink-0 transition-[translate] duration-200 ease-saida group-hover:translate-x-1"
+          {/*
+            Lista, e nao grade de cartoes. Com um artigo so, uma grade de tres
+            colunas mostraria um cartao solitario e dois vazios. A lista cresce
+            sem mudar de forma.
+          */}
+          <ul class="list-unstyled mb-0 border-top">
+            {
+              artigos.map((artigo, i) => (
+                <li class="border-bottom">
+                  <a
+                    class="artigo-item d-block py-7 text-decoration-none"
+                    href={`/artigos/${artigo.data.slug}`}
+                    data-aos="fade-up"
+                    data-aos-delay={`${(i + 1) * 100}`}
+                    data-aos-duration="1000"
                   >
-                    <path d="M5 12h13m-5-6 6 6-6 6" />
-                  </svg>
-                </span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+                    <div class="hstack gap-3 flex-wrap mb-3">
+                      <span class="badge bg-primary fs-3">{artigo.data.tema}</span>
+                      <span class="fs-3 text-muted">
+                        {emPortugues(artigo.data.data)} · {artigo.data.minutos} min de leitura
+                      </span>
+                    </div>
+                    <h3 class="mb-3 fs-8 text-dark artigo-titulo">{artigo.data.titulo}</h3>
+                    <p class="mb-3 fs-5 artigo-resumo">{artigo.data.resumo}</p>
+                    <span class="hstack gap-2 fs-5 fw-bold text-primary">
+                      Ler o artigo
+                      <iconify-icon icon="lucide:arrow-up-right" class="fs-6" />
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
-</BaseLayout>
+</LayoutStudiova>
+
+<style>
+  .artigo-titulo {
+    max-width: 30ch;
+    transition: color 0.15s;
+  }
+
+  .artigo-resumo {
+    max-width: 66ch;
+  }
+
+  .artigo-item:hover .artigo-titulo {
+    color: var(--brad-vinho) !important;
+  }
+</style>

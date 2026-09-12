@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!legacy", "!dist", "!.astro", "!pnpm-lock.yaml"]
+    "includes": ["**", "!legacy", "!dist", "!.astro", "!pnpm-lock.yaml", "!public/studiova"]
   },
   "formatter": {
     "enabled": true,

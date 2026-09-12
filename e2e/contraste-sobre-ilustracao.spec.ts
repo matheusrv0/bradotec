@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { razaoDeContraste } from '../src/lib/contraste'
+import { congelarAnimacoes } from './ajudantes'
 
 /**
  * Contraste do texto sobre as faixas ilustradas.
@@ -67,6 +68,7 @@ test.describe('Contraste do texto sobre as faixas ilustradas', () => {
   for (const { rota, nome, seletor, minimo } of alvos) {
     test(`${rota} · ${nome}`, async ({ page }) => {
       await page.goto(rota)
+      await congelarAnimacoes(page)
 
       const elemento = page.locator(seletor).first()
       const caixa = await elemento.boundingBox()
