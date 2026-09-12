@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content'
 import fotoPredios from '@/assets/fotos-geradas/predios-vistos-de-baixo.jpg'
 import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
-import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Botao from '@/components/studiova/Botao.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import Icone from '@/components/studiova/Icone.astro'
 import PainelVencimentos from '@/components/studiova/PainelVencimentos.astro'
@@ -42,7 +42,7 @@ const gestaoContinua = [
     subtitulo="Gestão documental contínua para empresas, condomínios e instituições que não podem depender da memória de ninguém para se manter regulares."
     trilha={trilha}
   >
-    <BotaoSeta href="/contato">Solicitar orçamento</BotaoSeta>
+    <Botao href="/contato">Solicitar orçamento</Botao>
   </CabecalhoPagina>
 
   <section class="py-5 py-lg-11 py-xl-12 bg-light-gray">
@@ -103,8 +103,8 @@ const gestaoContinua = [
               }
             </ul>
             <div class="hstack gap-3 flex-wrap mt-7">
-              <BotaoSeta origem="recorrente">Conhecer a gestão documental</BotaoSeta>
-              <BotaoSeta href="/diagnostico" tom="contorno">Responder as 4 perguntas</BotaoSeta>
+              <Botao origem="recorrente">Conhecer a gestão documental</Botao>
+              <Botao href="/diagnostico" tom="contorno">Responder as 4 perguntas</Botao>
             </div>
           </div>
 

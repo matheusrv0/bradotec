@@ -56,5 +56,86 @@
     window.scrollTo({ top: 0, behavior: 'smooth' })
   })
 
+  /*
+   * Preenchimento a partir do cursor, para os botoes que nao sao ilha React.
+   *
+   * Sao os cinco do quiz: o script de lá liga e desliga `hidden` neles e
+   * reescreve um `href`, e o React desfaria esse estado no render seguinte.
+   * A conta e a mesma do componente — o circulo precisa de duas vezes a
+   * distancia ate o canto mais longe, senao deixa a esquina oposta
+   * descoberta quando o ponteiro entra por um canto.
+   */
+  const diametroDeCobertura = (largura, altura, x, y) =>
+    Math.ceil(
+      2 *
+        Math.max(
+          Math.hypot(x, y),
+          Math.hypot(largura - x, y),
+          Math.hypot(x, altura - y),
+          Math.hypot(largura - x, altura - y)
+        )
+    )
+
+  const acenderTinta = (botao, clienteX, clienteY) => {
+    const caixa = botao.getBoundingClientRect()
+    const x = clienteX - caixa.left
+    const y = clienteY - caixa.top
+
+    botao.style.setProperty('--tinta-x', `${x}px`)
+    botao.style.setProperty('--tinta-y', `${y}px`)
+    botao.style.setProperty(
+      '--tinta-d',
+      `${diametroDeCobertura(caixa.width, caixa.height, x, y)}px`
+    )
+    botao.dataset.preenchendo = 'true'
+  }
+
+  /**
+   * Acha o botao a partir do alvo do evento, se houver um.
+   *
+   * Delegado no documento, e nao um ouvinte por botao: o quiz troca de passo
+   * escondendo e mostrando botoes, e ouvintes ligados no carregamento
+   * perderiam os que so aparecem depois.
+   */
+  const botaoDe = (evento) =>
+    evento.target instanceof Element ? evento.target.closest('[data-tinta]') : null
+
+  /*
+   * `pointerover` e `pointerout`, e nao `pointerenter`/`pointerleave`: so os
+   * dois primeiros sobem no DOM, e delegado depende disso.
+   */
+  document.addEventListener('pointerover', (evento) => {
+    const botao = botaoDe(evento)
+    // Ja aceso significa que o ponteiro so passou para o <span> de dentro.
+    // Recalcular ali faria o circulo saltar no meio do preenchimento.
+    if (!botao || botao.dataset.preenchendo === 'true') return
+    acenderTinta(botao, evento.clientX, evento.clientY)
+  })
+
+  document.addEventListener('pointerdown', (evento) => {
+    const botao = botaoDe(evento)
+    if (botao) acenderTinta(botao, evento.clientX, evento.clientY)
+  })
+
+  const apagarTinta = (evento) => {
+    const botao = botaoDe(evento)
+    // Sair para um filho nao e sair do botao.
+    if (!botao || botao.contains(evento.relatedTarget)) return
+    botao.dataset.preenchendo = 'false'
+  }
+
+  document.addEventListener('pointerout', apagarTinta)
+  document.addEventListener('pointercancel', apagarTinta)
+
+  /* Teclado acende pelo centro: e a unica origem que existe sem ponteiro. */
+  document.addEventListener('focusin', (evento) => {
+    const botao = botaoDe(evento)
+    if (!botao || !botao.matches(':focus-visible')) return
+    const caixa = botao.getBoundingClientRect()
+    acenderTinta(botao, caixa.left + caixa.width / 2, caixa.top + caixa.height / 2)
+  })
+
+  document.addEventListener('focusout', apagarTinta)
+
   AOS.init({ once: true })
 })()

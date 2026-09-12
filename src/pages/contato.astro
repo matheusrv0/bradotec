@@ -1,6 +1,6 @@
 ---
 import fotoAtendimento from '@/assets/fotos-licenciadas/escritorio-atendimento.jpg'
-import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Botao from '@/components/studiova/Botao.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import DadoPendente from '@/components/studiova/DadoPendente.astro'
 import FormularioContato from '@/components/studiova/FormularioContato.astro'
@@ -37,7 +37,7 @@ const canais = [
     subtitulo="Conte a sua situação pelo canal que preferir. O retorno é feito por quem vai conduzir o processo."
     trilha={trilha}
   >
-    <BotaoSeta href="#formulario" tom="contorno">Ir para o formulário</BotaoSeta>
+    <Botao href="#formulario" tom="contorno">Ir para o formulário</Botao>
   </CabecalhoPagina>
 
   <section class="py-5 py-lg-11 py-xl-12" id="formulario">
@@ -63,7 +63,7 @@ const canais = [
                 <h3 class="mb-0 fs-7">WhatsApp comercial</h3>
                 <p class="mb-0 fs-4">Canal mais rápido para orçamento, diagnóstico e dúvidas.</p>
                 <div>
-                  <BotaoSeta origem="padrao" tom="branco">Abrir conversa</BotaoSeta>
+                  <Botao origem="padrao" tom="branco">Abrir conversa</Botao>
                 </div>
               </div>
             </div>

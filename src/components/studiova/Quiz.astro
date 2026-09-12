@@ -6,6 +6,13 @@ import { ehPlaceholder, site } from '@/config/site'
  * Diagnostico de Regularizacao — quatro perguntas, uma por tela.
  *
  * Versao com as classes do template Studiova. A estrutura, os atributos
+ * Os botoes daqui NAO sao a ilha `<OriginButton>`, e sao os unicos do site que
+ * nao sao. Levam as mesmas classes e recebem o mesmo efeito por `data-tinta`,
+ * mas em HTML puro: este script liga e desliga `hidden` no "Voltar" e no
+ * "Refazer" e reescreve o `href` do "Falar com um especialista". Uma ilha
+ * React desfaria esse estado no render seguinte — passar o ponteiro no
+ * "Voltar" o faria desaparecer.
+ *
  * `data-*` e o script sao os mesmos do componente em Tailwind: a logica vive
  * em src/config/quiz.ts e continua coberta pelos mesmos 18 testes.
  *
@@ -90,7 +97,8 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
     <div class="hstack gap-3 flex-wrap mt-5">
       <button
         type="button"
-        class="btn bg-light-gray"
+        class="botao-origem botao-origem-suave"
+        data-tinta
         data-voltar
         hidden
       >
@@ -98,7 +106,8 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
       </button>
       <button
         type="button"
-        class="btn"
+        class="botao-origem botao-origem-acento"
+        data-tinta
         data-avancar
       >
         Continuar
@@ -126,7 +135,8 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
           </div>
 
           <a
-            class="btn bg-light-gray mt-5"
+            class="botao-origem botao-origem-suave mt-5"
+            data-tinta
             href={rota.href}
           >
             Ver essa divisão
@@ -139,7 +149,8 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
 
     <div class="hstack gap-3 flex-wrap mt-5">
       <a
-        class="btn"
+        class="botao-origem botao-origem-acento"
+        data-tinta
         href="/contato"
         data-enviar
       >
@@ -147,7 +158,8 @@ const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace
       </a>
       <button
         type="button"
-        class="btn bg-light-gray"
+        class="botao-origem botao-origem-suave"
+        data-tinta
         data-refazer
       >
         Refazer

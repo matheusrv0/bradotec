@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content'
 import fotoInspecao from '@/assets/fotos-licenciadas/extintores-e-sinalizacao.jpg'
 import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
 import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
-import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Botao from '@/components/studiova/Botao.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import Icone from '@/components/studiova/Icone.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
@@ -66,7 +66,7 @@ const niveis = ['baixo', 'medio', 'alto'] as const
     subtitulo="O documento que atesta que a edificação está em conformidade com as normas de segurança contra incêndio, e o que acontece quando ele vence."
     trilha={trilha}
   >
-    <BotaoSeta href="/diagnostico">Responder as 4 perguntas</BotaoSeta>
+    <Botao href="/diagnostico">Responder as 4 perguntas</Botao>
   </CabecalhoPagina>
 
   <!-- 01 — O que é -->
@@ -137,8 +137,8 @@ const niveis = ['baixo', 'medio', 'alto'] as const
         </div>
 
         <div class="hstack gap-3 flex-wrap">
-          <BotaoSeta origem="avcb">Quero resolver o AVCB</BotaoSeta>
-          <BotaoSeta href="/seguranca-contra-incendio" tom="contorno">Ver a divisão Fire</BotaoSeta>
+          <Botao origem="avcb">Quero resolver o AVCB</Botao>
+          <Botao href="/seguranca-contra-incendio" tom="contorno">Ver a divisão Fire</Botao>
         </div>
       </div>
     </div>
@@ -415,7 +415,7 @@ const niveis = ['baixo', 'medio', 'alto'] as const
               </p>
             </div>
             <div class="col-md-4 d-flex justify-content-md-end">
-              <BotaoSeta href="/diagnostico">Responder as 4 perguntas</BotaoSeta>
+              <Botao href="/diagnostico">Responder as 4 perguntas</Botao>
             </div>
           </div>
         </div>

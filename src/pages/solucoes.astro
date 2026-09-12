@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content'
 import fotoPredios from '@/assets/fotos-geradas/predios-ao-anoitecer.jpg'
 import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
-import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Botao from '@/components/studiova/Botao.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import CartaoDivisao from '@/components/studiova/CartaoDivisao.astro'
 import Icone from '@/components/studiova/Icone.astro'
@@ -41,7 +41,7 @@ const titulosDaDivisao = (idDivisao: string) =>
     subtitulo="Três divisões que funcionam como uma central única de soluções documentais para quem tem empresa, imóvel, condomínio ou frota em João Pessoa."
     trilha={trilha}
   >
-    <BotaoSeta href="/contato">Solicitar orçamento</BotaoSeta>
+    <Botao href="/contato">Solicitar orçamento</Botao>
   </CabecalhoPagina>
 
   <section class="py-5 py-lg-11 py-xl-12 bg-light-gray">
@@ -104,7 +104,7 @@ const titulosDaDivisao = (idDivisao: string) =>
                   </p>
                 </div>
                 <div>
-                  <BotaoSeta href="/diagnostico" tom="branco">Responder as 4 perguntas</BotaoSeta>
+                  <Botao href="/diagnostico" tom="branco">Responder as 4 perguntas</Botao>
                 </div>
               </div>
             </div>
@@ -127,7 +127,7 @@ const titulosDaDivisao = (idDivisao: string) =>
                   </p>
                 </div>
                 <div>
-                  <BotaoSeta href="/empresas">Ver soluções para empresas</BotaoSeta>
+                  <Botao href="/empresas">Ver soluções para empresas</Botao>
                 </div>
               </div>
             </div>

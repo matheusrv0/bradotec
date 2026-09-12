@@ -3,7 +3,7 @@ import { getCollection, getEntry } from 'astro:content'
 import fotoPredios from '@/assets/fotos-geradas/predios-ao-anoitecer.jpg'
 import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
 import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
-import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Botao from '@/components/studiova/Botao.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 
 import { site } from '@/config/site'
@@ -734,10 +734,10 @@ const checklist = [
       </p>
 
       <div class="mt-6 hstack gap-3 flex-wrap">
-        <BotaoSeta href="/carregadores-eletricos">
+        <Botao href="/carregadores-eletricos">
           Ver como funciona o serviço
-        </BotaoSeta>
-        <BotaoSeta href="/avcb">Ver o que o AVCB exige</BotaoSeta>
+        </Botao>
+        <Botao href="/avcb">Ver o que o AVCB exige</Botao>
       </div>
     </div>
   </section>
@@ -766,8 +766,8 @@ const checklist = [
         precisa mudar. Se nada precisar, você fica sabendo disso também.
       </p>
       <div class="mt-6 hstack gap-3 flex-wrap">
-        <BotaoSeta origem="save">Agendar o diagnóstico</BotaoSeta>
-        <BotaoSeta href="/artigos" tom="contorno">Ver outros artigos</BotaoSeta>
+        <Botao origem="save">Agendar o diagnóstico</Botao>
+        <Botao href="/artigos" tom="contorno">Ver outros artigos</Botao>
       </div>
     </div>
   </section>

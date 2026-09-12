@@ -1,5 +1,5 @@
 ---
-import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Botao from '@/components/studiova/Botao.astro'
 import type { OrigemWhatsapp } from '@/config/whatsapp'
 
 /**
@@ -31,8 +31,8 @@ const { titulo, descricao, origem = 'padrao', rotulo = 'Falar no WhatsApp' } = A
           </div>
           <div class="col-xl-5">
             <div class="hstack gap-3 flex-wrap justify-content-xl-end">
-              <BotaoSeta origem={origem} tom="branco">{rotulo}</BotaoSeta>
-              <BotaoSeta href="/contato" tom="branco">Preencher formulário</BotaoSeta>
+              <Botao origem={origem} tom="branco">{rotulo}</Botao>
+              <Botao href="/contato" tom="branco">Preencher formulário</Botao>
             </div>
           </div>
         </div>

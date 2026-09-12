@@ -2,7 +2,7 @@
 import fotoSaida from '@/assets/fotos-licenciadas/saida-de-emergencia.jpg'
 import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
 import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
-import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Botao from '@/components/studiova/Botao.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import Icone from '@/components/studiova/Icone.astro'
 import SecaoServicos from '@/components/studiova/SecaoServicos.astro'
@@ -72,7 +72,7 @@ const etapas = [
     subtitulo="A regularização que trava alvará, obra e funcionamento, conduzida do levantamento inicial até a conclusão do processo, em João Pessoa e região."
     trilha={trilha}
   >
-    <BotaoSeta href="/diagnostico">Responder as 4 perguntas</BotaoSeta>
+    <Botao href="/diagnostico">Responder as 4 perguntas</Botao>
   </CabecalhoPagina>
 
   <!-- 01 — Quando vira urgência -->
@@ -146,8 +146,8 @@ const etapas = [
             </ul>
 
             <div class="hstack gap-3 flex-wrap mt-7">
-              <BotaoSeta origem="incendio">Quero regularizar contra incêndio</BotaoSeta>
-              <BotaoSeta href="/diagnostico" tom="contorno">Responder as 4 perguntas</BotaoSeta>
+              <Botao origem="incendio">Quero regularizar contra incêndio</Botao>
+              <Botao href="/diagnostico" tom="contorno">Responder as 4 perguntas</Botao>
             </div>
           </div>
         </div>

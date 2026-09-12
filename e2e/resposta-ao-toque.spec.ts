@@ -7,7 +7,7 @@ import { congelarAnimacoes } from './ajudantes'
  * O template so da retorno de hover, e no celular nao existe hover: o dedo
  * toca o botao e a tela fica igual ate a proxima pagina abrir, o que em
  * conexao lenta e a diferenca entre "nao funcionou" e "ja vai". Agora cada
- * botao afunda enquanto esta pressionado.
+ * botao encolhe enquanto esta pressionado.
  *
  * Este teste nao e uma varredura cega como o de contraste, e nao e por
  * descuido: "ser um botao" nao da para deduzir do HTML sem inventar
@@ -89,15 +89,30 @@ async function repousoSobPonteiro(
   return medidaEstavel(alvo)
 }
 
+/*
+ * Os dois caminhos entram na lista de proposito.
+ *
+ * Quase todo botao do site e a ilha `<OriginButton>`, e o afundamento vem do
+ * `whileTap` do framer-motion. Os cinco do quiz nao sao ilha — o script de la
+ * mexe no `hidden` deles — e recebem o afundamento de uma regra `:active` no
+ * CSS. Sao duas implementacoes do mesmo retorno, e por isso as duas sao
+ * medidas: quebrar uma delas passaria sem ser notado se a lista tivesse so a
+ * outra.
+ */
 const superficies = [
-  { rota: '/sobre', seletor: 'main a.btn[href="/solucoes"]', nome: 'BotaoSeta' },
-  { rota: '/', seletor: 'main a.btn[href^="https://wa.me"]', nome: 'botão de WhatsApp' },
+  { rota: '/sobre', seletor: 'main a.botao-origem[href="/solucoes"]', nome: 'botão de link' },
+  {
+    rota: '/',
+    seletor: 'main a.botao-origem[href^="https://wa.me"]',
+    nome: 'botão de WhatsApp',
+  },
   { rota: '/contato', seletor: 'form button[type="submit"]', nome: 'enviar do formulário' },
+  { rota: '/diagnostico', seletor: '[data-avancar]', nome: 'continuar do quiz (sem ilha)' },
 ] as const
 
 test.describe('Resposta ao toque', () => {
   for (const { rota, seletor, nome } of superficies) {
-    test(`${nome} afunda enquanto está pressionado`, async ({ page }) => {
+    test(`${nome} encolhe enquanto está pressionado`, async ({ page }) => {
       await page.goto(rota)
       await congelarAnimacoes(page)
 
@@ -112,7 +127,15 @@ test.describe('Resposta ao toque', () => {
       const pressionado = await retangulo(botao)
       await page.mouse.up()
 
-      expect(pressionado.y, `"${nome}" nao se moveu ao ser pressionado`).toBeGreaterThan(parado.y)
+      /*
+       * Mede largura, e nao topo. O botao passou a afundar por escala, e uma
+       * escala de 0.985 a partir do centro move o topo menos de meio pixel —
+       * sinal fraco demais para um teste. Na largura o mesmo aperto da alguns
+       * pixels.
+       */
+      expect(pressionado.width, `"${nome}" nao encolheu ao ser pressionado`).toBeLessThan(
+        parado.width
+      )
     })
   }
 

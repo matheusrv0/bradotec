@@ -7,7 +7,7 @@ import fotoCarimbo from '@/assets/fotos-licenciadas/documentos-em-mesa.jpg'
 import fotoJoaoPessoa from '@/assets/fotos-licenciadas/joao-pessoa-orla.jpg'
 import fotoSaida from '@/assets/fotos-licenciadas/saida-de-emergencia.jpg'
 import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
-import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Botao from '@/components/studiova/Botao.astro'
 import Icone from '@/components/studiova/Icone.astro'
 import PainelVencimentos from '@/components/studiova/PainelVencimentos.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
@@ -150,8 +150,8 @@ const LARGURA_BANNER = 1600
               data-aos-delay="400"
               data-aos-duration="1000"
             >
-              <BotaoSeta origem="orcamento">Solicitar orçamento</BotaoSeta>
-              <BotaoSeta href="/diagnostico" tom="contorno">Responder as 4 perguntas</BotaoSeta>
+              <Botao origem="orcamento">Solicitar orçamento</Botao>
+              <Botao href="/diagnostico" tom="contorno">Responder as 4 perguntas</Botao>
             </div>
 
             <ul
@@ -337,8 +337,8 @@ const LARGURA_BANNER = 1600
                 </ul>
 
                 <div class="hstack gap-3 flex-wrap">
-                  <BotaoSeta href="/solucoes" tom="contorno">Comparar as três divisões</BotaoSeta>
-                  <BotaoSeta origem="comecar">Não sei qual é o meu caso</BotaoSeta>
+                  <Botao href="/solucoes" tom="contorno">Comparar as três divisões</Botao>
+                  <Botao origem="comecar">Não sei qual é o meu caso</Botao>
                 </div>
               </div>
             </div>
@@ -424,7 +424,7 @@ const LARGURA_BANNER = 1600
                   </div>
                   <p class="mb-0 fs-5 text-white text-opacity-75">{lideranca.data.resumoCurto}</p>
                   <div>
-                    <BotaoSeta href="/sobre" tom="contorno">Ver a formação completa</BotaoSeta>
+                    <Botao href="/sobre" tom="contorno">Ver a formação completa</Botao>
                   </div>
                 </div>
               </div>

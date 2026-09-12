@@ -181,24 +181,234 @@ h4,
    e a diferenca entre "nao funcionou" e "ja vai". O site ja resolvia isso.
    -------------------------------------------------------------------------- */
 .btn,
+.botao-origem[data-tinta],
 .wa-flutuante,
 #scrollToTopBtn {
   transition:
     background-color 0.2s ease-in-out,
     opacity 0.2s ease-in-out,
     translate 0.1s ease-out,
-    transform 0.1s ease-out;
+    transform 0.1s ease-out,
+    scale 0.1s ease-out;
 }
 
-.btn:active,
 a.card:active {
   translate: 0 1px;
+}
+
+/*
+ * Os botoes que sao ilha React recebem o afundamento do `whileTap` do
+ * framer-motion. Os cinco do quiz nao sao ilha, e sem esta regra ficariam sem
+ * retorno nenhum ao toque — que e justamente o defeito que este bloco existe
+ * para corrigir.
+ */
+.botao-origem[data-tinta]:active {
+  scale: 0.985;
 }
 
 /* O flutuante afunda por escala: o translate dele ja e usado na entrada. */
 .wa-flutuante:active,
 #scrollToTopBtn:active {
   transform: scale(0.94);
+}
+
+/* ----------------------------------------------------------------------------
+   BOTAO QUE SE PREENCHE A PARTIR DO CURSOR
+   Substitui a pilula com seta circular do template em todo o site. O React
+   cuida da geometria — onde o circulo nasce e que diametro cobre a caixa — e
+   daqui sai a paleta. A separacao e de proposito: cor de marca no CSS, junto
+   do resto do tema, e nao espalhada em classe utilitaria dentro do TSX.
+   -------------------------------------------------------------------------- */
+.botao-origem {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+
+  /* 48px: alvo de toque acima dos 44px minimos, como o resto do site. */
+  min-height: 48px;
+  padding: 0 1.75rem;
+
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
+
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+
+  /* Sem isolar, o z-index negativo da tinta a levaria para tras do fundo do
+     proprio botao, e ela nunca apareceria. */
+  isolation: isolate;
+
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  appearance: none;
+
+  /* So a cor faz transicao. O circulo e animado pelo JS, e por isso nao entra
+     aqui: as duas animacoes na mesma propriedade se atropelariam. */
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.botao-origem:disabled,
+.botao-origem[aria-busy='true'] {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/*
+ * O circulo. Nasce no ponto do cursor, que o JS escreve em `left` e `top`, e
+ * cresce de escala. Escala e nao largura: largura dispara layout a cada
+ * quadro, escala e composta na GPU.
+ */
+/*
+ * A tinta fica em z-index negativo, e o botao isola o proprio contexto de
+ * empilhamento.
+ *
+ * Assim ela e pintada depois do fundo do botao e antes do texto, pela ordem de
+ * pintura do CSS, e o rotulo aparece por cima sem precisar de invólucro. A
+ * primeira versao apoiava o texto num `<span>` com z-index 1, e quebrou no
+ * quiz: o script de lá faz `botao.textContent = ...` ao trocar de passo, o
+ * que apaga o span e levava o rotulo para tras do circulo.
+ */
+.botao-origem-tinta,
+.botao-origem[data-tinta]::after {
+  position: absolute;
+  z-index: -1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background-color: var(--tinta-cor);
+  pointer-events: none;
+}
+
+/*
+ * Botao sem ilha React.
+ *
+ * Os cinco botoes do quiz ficaram em HTML puro porque o script de lá liga e
+ * desliga `hidden` neles, e o React desfaria isso. O efeito e o mesmo: o JS
+ * escreve onde o circulo nasce e que diametro cobre a caixa, e a transicao
+ * fica aqui em vez de vir do framer-motion.
+ */
+.botao-origem[data-tinta]::after {
+  content: '';
+  top: var(--tinta-y, 50%);
+  left: var(--tinta-x, 50%);
+  width: var(--tinta-d, 0);
+  height: var(--tinta-d, 0);
+  scale: 0;
+  transition: scale 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.botao-origem[data-tinta][data-preenchendo='true']::after {
+  scale: 1;
+}
+
+/* Serve ao alinhamento de icone com texto; a camada nao depende mais dele. */
+.botao-origem-rotulo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* -- acento: a acao principal. Parte do vinho, e inundado de branco. ------- */
+.botao-origem-acento {
+  --tinta-cor: #fff;
+  background-color: var(--brad-vinho);
+  color: #fff;
+}
+
+.botao-origem-acento[data-preenchendo='true'] {
+  color: var(--brad-vinho);
+}
+
+/*
+ * Sobre fundo escuro o vinho precisa de contorno.
+ *
+ * `#8e1c21` sobre o grafite `#201c1e` da 1.88:1: o rotulo branco continua
+ * legivel, mas a FORMA do botao desaparece — nao se ve onde ele comeca e
+ * termina, e a WCAG 1.4.11 pede 3:1 para o contorno de um controle. Antes a
+ * seta branca circular do template dava esse limite; sem ela, a borda da.
+ * Branco a 55% sobre o vinho, visto contra o grafite, da 6.90:1.
+ *
+ * A lista de seletores e a mesma que este arquivo ja usa para o acento sobre
+ * fundo escuro, logo acima.
+ */
+.bg-dark .botao-origem-acento,
+.footer .botao-origem-acento,
+.banner-section .botao-origem-acento,
+.secao-escura .botao-origem-acento {
+  border-color: rgb(255 255 255 / 0.55);
+}
+
+/* -- suave: acao secundaria sobre fundo claro. ----------------------------- */
+/* Este e o desenho de origem do componente de referencia: cartao de papel com
+   borda fina, que a tinta inunda no hover. Aqui a tinta e o vinho da marca, e
+   nao o quase-preto do original. */
+.botao-origem-suave {
+  --tinta-cor: var(--brad-vinho);
+  background-color: var(--brad-canvas);
+  color: var(--brad-grafite);
+
+  /*
+   * A borda e o unico limite deste tom: o fundo dele (#F7F5F5) da 1.09:1
+   * contra o branco e praticamente desaparece nas secoes claras. Com
+   * `--brad-linha-forte` a borda dava 1.44:1, abaixo dos 3:1 que a WCAG 1.4.11
+   * pede para o contorno de um controle. `--brad-ash` da 5.58:1.
+   */
+  border-color: var(--brad-ash);
+}
+
+.botao-origem-suave[data-preenchendo='true'] {
+  border-color: var(--brad-vinho);
+  color: #fff;
+}
+
+/* -- branco: sobre fundo vinho. Parte do branco, e inundado de grafite. ---- */
+.botao-origem-branco {
+  --tinta-cor: var(--brad-grafite);
+  background-color: #fff;
+  color: var(--brad-grafite);
+}
+
+.botao-origem-branco[data-preenchendo='true'] {
+  color: #fff;
+}
+
+/* -- contorno: acao secundaria sobre fundo escuro. ------------------------- */
+.botao-origem-contorno {
+  --tinta-cor: #fff;
+  background-color: rgb(255 255 255 / 0.06);
+  color: #fff;
+
+  /* 0.42 e nao 0.32: sobre o veu grafite das fotos de capa, 0.32 dava 2.92:1
+     — logo abaixo dos 3:1 da WCAG 1.4.11. Com 0.42 da 4.06:1. */
+  border-color: rgb(255 255 255 / 0.42);
+}
+
+.botao-origem-contorno[data-preenchendo='true'] {
+  border-color: #fff;
+  color: var(--brad-grafite);
+}
+
+/*
+ * Foco visivel com anel fora da borda. `outline` e nao `box-shadow`: o botao
+ * tem `overflow: hidden` para conter o circulo, e sombra interna seria
+ * recortada junto.
+ */
+.botao-origem:focus-visible {
+  outline: 2px solid var(--brad-vinho);
+  outline-offset: 2px;
+}
+
+.botao-origem-branco:focus-visible,
+.botao-origem-contorno:focus-visible {
+  outline-color: #fff;
 }
 
 /* ----------------------------------------------------------------------------

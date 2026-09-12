@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content'
 import fotoFachada from '@/assets/fotos-licenciadas/fachada-de-edificio.jpg'
 import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
-import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Botao from '@/components/studiova/Botao.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import DadoPendente from '@/components/studiova/DadoPendente.astro'
 import Icone from '@/components/studiova/Icone.astro'
@@ -87,7 +87,7 @@ const dadosDaEmpresa = [
     subtitulo="Uma central de soluções documentais em João Pessoa: gestão, regularização, licenciamento e segurança contra incêndio reunidos em um só interlocutor."
     trilha={trilha}
   >
-    <BotaoSeta origem="padrao">Falar com um especialista</BotaoSeta>
+    <Botao origem="padrao">Falar com um especialista</Botao>
   </CabecalhoPagina>
 
   <!-- 01 — Por que existe -->
@@ -224,7 +224,7 @@ const dadosDaEmpresa = [
             </ul>
 
             <div class="mt-7">
-              <BotaoSeta href="/solucoes">Ver todas as soluções</BotaoSeta>
+              <Botao href="/solucoes">Ver todas as soluções</Botao>
             </div>
           </div>
         </div>
@@ -298,8 +298,8 @@ const dadosDaEmpresa = [
               A conversa inicial serve exatamente para isso, sem compromisso de contratação.
             </p>
             <div class="hstack gap-3 flex-wrap">
-              <BotaoSeta origem="condominio">Falar no WhatsApp</BotaoSeta>
-              <BotaoSeta href="/diagnostico" tom="contorno">Responder as 4 perguntas</BotaoSeta>
+              <Botao origem="condominio">Falar no WhatsApp</Botao>
+              <Botao href="/diagnostico" tom="contorno">Responder as 4 perguntas</Botao>
             </div>
           </div>
         </div>

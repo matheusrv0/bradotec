@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content'
 import fotoPredios from '@/assets/fotos-geradas/predios-ao-anoitecer.jpg'
 import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
-import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Botao from '@/components/studiova/Botao.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import Icone from '@/components/studiova/Icone.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
@@ -70,7 +70,7 @@ const casos = [
     subtitulo="Diagnóstico da instalação, coordenação da rede técnica e acompanhamento do processo junto ao Corpo de Bombeiros. O síndico trata com um interlocutor só."
     trilha={trilha}
   >
-    <BotaoSeta href="/contato">Agendar o diagnóstico</BotaoSeta>
+    <Botao href="/contato">Agendar o diagnóstico</Botao>
   </CabecalhoPagina>
 
   <!-- 01 — Por que agora -->
@@ -227,8 +227,8 @@ const casos = [
               do que precisa mudar. Se nada precisar, você fica sabendo disso também.
             </p>
             <div class="hstack gap-3 flex-wrap">
-              <BotaoSeta origem="save">Agendar o diagnóstico</BotaoSeta>
-              <BotaoSeta href={artigo} tom="contorno">Ler o artigo sobre a norma</BotaoSeta>
+              <Botao origem="save">Agendar o diagnóstico</Botao>
+              <Botao href={artigo} tom="contorno">Ler o artigo sobre a norma</Botao>
             </div>
           </div>
         </div>

@@ -86,10 +86,12 @@ test.describe('Contraste dos botões', () => {
           return [p[0] ?? 0, p[1] ?? 0, p[2] ?? 0, (p[3] ?? 255) / 255]
         }
 
-        // `.btn` e a pilula do template; as classes com `min-h-` e
-        // `rounded` cobrem o que sobrou do sistema antigo.
+        // `.botao-origem` e o botao do site. `.btn` ficou so com o
+        // hamburguer e o voltar-ao-topo, que continuam sendo do template, e as
+        // classes com `min-h-` e `rounded` cobrem o que sobrou do sistema
+        // antigo.
         const alvos = document.querySelectorAll<HTMLElement>(
-          'a.btn, button.btn, .wa-flutuante, a[class*="min-h-"], button[class*="min-h-"], button[class*="rounded"]'
+          '.botao-origem, a.btn, button.btn, .wa-flutuante, a[class*="min-h-"], button[class*="min-h-"], button[class*="rounded"]'
         )
 
         const saida: {
