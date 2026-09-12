@@ -46,3 +46,6 @@ legacy/bradotec-site.zip
 .agents/
 .claude/
 skills-lock.json
+
+# Artefatos do Playwright MCP (logs e snapshots de sessao)
+.playwright-mcp/
