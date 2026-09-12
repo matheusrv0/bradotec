@@ -29,8 +29,10 @@ const variantes = {
   contorno: 'border-line-forte text-graphite-900 hover:border-graphite-900 hover:bg-line-soft',
 } as const
 
+/* Mesmo afundar de um pixel do BotaoLink. Os dois aparecem lado a lado o
+   tempo todo: se so um respondesse ao toque, a diferenca apareceria. */
 const classes = cn(
-  'inline-flex items-center justify-center gap-2 rounded-md border border-transparent font-bold no-underline transition-colors',
+  'inline-flex items-center justify-center gap-2 rounded-md border border-transparent font-bold no-underline active:translate-y-px transition-[color,background-color,border-color,translate]',
   pequeno ? 'min-h-[42px] px-4 py-2.5 text-corpo' : 'min-h-[50px] px-6 py-3.5 text-base',
   larguraTotal && 'w-full',
   variantes[variante],

@@ -39,8 +39,19 @@ const variantes = {
   escuro: 'border-transparent bg-graphite-900 text-white hover:bg-graphite-700',
 } as const
 
+/*
+ * `active:translate-y-px` e a unica coisa que este botao faz ao ser
+ * apertado. Ate agora ele so trocava de cor no hover, e no celular nao ha
+ * hover: o dedo tocava e a tela nao respondia nada ate a pagina abrir.
+ *
+ * Um pixel para baixo e pouco de proposito. O que se quer e a sensacao de
+ * que a tecla afundou, e nao uma animacao. Quem pediu movimento reduzido
+ * recebe o mesmo deslocamento sem transicao, porque o bloco de
+ * prefers-reduced-motion em global.css limita a transicao ao que nao se
+ * desloca. Apertar um botao nao e o movimento que causa enjoo.
+ */
 const classes = cn(
-  'inline-flex items-center justify-center gap-2 rounded-md border font-bold no-underline transition-colors',
+  'inline-flex items-center justify-center gap-2 rounded-md border font-bold no-underline active:translate-y-px transition-[color,background-color,border-color,translate]',
   pequeno ? 'min-h-[42px] px-4 py-2.5 text-corpo' : 'min-h-[50px] px-6 py-3.5 text-base',
   larguraTotal && 'w-full',
   variantes[variante],
