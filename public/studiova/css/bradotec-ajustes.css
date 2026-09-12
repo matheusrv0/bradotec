@@ -202,6 +202,149 @@ a.card:active {
 }
 
 /* ----------------------------------------------------------------------------
+   MENU DO TOPO EM TEXTO (dock)
+   O template esconde o menu inteiro atras de um hamburguer em toda largura de
+   tela. Em tela larga isso custa dois cliques para chegar em qualquer pagina,
+   e nao mostra o tamanho do site para quem chega. A partir de xl o menu
+   aparece escrito, e o hamburguer some.
+   -------------------------------------------------------------------------- */
+.dock-nav {
+  /* Pode encolher entre a marca e o CTA, mas nunca empurra os dois. */
+  min-width: 0;
+}
+
+.dock {
+  display: flex;
+  align-items: center;
+
+  /* Quatro pixels de intervalo. Somado ao recuo dos dois itens, e a folga que
+     a palavra ampliada tem para crescer sem encostar na vizinha. Mais do que
+     isso nao cabe nos 1140px de container que o template usa no xl. */
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dock-item {
+  position: relative;
+  display: flex;
+}
+
+.dock-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+
+  /* 44px de altura no alvo, como o resto do site. */
+  min-height: 44px;
+  padding-block: 0.6875rem;
+
+  color: rgb(255 255 255 / 0.78);
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  text-decoration: none;
+
+  /*
+   * 13px entre 1200 e 1399, 14px acima disso.
+   *
+   * Nao e capricho: nessa faixa o container do template tem 1140px, e a marca
+   * mais as nove palavras a 14px mais o CTA passavam 55px da largura — os
+   * itens se comprimiam e o texto vazava. A 13px sobram 40px. Medido no
+   * navegador, nao estimado.
+   */
+  font-size: 0.8125rem;
+  --dock-recuo: 0.375rem;
+  padding-inline: var(--dock-recuo);
+
+  /*
+   * Cresce a partir do centro. Com origem na borda, a palavra ampliada
+   * avancaria para um lado so e pareceria escorregar em vez de crescer.
+   */
+  transform-origin: center;
+}
+
+.dock-link:hover,
+.dock-link:focus-visible {
+  color: #fff;
+}
+
+.dock-link-atual {
+  color: #fff;
+}
+
+/*
+ * A pagina aberta ganha sublinhado, e nao apenas cor: distinguir 78% de 100%
+ * de branco e pedir demais, e quem nao distingue os dois tons ficaria sem
+ * saber onde esta.
+ */
+.dock-link-atual::after {
+  content: '';
+  position: absolute;
+  right: var(--dock-recuo);
+  bottom: 0.5rem;
+  left: var(--dock-recuo);
+  height: 2px;
+  border-radius: 2px;
+  background-color: currentcolor;
+}
+
+@media (min-width: 1400px) {
+  .dock-link {
+    --dock-recuo: 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+
+/*
+ * O CTA nao quebra em duas linhas nem encolhe.
+ *
+ * Com o dock ocupando o meio do cabecalho, o botao passou a ser comprimido e
+ * "Solicitar orcamento" quebrava em duas linhas a 1366px, o que engordava o
+ * cabecalho inteiro. Quem cede espaco e o dock, que tem a largura do texto e
+ * pode diminuir de corpo; o CTA e alvo de clique e tem de manter a forma.
+ */
+.btn-cabecalho {
+  flex-shrink: 0;
+}
+
+.btn-cabecalho .btn-text {
+  white-space: nowrap;
+}
+
+/*
+ * O nome completo, abaixo do item. Fundo grafite e nao vinho: o cabecalho fica
+ * vinho ao rolar, e uma dica vinho sobre vinho desapareceria.
+ */
+.dock-dica {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 50%;
+  z-index: 2;
+
+  /* Propriedade `translate`, e nao `transform`: o framer-motion escreve
+     `transform` neste elemento, e as duas se somam sem se atropelar. */
+  translate: -50% 0;
+
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  background-color: var(--brad-grafite);
+
+  /* A borda clara existe para a dica se separar do cabecalho no topo da
+     pagina, onde o fundo e a foto escura e nao o vinho. */
+  border: 1px solid rgb(255 255 255 / 0.16);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.3);
+
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------------------
    ALVO DE TOQUE
    O dedo acerta um alvo de 44px; abaixo disso a pessoa erra e tenta de novo.
    O template foi desenhado para o ponteiro do mouse, que e preciso, e por

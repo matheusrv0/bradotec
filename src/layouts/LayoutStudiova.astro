@@ -3,6 +3,7 @@ import { Font } from 'astro:assets'
 import DadoPendente from '@/components/studiova/DadoPendente.astro'
 import Icone from '@/components/studiova/Icone.astro'
 import LogoMarca from '@/components/studiova/LogoMarca.astro'
+import { MenuDock } from '@/components/studiova/MenuDock'
 import { navegacaoPrincipal, navegacaoRodape, paiNoMenu } from '@/config/navegacao'
 import { enderecoCompleto, instagramUsuario, site } from '@/config/site'
 import { linkWhatsapp } from '@/config/whatsapp'
@@ -55,6 +56,22 @@ if (trilha?.length) schemas.push(jsonLdBreadcrumb(trilha, siteUrl))
 const rotaAtual = Astro.url.pathname.replace(/\/$/, '') || '/'
 /** Uma pagina fora do menu acende o item do menu a que ela pertence. */
 const rotaDestacada = paiNoMenu[rotaAtual] ?? rotaAtual
+
+/*
+ * Itens do menu do topo.
+ *
+ * O `curto` existe em `navegacao.ts` justamente para este lugar, e estava sem
+ * uso: a versao anterior deste cabecalho escondia o menu inteiro atras do
+ * hamburguer, ate em tela de 1440px, e mostrava o `completo` dentro dele.
+ *
+ * "Inicio" nao vem de `navegacao.ts` porque nao e uma secao do site; e a
+ * propria home. Entra aqui com o mesmo texto nos dois rotulos, e o dock
+ * entende isso como "nao ha dica a mostrar".
+ */
+const itensDoDock = [
+  { href: '/', curto: 'Início', completo: 'Início' },
+  ...navegacaoPrincipal.map(({ href, curto, completo }) => ({ href, curto, completo })),
+]
 
 const whatsapp = linkWhatsapp('padrao')
 const orcamento = linkWhatsapp('orcamento')
@@ -136,6 +153,19 @@ const anoAtual = new Date().getFullYear()
             <LogoMarca altura={40} />
           </a>
 
+          {/*
+            So a partir de xl. Abaixo disso as nove palavras nao caberiam na
+            largura do cabecalho, e ali continua valendo o hamburguer.
+
+            `client:idle` e nao `client:load`: os links sao renderizados no
+            servidor e funcionam antes de qualquer JS. O que a ilha
+            acrescenta e a ampliacao no hover, que pode esperar o navegador
+            ficar livre.
+          */}
+          <nav class="dock-nav d-none d-xl-block" aria-label="Navegação principal">
+            <MenuDock itens={itensDoDock} rotaDestacada={rotaDestacada} client:idle />
+          </nav>
+
           <div class="d-flex align-items-center gap-3">
             <a
               href={orcamento ?? '/contato'}
@@ -150,7 +180,7 @@ const anoAtual = new Date().getFullYear()
               />
             </a>
 
-            <div class="btn-group">
+            <div class="btn-group d-xl-none">
               <button
                 class="btn btn-secondary toggle-menu round-45 p-2 d-flex align-items-center justify-content-center bg-white rounded-circle"
                 type="button"

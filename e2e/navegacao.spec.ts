@@ -51,11 +51,17 @@ test.describe('Navegação', () => {
   test('leva da home ate uma pagina interna pelo menu', async ({ page }) => {
     await page.goto('/')
 
-    // O template guarda a navegacao inteira no dropdown, em qualquer largura.
-    await page.getByRole('button', { name: 'Abrir menu' }).click()
+    /*
+     * Dois menus, um comportamento.
+     *
+     * A partir de 1200px a navegacao esta escrita no cabecalho; abaixo disso
+     * continua atras do hamburguer, porque nove palavras nao caberiam. O
+     * teste cobra o resultado — chegar na pagina — e nao qual dos dois apareceu.
+     */
+    const hamburguer = page.getByRole('button', { name: 'Abrir menu' })
+    if (await hamburguer.isVisible()) await hamburguer.click()
 
     await page
-      .getByRole('navigation', { name: 'Menu' })
       .getByRole('link', { name: /Regulariza/ })
       .first()
       .click()
@@ -64,15 +70,20 @@ test.describe('Navegação', () => {
   })
 })
 
-test.describe('Menu', () => {
+test.describe('Menu atras do hamburguer', () => {
   /*
    * O template usa o dropdown do Bootstrap, e nao o menu proprio de antes.
    * O que se cobra continua sendo o comportamento, nao a implementacao: abre,
    * fecha pelo Esc devolvendo o foco, fecha ao tocar fora e o botao alterna.
    *
-   * A diferenca para a versao anterior e que aqui o menu e o mesmo no celular
-   * e no desktop — o template nao tem barra de navegacao horizontal.
+   * Vale so abaixo de 1200px. Acima disso a navegacao esta escrita no
+   * cabecalho e o hamburguer nao existe — ver "Menu escrito no cabecalho".
    */
+  test.skip(
+    ({ viewport }) => (viewport?.width ?? 0) >= 1200,
+    'A partir de 1200px o menu fica escrito no cabecalho'
+  )
+
   const abrir = (page: import('@playwright/test').Page) =>
     page.getByRole('button', { name: 'Abrir menu' }).click()
 
@@ -141,6 +152,108 @@ test.describe('Menu', () => {
     const menu = page.getByRole('navigation', { name: 'Menu' })
     // Inicio + os oito itens de navegacaoPrincipal.
     await expect(menu.getByRole('link')).toHaveCount(11)
+  })
+})
+
+test.describe('Menu escrito no cabecalho', () => {
+  /*
+   * A partir de 1200px a navegacao esta escrita no topo, e nao atras do
+   * hamburguer. O ganho nao e estetico: a pessoa ve o tamanho do site sem
+   * clicar, e chega em qualquer pagina com um clique em vez de dois.
+   */
+  test.skip(
+    ({ viewport }) => (viewport?.width ?? 0) < 1200,
+    'Abaixo de 1200px o menu fica atras do hamburguer'
+  )
+
+  const dock = (page: import('@playwright/test').Page) =>
+    page.getByRole('navigation', { name: 'Navegação principal' })
+
+  test('aparece no lugar do hamburguer', async ({ page }) => {
+    await page.goto('/')
+
+    await expect(dock(page)).toBeVisible()
+    await expect(
+      page.getByRole('button', { name: 'Abrir menu' }),
+      'com o menu escrito, o hamburguer viraria um segundo caminho para a mesma coisa'
+    ).toBeHidden()
+  })
+
+  test('lista as nove paginas principais', async ({ page }) => {
+    await page.goto('/')
+
+    // Inicio + os oito itens de navegacaoPrincipal.
+    await expect(dock(page).getByRole('link')).toHaveCount(9)
+  })
+
+  test('marca a pagina aberta', async ({ page }) => {
+    await page.goto('/regularizacoes')
+
+    await expect(dock(page).getByRole('link', { name: 'Regularizações' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    )
+  })
+
+  test('marca o item pai quando a pagina e uma subpagina', async ({ page }) => {
+    // /avcb nao esta no menu: pertence a Seguranca contra incendio. Sem isto,
+    // quem abria /avcb via o menu inteiro apagado e perdia a nocao de onde
+    // estava.
+    await page.goto('/avcb')
+
+    await expect(dock(page).getByRole('link', { name: 'Incêndio' })).toHaveAttribute(
+      'aria-current',
+      'page'
+    )
+  })
+
+  test('mostra o nome completo ao passar o ponteiro', async ({ page }) => {
+    await page.goto('/')
+
+    const atalho = dock(page).getByRole('link', { name: 'Incêndio' })
+
+    /*
+     * A busca fica dentro do menu de proposito. "Seguranca contra incendio" e
+     * o rotulo completo, e ele aparece tambem no rodape e no menu do
+     * hamburguer, que existe no HTML mesmo escondido — procurar na pagina
+     * inteira acharia esses e nao mediria nada.
+     */
+    const dica = dock(page).getByText('Segurança contra incêndio', { exact: true })
+    await expect(dica, 'a dica so existe enquanto o ponteiro esta no item').toHaveCount(0)
+
+    await atalho.hover()
+    await expect(
+      dica,
+      'o rotulo curto cabe no topo, mas so o completo diz o que a pagina e'
+    ).toBeVisible()
+  })
+})
+
+test.describe('Menu escrito sem JavaScript', () => {
+  /*
+   * O menu do topo e uma ilha React, e ilha que so existe depois do JS seria
+   * uma navegacao que desaparece em conexao ruim, em navegador com script
+   * bloqueado e para o rastreador de busca. O Astro renderiza a ilha no
+   * servidor: os links chegam prontos no HTML, e o JS depois acrescenta
+   * apenas a ampliacao no hover.
+   *
+   * Este teste existe para nao perder isso sem perceber — trocar `client:idle`
+   * por um componente so-cliente passaria em todos os outros testes.
+   */
+  test.use({ javaScriptEnabled: false })
+  test.skip(
+    ({ viewport }) => (viewport?.width ?? 0) < 1200,
+    'Abaixo de 1200px o menu fica atras do hamburguer'
+  )
+
+  test('os links do menu funcionam com o JavaScript desligado', async ({ page }) => {
+    await page.goto('/')
+
+    const menu = page.getByRole('navigation', { name: 'Navegação principal' })
+    await expect(menu.getByRole('link')).toHaveCount(9)
+
+    await menu.getByRole('link', { name: 'Contato' }).click()
+    await expect(page).toHaveURL(/\/contato/)
   })
 })
 
