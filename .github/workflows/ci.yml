@@ -32,6 +32,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # A versao vem do `packageManager` do package.json. Sem ela o
+      # action-setup para com "No pnpm version is specified" em 10 segundos, e
+      # o portao nunca chega a rodar — foi o que aconteceu por varios pushes.
       - name: Instalar pnpm
         uses: pnpm/action-setup@v4
 
@@ -66,6 +69,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # A versao vem do `packageManager` do package.json. Sem ela o
+      # action-setup para com "No pnpm version is specified" em 10 segundos, e
+      # o portao nunca chega a rodar — foi o que aconteceu por varios pushes.
       - name: Instalar pnpm
         uses: pnpm/action-setup@v4
 
