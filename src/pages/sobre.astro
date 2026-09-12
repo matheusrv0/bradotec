@@ -5,6 +5,7 @@ import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
 import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import DadoPendente from '@/components/studiova/DadoPendente.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import Lideranca from '@/components/studiova/Lideranca.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import { enderecoCompleto, site } from '@/config/site'
@@ -170,7 +171,7 @@ const dadosDaEmpresa = [
                   data-aos-delay={`${(i + 1) * 100}`}
                   data-aos-duration="1000"
                 >
-                  <iconify-icon icon={item.icone} class="fs-12 text-primary" />
+                  <Icone nome={item.icone} class="fs-12 text-primary" />
                   <h3 class="mb-0 fs-6">{item.titulo}</h3>
                   <p class="mb-0 fs-4">{item.descricao}</p>
                 </div>
@@ -204,8 +205,8 @@ const dadosDaEmpresa = [
                     data-aos-delay={`${(i + 1) * 80}`}
                     data-aos-duration="800"
                   >
-                    <iconify-icon
-                      icon="solar:check-circle-bold"
+                    <Icone
+                      nome="solar:check-circle-bold"
                       class="fs-6 text-primary flex-shrink-0"
                     />
                     {
@@ -253,7 +254,7 @@ const dadosDaEmpresa = [
                   data-aos-duration="1000"
                 >
                   <div class="card-body d-flex flex-column gap-3 p-6">
-                    <iconify-icon icon={dado.icone} class="fs-9 text-primary" />
+                    <Icone nome={dado.icone} class="fs-9 text-primary" />
                     <p class="mb-0 fs-3 fw-bold text-uppercase text-muted">{dado.rotulo}</p>
                     <p class="mb-0 fs-4 text-dark">
                       <DadoPendente valor={dado.valor} />

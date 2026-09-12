@@ -1,6 +1,7 @@
 ---
 import { Font } from 'astro:assets'
 import DadoPendente from '@/components/studiova/DadoPendente.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import LogoMarca from '@/components/studiova/LogoMarca.astro'
 import { navegacaoPrincipal, navegacaoRodape, paiNoMenu } from '@/config/navegacao'
 import { enderecoCompleto, instagramUsuario, site } from '@/config/site'
@@ -143,8 +144,8 @@ const anoAtual = new Date().getFullYear()
               rel={orcamento ? 'noopener' : undefined}
             >
               <span class="btn-text">Solicitar orçamento</span>
-              <iconify-icon
-                icon="lucide:arrow-up-right"
+              <Icone
+                nome="lucide:arrow-up-right"
                 class="btn-icon bg-white text-dark round-52 rounded-circle hstack justify-content-center fs-7 shadow-sm"
               />
             </a>
@@ -158,8 +159,8 @@ const anoAtual = new Date().getFullYear()
                 aria-expanded="false"
                 aria-label="Abrir menu"
               >
-                <iconify-icon
-                  icon="solar:hamburger-menu-line-duotone"
+                <Icone
+                  nome="solar:hamburger-menu-line-duotone"
                   class="menu-icon fs-8 text-dark"
                 />
               </button>
@@ -272,7 +273,7 @@ const anoAtual = new Date().getFullYear()
                 rel={whatsapp ? 'noopener' : undefined}
                 class="link-hover hstack gap-3 text-white fs-5 w-fit"
               >
-                <iconify-icon icon="lucide:message-circle" class="fs-7 text-primary" />
+                <Icone nome="lucide:message-circle" class="fs-7 text-primary" />
                 WhatsApp comercial
               </a>
             </div>
@@ -299,23 +300,23 @@ const anoAtual = new Date().getFullYear()
             <p class="mb-4 fs-3 fw-bold text-primary text-uppercase">Atendimento</p>
             <ul class="footer-menu list-unstyled mb-0 d-flex flex-column gap-3 fs-4 text-white">
               <li class="hstack gap-3">
-                <iconify-icon icon="lucide:phone" class="fs-6 text-primary flex-shrink-0" />
+                <Icone nome="lucide:phone" class="fs-6 text-primary flex-shrink-0" />
                 <DadoPendente valor={site.telefone} />
               </li>
               <li class="hstack gap-3">
-                <iconify-icon icon="lucide:mail" class="fs-6 text-primary flex-shrink-0" />
+                <Icone nome="lucide:mail" class="fs-6 text-primary flex-shrink-0" />
                 <DadoPendente valor={site.email} />
               </li>
               <li class="hstack gap-3 align-items-start">
-                <iconify-icon icon="lucide:map-pin" class="fs-6 text-primary flex-shrink-0" />
+                <Icone nome="lucide:map-pin" class="fs-6 text-primary flex-shrink-0" />
                 <DadoPendente valor={enderecoCompleto} />
               </li>
               <li class="hstack gap-3">
-                <iconify-icon icon="lucide:clock" class="fs-6 text-primary flex-shrink-0" />
+                <Icone nome="lucide:clock" class="fs-6 text-primary flex-shrink-0" />
                 <DadoPendente valor={site.horario} />
               </li>
               <li class="hstack gap-3">
-                <iconify-icon icon="lucide:instagram" class="fs-6 text-primary flex-shrink-0" />
+                <Icone nome="lucide:instagram" class="fs-6 text-primary flex-shrink-0" />
                 <a class="link-hover text-white" href={site.instagram}>{instagramUsuario}</a>
               </li>
             </ul>
@@ -347,7 +348,7 @@ const anoAtual = new Date().getFullYear()
         rel={whatsapp ? 'noopener' : undefined}
         aria-label="Falar no WhatsApp"
       >
-        <iconify-icon icon="lucide:message-circle" class="fs-6" />
+        <Icone nome="lucide:message-circle" class="fs-6" />
         <span class="d-none d-sm-inline fs-4">Falar no WhatsApp</span>
       </a>
       <button
@@ -355,7 +356,7 @@ const anoAtual = new Date().getFullYear()
         id="scrollToTopBtn"
         aria-label="Voltar ao topo"
       >
-        <iconify-icon icon="lucide:arrow-up" class="fs-7 text-white" />
+        <Icone nome="lucide:arrow-up" class="fs-7 text-white" />
       </button>
     </div>
 
@@ -379,8 +380,5 @@ const anoAtual = new Date().getFullYear()
     <script is:inline src="/studiova/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script is:inline src="/studiova/libs/aos-master/dist/aos.js"></script>
     <script is:inline src="/studiova/js/comportamento.js"></script>
-    <script
-      is:inline
-      src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
   </body>
 </html>

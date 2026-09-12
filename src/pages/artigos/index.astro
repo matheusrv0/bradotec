@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content'
 import fotoProcesso from '@/assets/fotos-geradas/processo-carimbado.jpg'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import { site } from '@/config/site'
 import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 
@@ -78,7 +79,7 @@ const emPortugues = (iso: string) =>
                     <p class="mb-3 fs-5 artigo-resumo">{artigo.data.resumo}</p>
                     <span class="hstack gap-2 fs-5 fw-bold text-primary">
                       Ler o artigo
-                      <iconify-icon icon="lucide:arrow-up-right" class="fs-6" />
+                      <Icone nome="lucide:arrow-up-right" class="fs-6" />
                     </span>
                   </a>
                 </li>

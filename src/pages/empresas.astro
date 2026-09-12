@@ -4,6 +4,7 @@ import fotoPredios from '@/assets/fotos-geradas/predios-vistos-de-baixo.jpg'
 import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
 import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import PainelVencimentos from '@/components/studiova/PainelVencimentos.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
@@ -92,8 +93,8 @@ const gestaoContinua = [
                     data-aos-delay={`${(i + 1) * 100}`}
                     data-aos-duration="1000"
                   >
-                    <iconify-icon
-                      icon="solar:check-circle-bold"
+                    <Icone
+                      nome="solar:check-circle-bold"
                       class="fs-6 text-primary flex-shrink-0"
                     />
                     <span class="fs-5 text-white text-opacity-75">{item}</span>

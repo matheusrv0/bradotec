@@ -1,5 +1,6 @@
 ---
 import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Icone from '@/components/studiova/Icone.astro'
 
 /**
  * Cartao de uma divisao. As tres dividem o mesmo layout e mudam so a cor da
@@ -43,8 +44,8 @@ const classeCor = { fire: 'divisao-fire', doc: 'divisao-doc', auto: 'divisao-aut
         {
           mostrados.map((servico) => (
             <li class="hstack gap-3 align-items-start fs-4">
-              <iconify-icon
-                icon="solar:check-circle-bold"
+              <Icone
+                nome="solar:check-circle-bold"
                 class="divisao-marca fs-6 flex-shrink-0"
               />
               <span>{servico}</span>

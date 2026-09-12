@@ -4,6 +4,7 @@ import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import DadoPendente from '@/components/studiova/DadoPendente.astro'
 import FormularioContato from '@/components/studiova/FormularioContato.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import { enderecoCompleto, instagramUsuario, site } from '@/config/site'
 import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
@@ -58,7 +59,7 @@ const canais = [
               data-aos-duration="1000"
             >
               <div class="card-body d-flex flex-column gap-4">
-                <iconify-icon icon="lucide:message-circle" class="fs-11" />
+                <Icone nome="lucide:message-circle" class="fs-11" />
                 <h3 class="mb-0 fs-7">WhatsApp comercial</h3>
                 <p class="mb-0 fs-4">Canal mais rápido para orçamento, diagnóstico e dúvidas.</p>
                 <div>
@@ -101,7 +102,7 @@ const canais = [
                   data-aos-duration="1000"
                 >
                   <div class="card-body d-flex flex-column gap-3 p-6">
-                    <iconify-icon icon={canal.icone} class="fs-9 text-primary" />
+                    <Icone nome={canal.icone} class="fs-9 text-primary" />
                     <p class="mb-0 fs-3 fw-bold text-uppercase text-muted">{canal.rotulo}</p>
                     <p class="mb-0 fs-5 text-dark">
                       <DadoPendente valor={canal.valor} />

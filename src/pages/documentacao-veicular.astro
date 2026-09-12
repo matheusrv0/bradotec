@@ -3,6 +3,7 @@ import fotoFrota from '@/assets/fotos-geradas/frota-em-garagem.jpg'
 import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
 import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import SecaoServicos from '@/components/studiova/SecaoServicos.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
@@ -99,7 +100,7 @@ const outrasFrentes = [
                           class="link-hover hstack gap-2 fs-5 fw-bold text-white"
                         >
                           {frente.titulo}
-                          <iconify-icon icon="lucide:arrow-up-right" class="fs-6" />
+                          <Icone nome="lucide:arrow-up-right" class="fs-6" />
                         </a>
                       </li>
                     ))

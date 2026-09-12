@@ -5,6 +5,7 @@ import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
 import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
 import CartaoDivisao from '@/components/studiova/CartaoDivisao.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 import { schemaFaqDaPagina } from '@/lib/faq'
@@ -94,7 +95,7 @@ const titulosDaDivisao = (idDivisao: string) =>
             >
               <div class="card-body d-flex flex-column justify-content-between gap-6">
                 <div class="d-flex flex-column gap-4">
-                  <iconify-icon icon="solar:document-add-bold" class="fs-12" />
+                  <Icone nome="solar:document-add-bold" class="fs-12" />
                   <h3 class="mb-0 fs-7">Diagnóstico de Regularização</h3>
                   <p class="mb-0 fs-4">
                     Se você não sabe qual divisão resolve o seu caso, comece por aqui.
@@ -118,7 +119,7 @@ const titulosDaDivisao = (idDivisao: string) =>
             >
               <div class="card-body d-flex flex-column justify-content-between gap-6">
                 <div class="d-flex flex-column gap-4">
-                  <iconify-icon icon="solar:calendar-mark-bold" class="fs-12 text-primary" />
+                  <Icone nome="solar:calendar-mark-bold" class="fs-12 text-primary" />
                   <h3 class="mb-0 fs-7">Gestão documental recorrente</h3>
                   <p class="mb-0 fs-4">
                     Para empresas e condomínios que preferem manter a documentação acompanhada o

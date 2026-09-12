@@ -1,4 +1,5 @@
 ---
+import Icone from '@/components/studiova/Icone.astro'
 import { ehPlaceholder, site } from '@/config/site'
 
 /**
@@ -168,8 +169,8 @@ const selecao = 'form-select'
       class="btn"
     >
       <span class="btn-text">{numeroWhatsapp ? 'Enviar pelo WhatsApp' : 'Montar mensagem'}</span>
-      <iconify-icon
-        icon="lucide:arrow-up-right"
+      <Icone
+        nome="lucide:arrow-up-right"
         class="btn-icon bg-white text-dark round-52 rounded-circle hstack justify-content-center fs-7 shadow-sm"
       />
     </button>

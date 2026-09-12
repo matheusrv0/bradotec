@@ -8,6 +8,7 @@ import fotoJoaoPessoa from '@/assets/fotos-licenciadas/joao-pessoa-orla.jpg'
 import fotoSaida from '@/assets/fotos-licenciadas/saida-de-emergencia.jpg'
 import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
 import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import PainelVencimentos from '@/components/studiova/PainelVencimentos.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import { site } from '@/config/site'
@@ -162,8 +163,8 @@ const LARGURA_BANNER = 1600
               {
                 provas.map((prova) => (
                   <li class="hstack gap-3 text-white text-opacity-75 fs-4">
-                    <iconify-icon
-                      icon="solar:check-circle-bold"
+                    <Icone
+                      nome="solar:check-circle-bold"
                       class="fs-6 text-primary flex-shrink-0"
                     />
                     {prova}
@@ -208,8 +209,8 @@ const LARGURA_BANNER = 1600
                   <div class="card-body d-flex flex-column gap-3 p-6">
                     <div class="hstack justify-content-between gap-3 align-items-start">
                       <h3 class="mb-0 fs-6 text-dark">{data.titulo}</h3>
-                      <iconify-icon
-                        icon="lucide:arrow-up-right"
+                      <Icone
+                        nome="lucide:arrow-up-right"
                         class="fs-6 text-primary flex-shrink-0 mt-1"
                       />
                     </div>
@@ -313,8 +314,8 @@ const LARGURA_BANNER = 1600
                                 .slice(0, 4)
                                 .map(({ data }) => (
                                   <li class="hstack gap-2 fs-3 text-white text-opacity-60">
-                                    <iconify-icon
-                                      icon="solar:check-circle-bold"
+                                    <Icone
+                                      nome="solar:check-circle-bold"
                                       class="fs-5 text-primary flex-shrink-0"
                                     />
                                     {data.titulo}
@@ -326,7 +327,7 @@ const LARGURA_BANNER = 1600
                               class="link-hover hstack gap-2 text-primary fs-4 fw-bold w-fit"
                             >
                               Ver a divisão
-                              <iconify-icon icon="lucide:arrow-up-right" class="fs-5" />
+                              <Icone nome="lucide:arrow-up-right" class="fs-5" />
                             </a>
                           </div>
                         </div>
@@ -368,7 +369,7 @@ const LARGURA_BANNER = 1600
                   data-aos-delay={`${(i + 1) * 100}`}
                   data-aos-duration="1000"
                 >
-                  <iconify-icon icon={item.icone} class="fs-12 text-primary" />
+                  <Icone nome={item.icone} class="fs-12 text-primary" />
                   <h3 class="mb-0 fs-6">{item.titulo}</h3>
                   <p class="mb-0 fs-4">{item.descricao}</p>
                 </div>

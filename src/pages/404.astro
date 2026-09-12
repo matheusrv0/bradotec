@@ -1,5 +1,6 @@
 ---
 import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import { navegacaoPrincipal } from '@/config/navegacao'
 import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
 
@@ -56,8 +57,8 @@ import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
               >
                 <div class="card-body hstack justify-content-between gap-4 py-6">
                   <span class="fs-5 fw-bold text-dark">{item.completo}</span>
-                  <iconify-icon
-                    icon="lucide:arrow-up-right"
+                  <Icone
+                    nome="lucide:arrow-up-right"
                     class="fs-6 text-primary flex-shrink-0"
                   />
                 </div>

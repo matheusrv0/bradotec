@@ -8,6 +8,7 @@ import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
 import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
 import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import { site } from '@/config/site'
 import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
@@ -136,14 +137,14 @@ const motivos = [
                   data-aos-delay={`${(i + 1) * 100}`}
                   data-aos-duration="1000"
                 >
-                  <iconify-icon icon={motivo.icone} class="fs-11 text-primary" />
+                  <Icone nome={motivo.icone} class="fs-11 text-primary" />
                   <h3 class="mb-0 fs-6">{motivo.titulo}</h3>
                   <p class="mb-0 fs-4">{motivo.descricao}</p>
                   {
                     'href' in motivo && (
                       <a class="link-hover hstack gap-2 fs-4 fw-bold text-primary w-fit" href={motivo.href}>
                         {motivo.rotuloDoLink}
-                        <iconify-icon icon="lucide:arrow-up-right" class="fs-5" />
+                        <Icone nome="lucide:arrow-up-right" class="fs-5" />
                       </a>
                     )
                   }
@@ -186,8 +187,8 @@ const motivos = [
                     <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
                       {data.conteudo.map((topico) => (
                         <li class="hstack gap-3 align-items-start fs-4">
-                          <iconify-icon
-                            icon="solar:check-circle-bold"
+                          <Icone
+                            nome="solar:check-circle-bold"
                             class="divisao-marca fs-6 flex-shrink-0"
                           />
                           <span>{topico}</span>
@@ -231,8 +232,8 @@ const motivos = [
                       data-aos-delay={`${((i % 2) + 1) * 100}`}
                       data-aos-duration="800"
                     >
-                      <iconify-icon
-                        icon="solar:check-circle-bold"
+                      <Icone
+                        nome="solar:check-circle-bold"
                         class="fs-6 text-primary flex-shrink-0"
                       />
                       <span class="fs-4 text-dark">{publico}</span>

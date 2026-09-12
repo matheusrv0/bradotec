@@ -1,4 +1,5 @@
 ---
+import Icone from '@/components/studiova/Icone.astro'
 import { linkWhatsapp, type OrigemWhatsapp } from '@/config/whatsapp'
 
 /**
@@ -50,8 +51,8 @@ const classeIcone = tom === 'branco' ? 'bg-primary text-white' : 'bg-white text-
   rel={externo ? 'noopener' : undefined}
 >
   <span class="btn-text"><slot /></span>
-  <iconify-icon
-    icon="lucide:arrow-up-right"
+  <Icone
+    nome="lucide:arrow-up-right"
     class={`btn-icon ${classeIcone} round-52 rounded-circle hstack justify-content-center fs-7 shadow-sm`}
   />
 </a>

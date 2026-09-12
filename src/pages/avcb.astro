@@ -5,6 +5,7 @@ import AcordeaoFaq from '@/components/studiova/AcordeaoFaq.astro'
 import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
 import BotaoSeta from '@/components/studiova/BotaoSeta.astro'
 import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import Icone from '@/components/studiova/Icone.astro'
 import TituloSecao from '@/components/studiova/TituloSecao.astro'
 import {
   areaBaseM2,
@@ -126,7 +127,7 @@ const niveis = ['baixo', 'medio', 'alto'] as const
                   data-aos-delay={`${((i % 3) + 1) * 100}`}
                   data-aos-duration="1000"
                 >
-                  <iconify-icon icon="solar:danger-triangle-bold" class="fs-10 text-primary" />
+                  <Icone nome="solar:danger-triangle-bold" class="fs-10 text-primary" />
                   <h3 class="mb-0 fs-6 text-white">{data.titulo}</h3>
                   <p class="mb-0 fs-4 text-white text-opacity-70">{data.descricao}</p>
                 </div>
@@ -387,7 +388,7 @@ const niveis = ['baixo', 'medio', 'alto'] as const
               href="/seguranca-contra-incendio#por-que-despachante"
             >
               Por que conduzir esse processo é trabalho de despachante documentalista
-              <iconify-icon icon="lucide:arrow-up-right" class="fs-6 flex-shrink-0" />
+              <Icone nome="lucide:arrow-up-right" class="fs-6 flex-shrink-0" />
             </a>
           </div>
         </div>

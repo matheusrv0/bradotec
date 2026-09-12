@@ -1,0 +1,50 @@
+---
+import { icones, type NomeDeIcone } from '@/data/icones'
+
+/**
+ * Icone embutido no HTML.
+ *
+ * Substitui o `<iconify-icon>` do template, que trazia um componente de 20 KB
+ * do jsdelivr e depois buscava cada desenho na api.iconify.design — dois
+ * dominios de terceiros no caminho de toda visita, e todo icone do site
+ * dependendo deles estarem no ar. `scripts/icones-bradotec.mjs` baixa os
+ * desenhos uma vez para `src/data/icones.json`.
+ *
+ * Mede em `em` e pinta com `currentColor` de proposito: e assim que o
+ * `<Icone>` se comportava, entao as classes `fs-*` e `text-*` do
+ * template continuam controlando tamanho e cor como antes.
+ */
+interface Props {
+  /** Nome no formato `colecao:icone`, como `lucide:arrow-up-right`. */
+  nome: NomeDeIcone
+  class?: string
+}
+
+const { nome, class: classe } = Astro.props
+const icone = icones[nome]
+
+if (!icone) {
+  throw new Error(
+    `Icone "${nome}" nao esta em src/data/icones.json. Rode: node scripts/icones-bradotec.mjs`
+  )
+}
+---
+
+<svg
+  class:list={['icone', classe]}
+  viewBox={`0 0 ${icone.largura} ${icone.altura}`}
+  width="1em"
+  height="1em"
+  aria-hidden="true"
+  focusable="false"
+  set:html={icone.corpo}
+/>
+
+<style>
+  /* Alinha com a linha de texto, como o componente do template fazia. */
+  .icone {
+    display: inline-block;
+    flex-shrink: 0;
+    vertical-align: -0.125em;
+  }
+</style>
