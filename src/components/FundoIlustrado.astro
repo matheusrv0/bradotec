@@ -1,0 +1,366 @@
+---
+import { Image } from 'astro:assets'
+import type { Cena } from '@/lib/cenas'
+
+interface Props {
+  cena: Cena
+  /**
+   * Foto de fundo. Quando presente, entra no lugar da cena desenhada, no
+   * mesmo slot e com o mesmo veu — entao o teste de contraste que ja existe
+   * passa a cobrir a foto sem nenhuma mudanca.
+   *
+   * Toda imagem usada aqui vem de uma das tres pastas de src/assets, cada uma
+   * com o seu LEIA-ME: fotos-licenciadas (Pexels), fotos-geradas (enviadas
+   * pelo cliente, ilustrativas) e fotos (trabalho da propria empresa). Nao ha
+   * imagem sem procedencia declarada no projeto.
+   */
+  foto?: ImageMetadata
+  /** Texto alternativo. Obrigatorio quando ha foto. */
+  descricaoDaFoto?: string
+  /**
+   * Enquadramento do corte, em object-position. Foto vertical num bloco
+   * largo e baixo perde o assunto se o corte for sempre pelo centro.
+   */
+  enquadramento?: string
+  /** Classe extra para posicionamento. */
+  class?: string
+}
+
+const {
+  cena,
+  foto,
+  descricaoDaFoto = '',
+  enquadramento = '50% 50%',
+  class: classe = '',
+} = Astro.props
+
+/**
+ * Fundo ilustrado das faixas escuras.
+ *
+ * Por que vetor desenhado e nao foto:
+ *
+ * 1. Foto de banco tem cara de banco. O site inteiro foi feito para nao
+ *    parecer template.
+ * 2. Pessoa gerada por IA ilustrando o trabalho de uma empresa real e uma
+ *    pessoa que nao existe posando de funcionario. Silhueta nao afirma quem
+ *    e: afirma que ha gente ali, que e o argumento da pagina.
+ * 3. Peso. As tres cenas somadas ocupam poucos KB, contra centenas de KB de
+ *    uma foto tratada. E nao borram em tela nenhuma.
+ *
+ * As figuras existem para dizer o que o texto ja diz: o que esta em jogo nao
+ * e o documento, e quem esta dentro do predio. Ficam em silhueta, a
+ * distancia, sem rosto.
+ *
+ * Quando chegarem as fotos reais do cliente, cada cena sai e a foto entra no
+ * mesmo lugar, com o mesmo tratamento de opacidade.
+ */
+
+const cores = {
+  fachada: { estrutura: '#ffffff', luz: '#8e1c21', figura: '#ffffff' },
+  rota: { estrutura: '#ffffff', luz: '#8e1c21', figura: '#ffffff' },
+  treinamento: { estrutura: '#ffffff', luz: '#8e1c21', figura: '#ffffff' },
+} as const
+
+const c = cores[cena]
+
+/** Grade de janelas de um bloco, com algumas acesas. */
+const janelas = (
+  x: number,
+  topo: number,
+  colunas: number,
+  linhas: number,
+  acesas: readonly number[]
+) => {
+  const saida: { x: number; y: number; acesa: boolean }[] = []
+  let i = 0
+  for (let l = 0; l < linhas; l++) {
+    for (let col = 0; col < colunas; col++) {
+      saida.push({
+        x: x + 16 + col * 30,
+        y: topo + 22 + l * 38,
+        acesa: acesas.includes(i),
+      })
+      i++
+    }
+  }
+  return saida
+}
+
+const blocos =
+  cena === 'fachada'
+    ? [
+        { x: 40, topo: 210, largura: 150, colunas: 4, linhas: 9, acesas: [2, 7, 13, 22, 29] },
+        { x: 210, topo: 120, largura: 120, colunas: 3, linhas: 12, acesas: [1, 8, 16, 25, 31] },
+        { x: 350, topo: 270, largura: 180, colunas: 5, linhas: 8, acesas: [3, 11, 19, 27, 34] },
+        { x: 550, topo: 60, largura: 150, colunas: 4, linhas: 14, acesas: [5, 14, 23, 38, 47] },
+        { x: 720, topo: 240, largura: 120, colunas: 3, linhas: 9, acesas: [4, 12, 20, 24] },
+        { x: 860, topo: 160, largura: 165, colunas: 4, linhas: 11, acesas: [6, 15, 28, 33, 41] },
+        { x: 1045, topo: 300, largura: 130, colunas: 3, linhas: 7, acesas: [2, 10, 17] },
+      ]
+    : []
+---
+
+{
+  foto && (
+    <div class:list={['pointer-events-none absolute inset-0', classe]}>
+      <Image
+        src={foto}
+        alt={descricaoDaFoto}
+        class="h-full w-full object-cover"
+        style={`object-position: ${enquadramento}`}
+        widths={[768, 1280, 1920]}
+        sizes="100vw"
+        loading="eager"
+      />
+      {/*
+        Veu sobre a foto, mais forte que o do desenho. Foto tem areas claras
+        que desenho nao tem, e o texto por cima precisa do mesmo contraste de
+        sempre. O valor foi medido, nao chutado: ver
+        e2e/contraste-sobre-ilustracao.spec.ts, que cobre estas fotos sem
+        precisar de nenhuma mudanca.
+
+        Sao duas camadas: uma uniforme, que garante o piso, e uma que escurece
+        mais o lado esquerdo, onde o texto fica.
+      */}
+      <div class="absolute inset-0 bg-graphite-950/70" />
+      <div class="absolute inset-0 bg-gradient-to-r from-graphite-950/85 via-graphite-950/50 to-graphite-950/20" />
+    </div>
+  )
+}
+
+<svg
+  class:list={[
+    'pointer-events-none absolute inset-0 h-full w-full',
+    foto && 'hidden',
+    classe,
+  ]}
+  viewBox="0 0 1200 620"
+  preserveAspectRatio="xMidYMax slice"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    {/*
+      Figura humana em pictograma. Um simbolo so, reaproveitado com <use> em
+      escalas diferentes: e o que mantem a cena com poucos KB.
+    */}
+    <symbol id={`pessoa-${cena}`} viewBox="0 0 20 48">
+      <circle cx="10" cy="6" r="5"></circle>
+      <path
+        d="M10 13c-5 0-8 3-8 7.5V31c0 1.6 1 2.6 2.4 2.6V45c0 1.7 1.2 2.9 2.8 2.9s2.8-1.2 2.8-2.9V34.6h0V45c0 1.7 1.2 2.9 2.8 2.9S15.6 46.7 15.6 45V33.6c1.4 0 2.4-1 2.4-2.6V20.5C18 16 15 13 10 13Z"
+      ></path>
+    </symbol>
+
+    <linearGradient id={`esvair-${cena}`} x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="white" stop-opacity="0"></stop>
+      <stop offset="0.45" stop-color="white" stop-opacity="0.55"></stop>
+      <stop offset="1" stop-color="white" stop-opacity="1"></stop>
+    </linearGradient>
+
+    <mask id={`mascara-${cena}`}>
+      <rect width="1200" height="620" fill={`url(#esvair-${cena})`}></rect>
+    </mask>
+  </defs>
+
+  <g mask={`url(#mascara-${cena})`}>
+    {
+      cena === 'fachada' && (
+        <g>
+          {blocos.map((b) => (
+            <g>
+              <rect
+                x={b.x}
+                y={b.topo}
+                width={b.largura}
+                height={620 - b.topo}
+                fill={c.estrutura}
+                opacity="0.045"
+              />
+              <rect
+                x={b.x}
+                y={b.topo}
+                width={b.largura}
+                height="2"
+                fill={c.estrutura}
+                opacity="0.16"
+              />
+              {janelas(b.x, b.topo, b.colunas, b.linhas, b.acesas)
+                .filter((j) => j.y < 600 && j.x < b.x + b.largura - 12)
+                .map((j) => (
+                  <rect
+                    x={j.x}
+                    y={j.y}
+                    width="14"
+                    height="20"
+                    rx="1"
+                    fill={j.acesa ? c.luz : c.estrutura}
+                    opacity={j.acesa ? 0.34 : 0.07}
+                  />
+                ))}
+            </g>
+          ))}
+
+          {/*
+            Gente nas janelas acesas e na calcada. E o ponto da cena: o que
+            esta em jogo nao e a fachada, e quem esta dentro dela.
+          */}
+          <g fill={c.figura} opacity="0.34">
+            <use href={`#pessoa-${cena}`} x="228" y="196" width="7" height="17" />
+            <use href={`#pessoa-${cena}`} x="586" y="234" width="7" height="17" />
+            <use href={`#pessoa-${cena}`} x="906" y="330" width="7" height="17" />
+            <use href={`#pessoa-${cena}`} x="1091" y="360" width="7" height="17" />
+          </g>
+
+          <rect x="0" y="592" width="1200" height="2" fill={c.estrutura} opacity="0.10" />
+
+          <g fill={c.figura} opacity="0.16">
+            <use href={`#pessoa-${cena}`} x="150" y="530" width="26" height="62" />
+            <use href={`#pessoa-${cena}`} x="196" y="538" width="23" height="55" />
+            <use href={`#pessoa-${cena}`} x="470" y="534" width="25" height="59" />
+            <use href={`#pessoa-${cena}`} x="838" y="540" width="22" height="53" />
+            <use href={`#pessoa-${cena}`} x="874" y="528" width="27" height="64" />
+          </g>
+        </g>
+      )
+    }
+
+    {
+      cena === 'rota' && (
+        <g>
+          {/* Lances de escada de emergencia, vistos de lado. */}
+          {[0, 1, 2, 3].map((i) => {
+            const base = 180 + i * 120
+            const espelhado = i % 2 === 1
+            return (
+              <g
+                transform={espelhado ? `translate(1200 0) scale(-1 1)` : undefined}
+                opacity="0.13"
+              >
+                <path
+                  d={`M${180} ${base + 96} L${560} ${base} L${560} ${base + 18} L${180} ${base + 114} Z`}
+                  fill={c.estrutura}
+                />
+                {[0, 1, 2, 3, 4, 5, 6, 7].map((d) => (
+                  <rect
+                    x={196 + d * 45}
+                    y={base + 88 - d * 11.4}
+                    width="34"
+                    height="4"
+                    rx="1"
+                    fill={c.estrutura}
+                    opacity="0.45"
+                  />
+                ))}
+                <rect
+                  x={560}
+                  y={base - 4}
+                  width="150"
+                  height="10"
+                  rx="2"
+                  fill={c.estrutura}
+                  opacity="0.5"
+                />
+              </g>
+            )
+          })}
+
+          {/* Quem desce. Sempre de costas para quem le, nunca de rosto. */}
+          <g fill={c.figura} opacity="0.3">
+            <use href={`#pessoa-${cena}`} x="300" y="222" width="26" height="62" />
+            <use href={`#pessoa-${cena}`} x="415" y="192" width="24" height="57" />
+            <use href={`#pessoa-${cena}`} x="742" y="352" width="27" height="64" />
+            <use href={`#pessoa-${cena}`} x="856" y="322" width="24" height="57" />
+            <use href={`#pessoa-${cena}`} x="352" y="466" width="26" height="62" />
+          </g>
+
+          {/* Placa de saida: o unico elemento aceso da cena. */}
+          <g transform="translate(940 150)">
+            <rect width="86" height="34" rx="4" fill={c.luz} opacity="0.34"></rect>
+            <path
+              d="M18 17h34m-9-8 9 8-9 8"
+              stroke={c.estrutura}
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              opacity="0.45"
+              fill="none"
+            ></path>
+            <rect
+              x="60"
+              y="8"
+              width="16"
+              height="18"
+              rx="2"
+              fill={c.estrutura}
+              opacity="0.32"
+            ></rect>
+          </g>
+        </g>
+      )
+    }
+
+    {
+      cena === 'treinamento' && (
+        <g>
+          {/* Quadro e instrutor. */}
+          <g opacity="0.14">
+            <rect x="120" y="120" width="330" height="200" rx="6" fill={c.estrutura}></rect>
+            <rect x="120" y="120" width="330" height="6" rx="3" fill={c.estrutura}></rect>
+            <path
+              d="M170 250c22-46 44-70 66-70s44 24 66 70"
+              stroke={c.luz}
+              stroke-width="7"
+              fill="none"
+              opacity="0.9"
+            ></path>
+            <rect x="168" y="272" width="180" height="8" rx="4" fill={c.estrutura}></rect>
+            <rect x="168" y="292" width="120" height="8" rx="4" fill={c.estrutura}></rect>
+          </g>
+
+          <g fill={c.figura} opacity="0.3">
+            <use href={`#pessoa-${cena}`} x="486" y="176" width="40" height="96" />
+          </g>
+
+          {/*
+            A turma, de costas. Escalas diferentes dao profundidade sem
+            precisar de perspectiva desenhada.
+          */}
+          <g fill={c.figura} opacity="0.2">
+            <use href={`#pessoa-${cena}`} x="640" y="330" width="46" height="110" />
+            <use href={`#pessoa-${cena}`} x="712" y="344" width="42" height="100" />
+            <use href={`#pessoa-${cena}`} x="784" y="322" width="48" height="114" />
+            <use href={`#pessoa-${cena}`} x="864" y="350" width="41" height="98" />
+            <use href={`#pessoa-${cena}`} x="936" y="332" width="45" height="108" />
+            <use href={`#pessoa-${cena}`} x="1010" y="346" width="42" height="100" />
+          </g>
+
+          <g fill={c.figura} opacity="0.12">
+            <use href={`#pessoa-${cena}`} x="596" y="262" width="34" height="82" />
+            <use href={`#pessoa-${cena}`} x="676" y="256" width="32" height="76" />
+            <use href={`#pessoa-${cena}`} x="836" y="258" width="33" height="79" />
+            <use href={`#pessoa-${cena}`} x="908" y="252" width="31" height="74" />
+          </g>
+
+          {/* Extintor no canto, o objeto do curso. */}
+          <g transform="translate(1108 388)" opacity="0.18">
+            <rect width="34" height="72" rx="12" fill={c.luz}></rect>
+            <rect x="11" y="-12" width="12" height="14" rx="3" fill={c.estrutura}></rect>
+            <rect x="4" y="22" width="26" height="6" rx="3" fill={c.estrutura}></rect>
+          </g>
+        </g>
+      )
+    }
+  </g>
+
+  {/*
+    Veu. O texto por cima precisa de contraste garantido, e o desenho nao
+    tem obrigacao de ser uniforme. Sem ele o subtitulo do /avcb media
+    3.10:1 sobre a placa de saida, abaixo do minimo de 4.5:1.
+
+    Em cabecalho de pagina, que e baixo, o slice mostra so a faixa de baixo
+    da cena, que e onde a mascara deixa o desenho mais forte. Por isso o veu
+    e generoso: e la que o contraste aperta.
+  */}
+  <rect width="1200" height="620" fill="#201c1e" opacity="0.40"></rect>
+</svg>

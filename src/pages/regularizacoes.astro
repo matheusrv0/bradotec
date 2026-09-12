@@ -1,6 +1,12 @@
 ---
+import fotoCarimbo from '@/assets/fotos-licenciadas/documentos-em-mesa.jpg'
+import AvisoEscopo from '@/components/AvisoEscopo.astro'
+import BotaoLink from '@/components/BotaoLink.astro'
+import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
 import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
 import Faq from '@/components/Faq.astro'
+import Kicker from '@/components/Kicker.astro'
+import SecaoServicos from '@/components/SecaoServicos.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { schemaFaqDaPagina } from '@/lib/faq'
 
@@ -10,27 +16,83 @@ const trilha = [
 ] as const
 
 const schemaFaq = await schemaFaqDaPagina('regularizacoes')
+
+const situacoes = [
+  'Empresa que precisa abrir, mudar de endereço ou ampliar a atividade',
+  'Comércio que não consegue renovar o alvará por pendência documental',
+  'Imóvel ou edificação com documentação incompleta ou desatualizada',
+  'Exigência recebida e não atendida dentro do prazo',
+  'Documentação espalhada entre contador, síndico e antigos responsáveis',
+  'Licenças vencendo sem ninguém acompanhando os prazos',
+] as const
 ---
 
 <BaseLayout
   titulo="Regularização de empresas e imóveis em João Pessoa (PB) | Bradotec"
-  descricao="Licenças, certidões, protocolos e regularização de empresas, comércios e imóveis em João Pessoa/PB. Acompanhamento de exigências e controle de vencimentos com a Bradotec Documentos."
+  descricao="Licenças, alvarás, certidões, protocolos e regularização de empresas e imóveis em João Pessoa/PB, com resposta a exigências e controle de vencimentos conduzidos até a conclusão."
   trilha={trilha}
   schemasExtras={schemaFaq ? [schemaFaq] : []}
 >
   <CabecalhoPagina
+    foto={fotoCarimbo}
+    descricaoDaFoto="Documentos passando de mão em mão sobre uma mesa de escritório"
+    cena="fachada"
     titulo="Regularizações, licenças e gestão documental"
-    subtitulo="Licenças, certidões, protocolos e regularização de empresas e imóveis em João Pessoa — com o processo acompanhado até a conclusão."
+    subtitulo="Licenças, certidões, protocolos e regularização de empresas e imóveis em João Pessoa, com o processo acompanhado até a conclusão."
     trilha={trilha}
-  />
+  >
+    <div class="mt-6 flex flex-wrap gap-3">
+      <BotaoLink href="/contato" variante="primario">Solicitar orçamento</BotaoLink>
+    </div>
+  </CabecalhoPagina>
 
-  <section class="py-16">
+  <section class="py-16 lg:py-20" aria-labelledby="o-que-resolvemos">
     <div class="mx-auto w-full max-w-wrap px-5">
-      <p class="text-ink-soft">
-        {/* Conteudo desta pagina entra no proximo bloco, vindo das Content Collections. */}
-        Conteúdo em migração a partir da versão anterior do site.
+      <Kicker class="text-div-doc">Bradotec Documentos</Kicker>
+      <h2 id="o-que-resolvemos" class="mt-2 text-secao text-ink">O que resolvemos</h2>
+      <p class="mt-4 max-w-[66ch] text-guia text-ink-soft">
+        A maior parte dos problemas documentais não é falta de vontade: é falta de alguém para
+        conduzir. É exatamente essa parte que a Bradotec assume.
       </p>
     </div>
   </section>
+
+  <SecaoServicos
+    divisao="documentos"
+    id="servicos-documentos"
+    titulo="Frentes que a divisão Documentos conduz"
+  />
+
+  <section class="py-16 lg:py-20" aria-labelledby="situacoes">
+    <div class="mx-auto w-full max-w-wrap px-5">
+      <h2 id="situacoes" class="text-secao text-ink">Situações mais comuns</h2>
+
+      <ul class="mt-11 grid list-none gap-x-12 border-t border-line md:grid-cols-2">
+        {
+          situacoes.map((situacao) => (
+            <li class="flex items-start gap-3 border-b border-line py-5 text-corpo text-ink-soft">
+              <span
+                class="mt-[0.45em] size-1.5 shrink-0 rounded-full bg-div-doc"
+                aria-hidden="true"
+              />
+              {situacao}
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <BotaoWhatsapp origem="licenca">Solicitar orçamento</BotaoWhatsapp>
+        <BotaoLink href="/diagnostico" variante="contorno">Responder as 4 perguntas</BotaoLink>
+      </div>
+    </div>
+  </section>
+
+  <AvisoEscopo titulo="Sobre prazos">
+    O tempo de cada processo depende da documentação existente, das exigências emitidas e da análise
+    do órgão público responsável. Informamos o que está sob nosso controle e comunicamos o andamento
+    a cada etapa, sem prometer prazo que não depende de nós.
+  </AvisoEscopo>
+
   <Faq pagina="regularizacoes" />
 </BaseLayout>

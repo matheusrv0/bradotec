@@ -1,0 +1,319 @@
+---
+import { perguntas, rotas } from '@/config/quiz'
+import { ehPlaceholder, site } from '@/config/site'
+
+/**
+ * Diagnostico de Regularizacao — quatro perguntas, uma por tela.
+ *
+ * Foi uma ilha React na primeira versao. Medido depois do build, custava
+ * 74 KB de JavaScript comprimido ao visitante — 71 KB deles so de React —
+ * para gerenciar quatro radios. O componente em si eram 2,8 KB.
+ *
+ * A regra do projeto diz que cada ilha React custa download de biblioteca
+ * para o visitante, e aqui a conta nao fechava. As perguntas e os resultados
+ * saem prontos do servidor; o script abaixo so troca o que esta visivel.
+ *
+ * A logica continua em src/config/quiz.ts, com os mesmos 18 testes: o modulo
+ * nunca dependeu de framework. Os testes de navegador tambem seguem valendo,
+ * porque verificam comportamento, nao implementacao.
+ */
+
+/**
+ * O numero e resolvido AQUI, no servidor, e desce como atributo. Importar
+ * site.ts no script do navegador arrastaria o Zod inteiro para o cliente —
+ * 19 KB comprimidos para ler uma string.
+ */
+const numeroWhatsapp = ehPlaceholder(site.whatsapp) ? '' : site.whatsapp.replace(/\D/g, '')
+---
+
+<div
+  class="rounded-xl border border-line bg-white p-7 shadow-card md:p-8"
+  data-quiz
+  data-passo="0"
+  data-whatsapp={numeroWhatsapp}
+>
+  <div
+    class="h-1.5 w-full overflow-hidden rounded-full bg-line-soft"
+    role="progressbar"
+    aria-valuenow="0"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-label="Progresso do diagnóstico"
+    data-barra
+  >
+    <div
+      class="h-full w-full origin-left scale-x-0 rounded-full bg-wine transition-transform duration-200 ease-saida"
+      data-barra-preenchida
+    >
+    </div>
+  </div>
+
+  <div data-perguntas>
+    {
+      perguntas.map((pergunta, indice) => (
+        <div class="mt-6" data-pergunta={pergunta.id} hidden={indice > 0}>
+          <p class="text-rotulo font-bold uppercase tracking-[0.08em] text-ash-500">
+            Pergunta {indice + 1} de {perguntas.length}
+          </p>
+
+          <fieldset class="mt-3 border-0 p-0">
+            <legend class="text-cartao-lg text-ink">{pergunta.titulo}</legend>
+
+            <div class="mt-5 flex flex-col gap-2.5">
+              {pergunta.opcoes.map((opcao) => (
+                <label
+                  class="flex cursor-pointer items-center gap-3 rounded-lg border border-line p-4 text-corpo text-ink-soft transition-colors hover:border-line-forte hover:bg-line-soft has-[:checked]:border-wine has-[:checked]:bg-wine-soft has-[:checked]:text-ink"
+                >
+                  <input
+                    type="radio"
+                    name={pergunta.id}
+                    value={opcao.id}
+                    class="size-4 shrink-0 accent-fire"
+                  />
+                  {opcao.rotulo}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      ))
+    }
+
+    <p class="mt-3 text-apoio font-bold text-wine" role="alert" data-aviso hidden>
+      Escolha uma opção para continuar.
+    </p>
+
+    <div class="mt-6 flex flex-wrap gap-3">
+      <button
+        type="button"
+        class="inline-flex min-h-[50px] items-center justify-center rounded-md border border-line-forte px-6 py-3.5 font-bold text-graphite-900 transition-colors hover:border-graphite-900 hover:bg-line-soft"
+        data-voltar
+        hidden
+      >
+        Voltar
+      </button>
+      <button
+        type="button"
+        class="inline-flex min-h-[50px] items-center justify-center rounded-md bg-wine px-6 py-3.5 font-bold text-white transition-colors hover:bg-wine-dark"
+        data-avancar
+      >
+        Continuar
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-6 outline-none" tabindex="-1" data-resultado hidden>
+    {
+      Object.values(rotas).map((rota) => (
+        <div data-rota={rota.id} hidden>
+          <h3 class="text-cartao-lg text-ink">{rota.titulo}</h3>
+          <p class="mt-3 text-ink-soft">{rota.texto}</p>
+
+          <div class="mt-5 rounded-lg border border-line bg-canvas p-5">
+            <p class="font-bold text-ink">Próximos passos que costumamos seguir</p>
+            <ul class="mt-3 flex list-none flex-col gap-2">
+              {rota.itens.map((item) => (
+                <li class="flex items-start gap-2.5 text-corpo text-ink-soft">
+                  <span class="mt-[0.45em] size-1.5 shrink-0 rounded-full bg-wine" aria-hidden="true" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <a
+            class="mt-5 inline-flex min-h-[50px] items-center justify-center rounded-md border border-line-forte px-6 py-3.5 font-bold text-graphite-900 no-underline transition-colors hover:border-graphite-900 hover:bg-line-soft"
+            href={rota.href}
+          >
+            Ver essa divisão
+          </a>
+        </div>
+      ))
+    }
+
+    <dl class="mt-5 flex flex-col gap-2.5 border-t border-line-soft pt-5" data-resumo></dl>
+
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a
+        class="inline-flex min-h-[50px] items-center justify-center rounded-md bg-wine px-6 py-3.5 font-bold text-white no-underline transition-colors hover:bg-wine-dark"
+        href="/contato"
+        data-enviar
+      >
+        Falar com um especialista
+      </a>
+      <button
+        type="button"
+        class="inline-flex min-h-[50px] items-center justify-center rounded-md px-4 py-3.5 font-bold text-graphite-900 underline underline-offset-4 transition-colors hover:text-wine"
+        data-refazer
+      >
+        Refazer
+      </button>
+    </div>
+
+    <p
+      class="mt-4 rounded-lg border border-warn-claro bg-warn-fundo p-4 text-apoio text-ink-soft"
+      data-sem-numero
+      hidden
+    >
+      O número de WhatsApp ainda não foi configurado neste site, então o botão leva à página de
+      contato.
+    </p>
+
+    <p class="mt-5 text-apoio text-ash-500">
+      Este resultado é uma orientação inicial para direcionar o atendimento. A definição do que se
+      aplica ao seu caso depende de análise da documentação e, quando necessário, de profissional
+      legalmente habilitado.
+    </p>
+  </div>
+</div>
+
+<script>
+  import {
+    decidirRota,
+    montarMensagemDoQuiz,
+    perguntas,
+    rotuloDaResposta,
+    type Respostas,
+  } from '@/config/quiz'
+
+  const raiz = document.querySelector<HTMLElement>('[data-quiz]')
+  if (raiz) {
+    const blocos = [...raiz.querySelectorAll<HTMLElement>('[data-pergunta]')]
+    const painelPerguntas = raiz.querySelector<HTMLElement>('[data-perguntas]')
+    const resultado = raiz.querySelector<HTMLElement>('[data-resultado]')
+    const barra = raiz.querySelector<HTMLElement>('[data-barra]')
+    const preenchida = raiz.querySelector<HTMLElement>('[data-barra-preenchida]')
+    const aviso = raiz.querySelector<HTMLElement>('[data-aviso]')
+    const botaoAvancar = raiz.querySelector<HTMLButtonElement>('[data-avancar]')
+    const botaoVoltar = raiz.querySelector<HTMLButtonElement>('[data-voltar]')
+    const botaoRefazer = raiz.querySelector<HTMLButtonElement>('[data-refazer]')
+    const resumo = raiz.querySelector<HTMLElement>('[data-resumo]')
+    const enviar = raiz.querySelector<HTMLAnchorElement>('[data-enviar]')
+    const semNumero = raiz.querySelector<HTMLElement>('[data-sem-numero]')
+
+    let passo = 0
+
+    /** Le as respostas direto do DOM: os radios ja sao a fonte da verdade. */
+    const lerRespostas = (): Respostas =>
+      Object.fromEntries(
+        perguntas
+          .map((pergunta) => {
+            const marcado = raiz.querySelector<HTMLInputElement>(
+              `input[name="${pergunta.id}"]:checked`
+            )
+            return marcado ? [pergunta.id, marcado.value] : null
+          })
+          .filter((par): par is [string, string] => par !== null)
+      )
+
+    const progresso = (indice: number) => Math.round((indice / perguntas.length) * 100)
+
+    const atualizarBarra = (indice: number) => {
+      barra?.setAttribute('aria-valuenow', String(progresso(indice)))
+      if (preenchida) preenchida.style.scale = `${progresso(indice) / 100} 1`
+    }
+
+    const mostrarPasso = (indice: number) => {
+      passo = indice
+      blocos.forEach((bloco, i) => {
+        bloco.hidden = i !== indice
+      })
+      if (botaoVoltar) botaoVoltar.hidden = indice === 0
+      if (botaoAvancar) {
+        botaoAvancar.textContent =
+          indice === perguntas.length - 1 ? 'Ver o caminho indicado' : 'Continuar'
+      }
+      if (aviso) aviso.hidden = true
+      atualizarBarra(indice)
+    }
+
+    const mostrarResultado = () => {
+      const respostas = lerRespostas()
+      const rota = decidirRota(respostas)
+
+      for (const painel of raiz.querySelectorAll<HTMLElement>('[data-rota]')) {
+        painel.hidden = painel.dataset.rota !== rota.id
+      }
+
+      if (resumo) {
+        resumo.replaceChildren(
+          ...perguntas.map((pergunta) => {
+            const item = document.createElement('div')
+            item.className = 'text-corpo'
+
+            const titulo = document.createElement('dt')
+            titulo.className =
+              'text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500'
+            titulo.textContent = pergunta.titulo
+
+            const valor = document.createElement('dd')
+            valor.className = 'mt-0.5 text-ink-soft'
+            valor.textContent = rotuloDaResposta(pergunta.id, respostas) ?? '...'
+
+            item.append(titulo, valor)
+            return item
+          })
+        )
+      }
+
+      const numero = raiz.dataset.whatsapp ?? ''
+      const temNumero = numero.length > 0
+      if (enviar) {
+        if (temNumero) {
+          const texto = encodeURIComponent(montarMensagemDoQuiz(respostas))
+          enviar.href = `https://wa.me/${numero}?text=${texto}`
+          enviar.target = '_blank'
+          enviar.rel = 'noopener'
+          enviar.textContent = 'Enviar minhas respostas no WhatsApp'
+        } else {
+          enviar.href = '/contato'
+          enviar.textContent = 'Falar com um especialista'
+        }
+      }
+      if (semNumero) semNumero.hidden = temNumero
+
+      if (painelPerguntas) painelPerguntas.hidden = true
+      if (resultado) {
+        resultado.hidden = false
+        // Sem isto o foco fica no botao que acabou de sumir.
+        resultado.focus()
+      }
+      atualizarBarra(perguntas.length)
+    }
+
+    botaoAvancar?.addEventListener('click', () => {
+      const atual = perguntas[passo]
+      if (!atual) return
+
+      if (!raiz.querySelector(`input[name="${atual.id}"]:checked`)) {
+        if (aviso) aviso.hidden = false
+        return
+      }
+
+      if (passo === perguntas.length - 1) {
+        mostrarResultado()
+        return
+      }
+
+      mostrarPasso(passo + 1)
+    })
+
+    botaoVoltar?.addEventListener('click', () => mostrarPasso(Math.max(0, passo - 1)))
+
+    // Escolher uma opcao limpa o aviso na hora.
+    raiz.addEventListener('change', () => {
+      if (aviso) aviso.hidden = true
+    })
+
+    botaoRefazer?.addEventListener('click', () => {
+      for (const entrada of raiz.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+        entrada.checked = false
+      }
+      if (resultado) resultado.hidden = true
+      if (painelPerguntas) painelPerguntas.hidden = false
+      mostrarPasso(0)
+    })
+
+    mostrarPasso(0)
+  }
+</script>

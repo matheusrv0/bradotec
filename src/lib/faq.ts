@@ -10,7 +10,9 @@ import { jsonLdFaq } from '@/lib/seo'
  * mesmo texto — o problema que existia na versao anterior do site.
  */
 export async function schemaFaqDaPagina(pagina: PaginaComFaq) {
-  const entradas = await getCollection('faq', ({ data }) => data.paginas.includes(pagina))
+  const entradas = (await getCollection('faq', ({ data }) => data.paginas.includes(pagina))).sort(
+    (x, y) => x.data.ordem - y.data.ordem
+  )
 
   if (entradas.length === 0) return null
 

@@ -1,0 +1,121 @@
+[
+  {
+    "id": "risco-multa",
+    "grupo": "risco",
+    "titulo": "Notificação, prazo e multa",
+    "descricao": "Em uma ação de fiscalização, a edificação sem AVCB ou com o documento vencido recebe notificação com prazo para corrigir as não conformidades. Na Paraíba a multa é medida em UFR-PB e cresce com a área construída. A Lei nº 9.625/2011 traz os valores, e esta página mostra a conta.",
+    "ordem": 1
+  },
+  {
+    "id": "risco-seguro",
+    "grupo": "risco",
+    "titulo": "O seguro pode ser recusado",
+    "descricao": "Apólices costumam condicionar a cobertura à regularidade da edificação. Sem AVCB, a seguradora pode negar o pagamento em caso de incêndio, e o prejuízo que o seguro existia para cobrir fica inteiro com o condomínio. A regra vale o que está escrito na apólice: vale ler a sua.",
+    "ordem": 2
+  },
+  {
+    "id": "risco-sindico",
+    "grupo": "risco",
+    "titulo": "O síndico responde pela administração",
+    "descricao": "O síndico representa o condomínio e responde por sua administração (Código Civil, art. 1.348). Em uma ocorrência grave, uma irregularidade conhecida e não tratada pesa contra ele nas esferas cível e criminal. Quem analisa o caso concreto é advogado, mas a exposição existe antes de qualquer análise.",
+    "ordem": 3
+  },
+  {
+    "id": "risco-trava",
+    "grupo": "risco",
+    "titulo": "Trava o que não parece ter relação",
+    "descricao": "Alvará de funcionamento, licenças e renovações costumam depender da regularidade junto ao Corpo de Bombeiros. Na prática, uma pendência de incêndio para processos que aparentemente nada têm a ver com ela, e o problema só aparece quando já há prazo correndo.",
+    "ordem": 4
+  },
+  {
+    "id": "item-brigada",
+    "grupo": "item",
+    "titulo": "Atestado de brigada de incêndio",
+    "descricao": "Comprova a formação e a atualização da brigada, conforme a ABNT NBR 14276 e a NR-23. É o único item desta lista que a Bradotec executa diretamente, pelos treinamentos.",
+    "ordem": 1
+  },
+  {
+    "id": "item-para-raios",
+    "grupo": "item",
+    "titulo": "ART do sistema de para-raios",
+    "descricao": "Anotação de Responsabilidade Técnica do sistema de proteção contra descargas atmosféricas, assinada por profissional habilitado.",
+    "ordem": 2
+  },
+  {
+    "id": "item-gas",
+    "grupo": "item",
+    "titulo": "ART das instalações de gás",
+    "descricao": "Responsabilidade técnica da instalação de gás da edificação, incluindo central, prumadas e pontos de consumo.",
+    "ordem": 3
+  },
+  {
+    "id": "item-eletrica",
+    "grupo": "item",
+    "titulo": "Atestado das instalações elétricas",
+    "descricao": "Laudo das instalações elétricas, que costumam estar entre as principais causas de ocorrência em edificações antigas.",
+    "ordem": 4
+  },
+  {
+    "id": "item-combate",
+    "grupo": "item",
+    "titulo": "Atestado dos sistemas de combate a incêndio",
+    "descricao": "Hidrantes, extintores, sinalização e iluminação de emergência, portas corta-fogo, corrimãos e guarda-corpos. O que se avalia é o conjunto, não item por item.",
+    "ordem": 5
+  },
+  {
+    "id": "item-cmar",
+    "grupo": "item",
+    "titulo": "CMAR (Controle de Materiais de Acabamento e Revestimento)",
+    "descricao": "Atesta que carpetes, tintas, forros e revestimentos usados na edificação atendem à exigência de reação ao fogo.",
+    "ordem": 6
+  },
+  {
+    "id": "item-gerador",
+    "grupo": "item",
+    "titulo": "Documentação do grupo gerador",
+    "descricao": "Abrangência e condições do grupo gerador, quando a edificação possui um, incluindo o que ele mantém energizado em emergência.",
+    "ordem": 7
+  },
+  {
+    "id": "item-escada",
+    "grupo": "item",
+    "titulo": "Atestado da escada pressurizada",
+    "descricao": "Aplicável às edificações que possuem escada pressurizada, com a comprovação de funcionamento do sistema.",
+    "ordem": 8
+  },
+  {
+    "id": "item-projeto",
+    "grupo": "item",
+    "titulo": "Projeto técnico aprovado",
+    "descricao": "É a base de tudo: define o que a edificação precisa ter. Sem ele, não há o que vistoriar, e é justamente o documento que mais se perde com o tempo.",
+    "ordem": 9
+  },
+  {
+    "id": "cotacao-habilitacao",
+    "grupo": "cotacao",
+    "titulo": "Quem assina o projeto e o laudo, e com qual habilitação?",
+    "descricao": "Projeto e laudo técnico só têm validade se assinados por profissional legalmente habilitado. Peça o nome e o registro antes de fechar, não depois.",
+    "ordem": 1
+  },
+  {
+    "id": "cotacao-escopo",
+    "grupo": "cotacao",
+    "titulo": "O escopo vem por escrito, com as normas que serão atendidas?",
+    "descricao": "Peça o descritivo do serviço citando as normas, leis e decretos aplicáveis. Escopo verbal é onde nasce a maior parte das discussões depois.",
+    "ordem": 2
+  },
+  {
+    "id": "cotacao-prazo",
+    "grupo": "cotacao",
+    "titulo": "Qual prazo é do fornecedor e qual depende do órgão?",
+    "descricao": "São coisas diferentes e devem ser ditas separadas. Fornecedor que promete prazo total, incluindo a parte que está com o Corpo de Bombeiros, está prometendo o que não controla.",
+    "ordem": 3
+  },
+  {
+    "id": "cotacao-referencias",
+    "grupo": "cotacao",
+    "titulo": "Dá para falar com três clientes atendidos nos últimos seis meses?",
+    "descricao": "Referência com contato, não depoimento em site. Síndico que passou pelo processo recentemente conta o que o orçamento não mostra, inclusive como foi quando algo deu errado.",
+    "ordem": 4
+  }
+]

@@ -38,3 +38,11 @@ pnpm-debug.log*
 
 # Backup do site estatico anterior (nao versionar o zip)
 legacy/bradotec-site.zip
+
+# Skills de agente instaladas por `npx skills add`.
+# Ficam so na maquina de quem instalou: os atalhos em .claude/skills sao
+# links simbolicos com caminho absoluto e quebrariam em qualquer outro
+# computador. O repositorio guarda o site, nao a ferramenta de quem edita.
+.agents/
+.claude/
+skills-lock.json

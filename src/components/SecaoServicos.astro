@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content'
+import type { IdDivisao } from '@/content.config'
+
+interface Props {
+  divisao: IdDivisao
+  titulo: string
+  /** Id do heading, para o aria-labelledby da secao. */
+  id: string
+  descricao?: string
+}
+
+const { divisao, titulo, id, descricao } = Astro.props
+
+const servicos = (await getCollection('servicos', ({ data }) => data.divisao === divisao)).sort(
+  (a, b) => a.data.ordem - b.data.ordem
+)
+---
+
+<section class="bg-canvas py-16 lg:py-20" aria-labelledby={id}>
+  <div class="mx-auto w-full max-w-wrap px-5">
+    <h2 id={id} class="text-secao text-ink">{titulo}</h2>
+    {descricao && <p class="mt-4 max-w-[66ch] text-guia text-ink-soft">{descricao}</p>}
+
+    {/*
+      Lista com fio, e nao grade de cartoes.
+
+      Este componente aparece em tres paginas, e em cada uma ele era a
+      terceira ou quarta grade de caixas seguidas. Medido em
+      /seguranca-contra-incendio: treze cartoes com borda, fundo e sombra, em
+      tres grades empilhadas. Caixa em volta de tudo nao hierarquiza nada, e a
+      pagina passa a ler como catalogo de componentes.
+
+      A caixa saiu, o fio ficou. Continua sendo grade, entao o servico segue
+      escaneavel; o que sumiu foi o peso. O respiro entre colunas subiu para
+      compensar a borda que nao existe mais.
+    */}
+    <ul class="mt-11 grid list-none gap-x-12 border-t border-line sm:grid-cols-2 lg:grid-cols-3">
+      {
+        servicos.map((servico) => (
+          <li class="border-b border-line py-6">
+            <h3 class="text-cartao text-ink">{servico.data.titulo}</h3>
+            <p class="mt-2 text-corpo text-ink-soft">{servico.data.descricao}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

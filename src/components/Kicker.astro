@@ -1,0 +1,18 @@
+---
+/**
+ * Rotulo curto acima do titulo da secao ("Bradotec Fire", "Ponto de partida").
+ *
+ * Existia copiado em dez lugares com a mesma cadeia de classes. Um componente
+ * porque e um papel tipografico do sistema, nao decoracao: diz de qual divisao
+ * ou de que etapa a secao trata antes do titulo dizer o que ela e.
+ */
+interface Props {
+  /** Sobre fundo escuro o rotulo precisa de uma cor clara, passada aqui. */
+  class?: string
+}
+const { class: classe = 'text-ash-500' } = Astro.props
+---
+
+<p class:list={['text-rotulo font-bold uppercase tracking-[0.08em]', classe]}>
+  <slot />
+</p>

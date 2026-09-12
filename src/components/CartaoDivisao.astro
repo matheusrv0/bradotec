@@ -1,0 +1,72 @@
+---
+import BotaoLink from '@/components/BotaoLink.astro'
+
+interface Props {
+  marca: string
+  titulo: string
+  resumo: string
+  href: string
+  cor: 'fire' | 'doc' | 'auto'
+  /** Titulos dos servicos da divisao, vindos da colecao `servicos`. */
+  servicos: readonly string[]
+  /**
+   * Quantos servicos mostrar. Sem limite, os tres cartoes somavam 21 linhas
+   * de texto miudo na home, que e onde a pessoa so esta escolhendo por onde
+   * comecar. A lista inteira fica em /solucoes e na pagina da divisao.
+   */
+  limite?: number
+}
+
+const { marca, titulo, resumo, href, cor, servicos, limite } = Astro.props
+
+const mostrados = limite ? servicos.slice(0, limite) : servicos
+const restantes = servicos.length - mostrados.length
+
+/**
+ * Classes literais por divisao. Nao montar com template string: o Tailwind
+ * varre o codigo como texto e nao enxerga nome de classe construido em
+ * tempo de execucao — a cor sairia do CSS final.
+ */
+const estilos = {
+  fire: { texto: 'text-div-fire', borda: 'border-l-div-fire/35', topo: 'before:bg-div-fire' },
+  doc: { texto: 'text-div-doc', borda: 'border-l-div-doc/35', topo: 'before:bg-div-doc' },
+  auto: { texto: 'text-div-auto', borda: 'border-l-div-auto/35', topo: 'before:bg-div-auto' },
+} as const
+
+const estilo = estilos[cor]
+---
+
+<article
+  class:list={[
+    'relative flex flex-col overflow-hidden rounded-xl border border-line bg-white p-7 shadow-card',
+    "before:absolute before:inset-x-0 before:top-0 before:h-1 before:content-['']",
+    estilo.topo,
+  ]}
+>
+  <p class:list={['text-rotulo font-bold uppercase tracking-[0.08em]', estilo.texto]}>
+    {marca}
+  </p>
+
+  <h3 class="mt-2 text-cartao-lg text-ink">{titulo}</h3>
+  <p class="mt-2 text-ink-soft">{resumo}</p>
+
+  <ul
+    class:list={[
+      "mt-5 flex flex-col gap-2 border-l-2 pl-4 text-corpo text-ink-soft",
+      estilo.borda,
+    ]}
+  >
+    {
+      mostrados.map((servico) => (
+        <li>{servico}</li>
+      ))
+    }
+    {restantes > 0 && (
+      <li class="text-ash-500">e mais {restantes} {restantes === 1 ? 'serviço' : 'serviços'}</li>
+    )}
+  </ul>
+
+  <div class="mt-auto pt-7">
+    <BotaoLink href={href} pequeno>Ver a divisão</BotaoLink>
+  </div>
+</article>

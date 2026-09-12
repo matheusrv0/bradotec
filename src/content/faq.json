@@ -8,8 +8,8 @@
   {
     "id": "documentos-necessarios",
     "pergunta": "Quais documentos eu preciso separar antes de falar com vocês?",
-    "resposta": "Não é preciso ter tudo pronto para iniciar a conversa. Costuma ajudar ter em mãos os dados da empresa ou do imóvel, documentos anteriores (licenças, alvarás, certificados) e qualquer exigência ou notificação recebida. A lista definitiva depende do tipo de atividade, da edificação e do órgão envolvido — isso é definido na análise inicial.",
-    "paginas": ["home", "solucoes", "regularizacoes"]
+    "resposta": "Não é preciso ter tudo pronto para iniciar a conversa. Costuma ajudar ter em mãos os dados da empresa ou do imóvel, documentos anteriores (licenças, alvarás, certificados) e qualquer exigência ou notificação recebida. A lista definitiva depende do tipo de atividade, da edificação e do órgão envolvido. Isso é definido na análise inicial.",
+    "paginas": ["solucoes", "regularizacoes"]
   },
   {
     "id": "acompanha-ate-o-fim",
@@ -21,25 +21,25 @@
     "id": "atendem-condominios",
     "pergunta": "Vocês atendem condomínios?",
     "resposta": "Sim. Condomínios são um dos públicos principais, tanto na parte de segurança contra incêndio e pânico quanto na organização e no controle de vencimentos da documentação do empreendimento.",
-    "paginas": ["home", "solucoes", "seguranca-contra-incendio", "empresas"]
+    "paginas": ["solucoes", "seguranca-contra-incendio", "empresas"]
   },
   {
     "id": "contrato-recorrente",
     "pergunta": "Vocês atendem empresas com contrato recorrente?",
     "resposta": "Sim. Além dos processos pontuais, a Bradotec oferece gestão documental contínua: controle de vencimentos, organização dos documentos, acompanhamento de renovações e orientação administrativa.",
-    "paginas": ["home", "solucoes", "empresas"]
+    "paginas": ["solucoes", "empresas"]
   },
   {
     "id": "documentacao-veicular",
     "pergunta": "Vocês fazem documentação veicular?",
     "resposta": "Sim, pela divisão Bradotec Auto: transferência, emplacamento, primeiro registro, segunda via, alteração de dados, regularização de pendências e gestão de documentação de frotas.",
-    "paginas": ["home", "solucoes", "documentacao-veicular"]
+    "paginas": ["solucoes", "documentacao-veicular"]
   },
   {
     "id": "diagnostico",
     "pergunta": "Como funciona o Diagnóstico de Regularização?",
     "resposta": "É uma análise inicial da sua situação: coletamos informações, verificamos o que existe, identificamos pendências e apresentamos um plano de ação com os próximos passos. Serve para você saber exatamente por onde começar antes de contratar qualquer serviço.",
-    "paginas": ["home", "regularizacoes", "documentacao-veicular"]
+    "paginas": ["regularizacoes", "documentacao-veicular"]
   },
   {
     "id": "prazo",
@@ -51,7 +51,7 @@
     "id": "projetos-e-laudos",
     "pergunta": "A Bradotec assina projetos e laudos técnicos?",
     "resposta": "A Bradotec atua na gestão, na organização e no acompanhamento administrativo dos processos. Projetos, laudos e serviços técnicos que exigem habilitação específica são executados por profissionais e empresas legalmente habilitados, com quem coordenamos o trabalho.",
-    "paginas": ["home", "seguranca-contra-incendio", "empresas"]
+    "paginas": ["seguranca-contra-incendio", "empresas"]
   },
   {
     "id": "orcamento",
@@ -62,7 +62,89 @@
   {
     "id": "fora-de-joao-pessoa",
     "pergunta": "Vocês atendem fora de João Pessoa?",
-    "resposta": "A base de atuação é João Pessoa e região metropolitana, na Paraíba. Para outras localidades, a viabilidade é avaliada caso a caso — vale consultar pelo WhatsApp.",
+    "resposta": "A base de atuação é João Pessoa e região metropolitana, na Paraíba. Para outras localidades, a viabilidade é avaliada caso a caso. Vale consultar pelo WhatsApp.",
     "paginas": ["home", "documentacao-veicular"]
+  },
+  {
+    "id": "o-que-e-avcb",
+    "pergunta": "O que é o AVCB?",
+    "resposta": "AVCB é o Auto de Vistoria do Corpo de Bombeiros: o documento emitido pela corporação atestando que a edificação está em conformidade com as normas de segurança, prevenção e combate a incêndios. Ele é emitido após vistoria, que pode acontecer a pedido do condomínio ou da empresa, por denúncia ou como fiscalização sem aviso. Em alguns tipos de edificação o documento equivalente tem outro nome e outro rito, conforme a ocupação, a área e o risco.",
+    "paginas": ["avcb"]
+  },
+  {
+    "id": "renovacao-avcb",
+    "pergunta": "De quanto em quanto tempo o AVCB precisa ser renovado na Paraíba?",
+    "resposta": "Na Paraíba o AVCB vale 1 ano (Lei nº 9.625/2011, art. 3º-A, § 1º). O prazo de três a cinco anos que circula na internet é de outros estados e não se aplica aqui. O que se repete em intervalo maior é a vistoria completa: até 5 anos para baixo risco, 2 anos para médio e 1 ano para alto risco. Entre uma vistoria e outra, a renovação é feita pela RAS (Renovação Anual Simplificada), declarada pelo proprietário com firma reconhecida, nas edificações de baixo e médio risco.",
+    "paginas": ["avcb"]
+  },
+  {
+    "id": "multa-sem-avcb",
+    "pergunta": "Qual o valor da multa por estar sem AVCB na Paraíba?",
+    "resposta": "A Lei nº 9.625/2011, art. 25, § 6º, fixa a multa em UFR-PB conforme o risco: 4 para baixo, 8 para médio e 16 para alto. O § 7º acrescenta 0,05 UFR-PB por metro quadrado acima de 200 m², e é esse acréscimo que faz a diferença em prédios grandes. A UFR-PB é corrigida mensalmente pelo IPCA, então o valor em reais muda todo mês. O número de R$ 200 mil que circula na internet é de outro estado. Vale lembrar que a multa é a consequência mais barata: interdição, embargo e recusa de seguro não têm teto.",
+    "paginas": ["avcb", "empresas"]
+  },
+  {
+    "id": "sindico-responde",
+    "pergunta": "O síndico responde pessoalmente pela falta de AVCB?",
+    "resposta": "O síndico representa o condomínio e responde por sua administração, conforme o art. 1.348 do Código Civil. Em uma ocorrência grave, uma irregularidade conhecida e não tratada pesa contra ele nas esferas cível e criminal. A análise do caso concreto é de advogado, não nossa. Mas a exposição existe independentemente dessa análise, e é uma das razões pelas quais a regularização costuma ser tratada como prioridade em assembleia.",
+    "paginas": ["avcb", "empresas"]
+  },
+  {
+    "id": "projeto-perdido",
+    "pergunta": "Perdemos o projeto de incêndio do prédio. Ainda dá para regularizar?",
+    "resposta": "Dá, e é uma situação comum: o projeto costuma ser elaborado na construção e se perde nas trocas de síndico, administradora e responsável. Sem projeto não há o que vistoriar, então o primeiro passo não é marcar vistoria, e sim levantar o que a edificação possui hoje e elaborar o projeto, por profissional legalmente habilitado para assiná-lo. É por aí que a Bradotec começa nesses casos.",
+    "paginas": ["avcb"]
+  },
+  {
+    "id": "posto-combustivel",
+    "pergunta": "Vocês atendem posto de combustível?",
+    "resposta": "Sim. Posto de combustível reúne, no mesmo endereço, exigências de segurança contra incêndio, licenciamento ambiental, alvará de funcionamento e documentação de tanques e equipamentos. São processos que costumam correr em órgãos diferentes e com prazos que não conversam entre si. A Bradotec organiza a documentação, conduz os protocolos e acompanha as exigências dentro de um único processo.",
+    "paginas": ["avcb", "empresas", "solucoes"]
+  },
+  {
+    "id": "cursos-oferecidos",
+    "pergunta": "Vocês dão curso de brigada de incêndio e de primeiros socorros?",
+    "resposta": "Sim. São dois treinamentos, contratados juntos ou separados. O de brigada de incêndio segue a ABNT NBR 14276 e a NR-23, com prática de extintor, hidrante e simulado de abandono. O de primeiros socorros cobre suporte básico de vida para quem não tem formação em saúde: parada cardiorrespiratória, engasgo, hemorragia, queimadura e imobilização, com prática em manequim. Os dois são realizados na própria edificação, com a equipe que estará lá no dia da ocorrência.",
+    "paginas": ["treinamentos", "seguranca-contra-incendio", "solucoes", "empresas"]
+  },
+  {
+    "id": "brigada-obrigatoria",
+    "pergunta": "A brigada de incêndio é obrigatória?",
+    "resposta": "O atestado de brigada de incêndio está entre os documentos exigidos no processo do AVCB, e a formação segue a ABNT NBR 14276 e a NR-23. O tamanho da brigada e a exigência exata dependem da ocupação, da população fixa e do risco da edificação. Quem define isso é a análise do caso, conforme as normas técnicas do Corpo de Bombeiros. Na prática, edificação que precisa de AVCB precisa da brigada formada.",
+    "paginas": ["treinamentos", "avcb", "seguranca-contra-incendio"]
+  },
+  {
+    "id": "preco-treinamento",
+    "pergunta": "Quanto custa o treinamento?",
+    "resposta": "Não publicamos tabela porque o número sairia errado para quase todo mundo: carga horária, tamanho da brigada e formato dependem da ocupação, da população fixa e do risco da edificação. Não existe pacote único que sirva para um condomínio de doze apartamentos e para uma indústria. Diga quantas pessoas participariam e que tipo de edificação é, e a proposta volta com o dimensionamento já feito.",
+    "paginas": ["treinamentos"]
+  },
+  {
+    "id": "save-licenca-anual",
+    "pergunta": "Preciso licenciar o carregador de veículo elétrico todo ano?",
+    "resposta": "Não existe licença anual separada para o carregador. O SAVE entra como exigência dentro do processo de segurança contra incêndio da edificação, e é verificado na análise de projeto, na vistoria e na renovação do AVCB. Ou seja: não é um documento a mais para controlar, é mais um item que pode travar o documento que você já controla.",
+    "paginas": ["carregadores-eletricos"],
+    "ordem": 1
+  },
+  {
+    "id": "save-instalado-ha-dois-anos",
+    "pergunta": "O carregador já está instalado há dois anos. Preciso mexer?",
+    "resposta": "Sim, se a instalação não atende à norma. Para edificações existentes há prazo para as adequações gerais de segurança contra incêndio, mas as instalações elétricas do SAVE precisam estar em conformidade desde a entrada em vigor da NT 040/2025. A parte elétrica não tem prazo de carência.",
+    "paginas": ["carregadores-eletricos"],
+    "ordem": 3
+  },
+  {
+    "id": "save-tomada-da-garagem",
+    "pergunta": "Posso usar a tomada comum da garagem para carregar?",
+    "resposta": "Não. A NT 040/2025 proíbe tomada comum, extensão, adaptador e benjamim para recarga. Somente são admitidos os modos de recarga 3 e 4, em circuito exclusivo e com as proteções que a norma exige. É justamente a solução mais comum nos condomínios que deixou de ser aceitável.",
+    "paginas": ["carregadores-eletricos"],
+    "ordem": 2
+  },
+  {
+    "id": "save-responsabilidade",
+    "pergunta": "Quem responde se acontecer um incêndio a partir do carregador?",
+    "resposta": "A norma atribui a responsabilidade pela instalação e pela garantia de eficiência ao responsável técnico e à empresa instaladora, em conjunto com o proprietário ou responsável pelo uso. Para o síndico, isso significa responsabilidade direta sobre a instalação que existe na garagem do condomínio.",
+    "paginas": ["carregadores-eletricos"],
+    "ordem": 4
   }
 ]

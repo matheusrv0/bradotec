@@ -29,12 +29,53 @@ export default defineConfig({
       provider: fontProviders.google(),
       name: 'Plus Jakarta Sans',
       cssVariable: '--font-plus-jakarta',
-      weights: [400, 500, 600, 700, 800],
+      // 500 nunca foi usado e 600 aparecia cinco vezes no site inteiro.
+      // Cada peso e um arquivo que o visitante baixa.
+      weights: [400, 700, 800],
+      styles: ['normal'],
+      subsets: ['latin', 'latin-ext'],
+      fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+    },
+    {
+      // Fonte dos titulos.
+      //
+      // O site inteiro usava uma familia so, e isso e o que faz uma pagina
+      // bem feita parecer template: nada distingue o que a pagina DIZ do que
+      // ela E.
+      //
+      // A primeira escolha foi Chivo, pela semelhanca com o wordmark da
+      // marca. O cliente leu e reprovou: densa demais, cansa. Ele tem razao,
+      // e o erro foi meu — escolhi pelo parentesco com a logo e julguei no
+      // tamanho de manchete, onde peso vira presenca. Num h2 que se repete
+      // seis vezes por pagina, peso vira ruido.
+      //
+      // Instrument Sans entrou no lugar por medida, nao por gosto: aberturas
+      // largas, contraste baixo, e mais estreita que Archivo, o que importa
+      // porque manchete em portugues e longa. Testadas junto e descartadas:
+      // Archivo (neutra, e uma linha a mais), Manrope e Onest (macias demais
+      // para norma tecnica), Bricolage (character demais).
+      provider: fontProviders.google(),
+      name: 'Instrument Sans',
+      cssVariable: '--font-instrument',
+      weights: [600, 700],
       styles: ['normal'],
       subsets: ['latin', 'latin-ext'],
       fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
     },
   ],
 
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss()],
+
+    // O Vite recusa requisicao vinda de um dominio que ele nao conhece — e
+    // uma protecao real contra DNS rebinding, nao um capricho. Liberamos so
+    // os tuneis de previa da Cloudflare, usados para mostrar o site a quem
+    // esta longe antes de existir dominio proprio.
+    //
+    // Vale exclusivamente para os servidores locais (`astro dev` e
+    // `astro preview`). O site publicado e HTML estatico servido pela
+    // Cloudflare Pages: nao passa por aqui.
+    server: { allowedHosts: ['.trycloudflare.com'] },
+    preview: { allowedHosts: ['.trycloudflare.com'] },
+  },
 })

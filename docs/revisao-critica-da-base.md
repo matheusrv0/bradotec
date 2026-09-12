@@ -149,3 +149,48 @@ Duas coisas que vale preservar em qualquer refatoração futura:
 2. **A home não carrega framework nenhum.** Zero KB de React. O menu do celular
    é JavaScript puro. Isso não acontece por acaso e se perde fácil: basta
    alguém transformar um componente estático em ilha React sem pensar.
+
+---
+
+## 5. Atualizacao — 2026-09-02
+
+O que desta revisao foi resolvido, e o que continua aberto.
+
+### Resolvido
+
+**1.1 Sete paginas vazias.** As sete foram preenchidas com o conteudo de
+`legacy/`. Nenhuma pagina do site diz "conteudo em migracao". Divisoes,
+servicos e segmentos viraram Content Collections com schema Zod, seguindo o
+padrao do FAQ — o titulo do servico em `/solucoes` e a descricao na pagina
+da divisao saem da mesma entrada.
+
+**1.3 Contraste nunca medido.** Medidos 27 pares. **A suspeita registrada
+aqui estava errada:** `#8fa3b8` e `#71889f` sobre o rodape escuro passam com
+folga (6.69:1 e 5.10:1). As tres falhas reais eram outras, e a mais grave
+era o botao flutuante do WhatsApp — 4.31:1 com texto branco, no elemento de
+maior conversao do site. Corrigidas e travadas por teste.
+
+**2.1 188 KB de React orfao.** O bundle agora tem dono: o formulario de
+contato. Confirmado por build que so `/contato` o baixa; a home continua com
+zero KB de framework.
+
+### Parcial
+
+**1.2 Quiz e formulario nao existem.** O formulario existe, com validacao
+Zod e erros associados por `aria-describedby`. Mas **o problema de fundo
+continua**: o envio abre o WhatsApp, entao o site ainda tem uma porta so, e
+o sindico que nao usa WhatsApp continua sem saida. Isso exige o back-end de
+`specs/backend/`. O quiz nao foi construido.
+
+**1.5 Nenhum teste cobre o caminho do lead.** Continua verdade. Os testes
+novos cobrem contraste, nao conversao. O teste do link do WhatsApp com a
+mensagem certa segue impossivel enquanto o numero for placeholder — e segue
+sendo o teste mais importante do site.
+
+### Aberto, sem mudanca
+
+2.2 (sem CI), 2.3 (Sentry e analytics desligados), 2.5 (TypeScript na 5.9),
+2.6 (sem tema escuro), 1.4 (shadcn/ui configurado e nunca usado).
+
+O item 2.4 mudou de forma: a copia auditada nesta sessao esta em
+`Desktop\BRADOTEC`, fora do OneDrive.

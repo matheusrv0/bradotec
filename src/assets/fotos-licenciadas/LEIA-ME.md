@@ -1,0 +1,78 @@
+# Fotos com licenca de uso
+
+**As fotos de banco do site estao aqui.** Sao do Pexels,
+sob a Licenca Pexels: uso comercial liberado, sem atribuicao obrigatoria e sem
+precisar pedir autorizacao.
+
+| Arquivo | Onde aparece | Origem |
+|---|---|---|
+| `treinamento-com-extintor.jpg` | Cabecalho de `/treinamentos` | https://www.pexels.com/photo/people-extinguishing-fire-18340568/ |
+| `fachada-de-edificio.jpg` | Cabecalho de `/sobre` | https://www.pexels.com/photo/low-angle-shot-of-modern-buildings-in-city-16846525/ |
+| `escritorio-atendimento.jpg` | Cabecalho de `/contato` | https://www.pexels.com/photo/interior-of-a-modern-office-space-18033178/ |
+| `joao-pessoa-orla.jpg` | Hero da home | https://www.pexels.com/pt-br/foto/mar-cidade-meio-urbano-praia-6272393/ |
+| `saida-de-emergencia.jpg` | Cabecalho de `/seguranca-contra-incendio` | https://www.pexels.com/photo/emergency-exit-sign-in-parking-garage-30634848/ |
+| `extintores-e-sinalizacao.jpg` | Cabecalho de `/avcb` | https://www.pexels.com/photo/pair-of-red-fire-extinguisher-tanks-2282658/ |
+| `documentos-em-mesa.jpg` | Cabecalho de `/regularizacoes` | https://www.pexels.com/photo/handing-out-of-documents-7821684/ |
+
+## Por que estas e nao outras
+
+A faixa do cabecalho corta a foto em cerca de 4,7:1 e o veu escurece o que
+sobra. So massa grande sobrevive: detalhe fino vira ruido cinza.
+
+Duas candidatas foram descartadas por medicao, nao por gosto. Uma vista aerea
+de bairro de Joao Pessoa, que era a mais honesta das opcoes para `/sobre`,
+ficou preta: os predios vistos de cima sao pequenos demais e o verde do mangue,
+a 30% de luz, nao se distingue de preto. E uma foto de pessoa ao telefone em
+`/contato` colocava um rosto exatamente atras do titulo, porque o corte da
+faixa nao tem margem vertical para acomodar uma figura em pe.
+
+Tambem ficaram de fora vistas do Recife e do Rio, que sao bonitas e nao sao
+Joao Pessoa: cidade reconhecivel na pagina de uma empresa daqui e afirmacao
+errada, ainda que decorativa.
+
+## Uma regra que vale para as tres
+
+A Licenca Pexels permite o uso comercial, mas **nao permite dar a entender que
+as pessoas retratadas endossam o produto**. Ou seja: elas nao podem ser
+apresentadas como equipe, cliente ou parceiro da Bradotec.
+
+Por isso o texto alternativo de cada uma descreve a cena, nunca a empresa.
+Escreve-se "Profissionais reunidos em torno de documentos", e nunca "a equipe
+da Bradotec". Quem trocar essas fotos ou mexer no alt precisa manter isso.
+
+As tres entram como fundo, sob o veu escuro do `FundoIlustrado`: ilustram o
+assunto da pagina, nao registram um trabalho da empresa. Foto de trabalho real
+so aparece em `../fotos/`, e ali sim ela e apresentada como tal.
+
+## O que ainda vale trocar
+
+Sao cenas genericas e estrangeiras. Assim que houver foto do proprio trabalho
+da Bradotec para cada assunto, ela e melhor: prova mais e nao carrega essa
+restricao de endosso. Ate la, estas resolvem sem risco juridico.
+
+## As duas que sairam para as imagens do cliente
+
+Em 9 de setembro de 2026 o cliente enviou imagens proprias para dois destes
+cabecalhos, e `patio-de-veiculos.jpg` e `reuniao-de-gestao.jpg` foram
+apagadas. As substitutas estao em `../fotos-geradas/`, com o LEIA-ME de la.
+
+A de `/empresas` era a unica foto do site com pessoas em primeiro plano, e
+era tambem a que mais dependia da regra de endosso abaixo. Saiu do projeto
+junto com ela.
+
+## As quatro que sairam antes
+
+Em 9 de setembro de 2026 a pasta `fotos-provisorias/` foi apagada. Eram quatro
+imagens tiradas de artigos de outros sites, sem licenca de uso, colocadas como
+marcador de lugar. Publicar aquilo em dominio proprio exporia o cliente a
+notificacao de direito autoral, e era o unico impedimento juridico que ainda
+restava para o site ir ao ar.
+
+A de Joao Pessoa e a unica troca que ganhou em conteudo, e nao so em licenca:
+e a orla de verdade, vista de cima, com os predios da beira-mar e o oceano.
+
+Ela passou por duas versoes. A primeira era um bairro com o mangue ao lado,
+tambem de Joao Pessoa; o cliente pediu de volta a vista com predios e mar, que
+e o que a foto sem licenca mostrava. Entre tres candidatas da orla, ficou esta:
+nas outras duas o ceu ocupa dois tercos do quadro e, sob o veu, vira um degrade
+chapado. Aqui a faixa de predios corta o meio da imagem e a cidade aparece.

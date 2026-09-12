@@ -1,0 +1,136 @@
+---
+import { Image } from 'astro:assets'
+import { getCollection } from 'astro:content'
+import retrato from '@/assets/fotos/miguel-arcanjo.jpg'
+import Kicker from '@/components/Kicker.astro'
+
+/**
+ * Quem esta a frente da Bradotec.
+ *
+ * Duas formas do mesmo conteudo, a partir da mesma entrada da colecao: a
+ * secao completa em /sobre e uma faixa curta na home. Vale a pena um
+ * componente porque o texto sai de um arquivo so e as duas paginas nao
+ * podem divergir.
+ *
+ * O retrato e de estudio, sem legenda. A foto do treinamento, que estava
+ * aqui antes, situava a cena mas nao apresentava a pessoa: ela aparecia
+ * pequena, curvada e de perfil. Quem esta decidindo contratar quer ver com
+ * quem vai falar. A foto do treinamento continua em /treinamentos, que e
+ * onde ela prova alguma coisa.
+ */
+interface Props {
+  /** Faixa curta da home. Sem ela, a secao completa de /sobre. */
+  compacto?: boolean
+}
+const { compacto = false } = Astro.props
+
+const [pessoa] = (await getCollection('lideranca')).sort((a, b) => a.data.ordem - b.data.ordem)
+if (!pessoa) throw new Error('Coleção `lideranca` está vazia.')
+
+const { nome, papel, resumoCurto, apresentacao, credenciais, limite } = pessoa.data
+
+const descricaoDaFoto = `Retrato de ${nome}, de terno escuro, sobre fundo preto`
+---
+
+{
+  compacto ? (
+    <section class="py-16 lg:py-20" aria-labelledby="lideranca-home">
+      <div class="mx-auto w-full max-w-wrap px-5">
+        <h2 id="lideranca-home" class="max-w-[20ch] text-secao text-ink">
+          Quem está por trás da Bradotec
+        </h2>
+
+        <div class="mt-9 grid gap-8 sm:grid-cols-[minmax(0,260px)_1fr] sm:items-center sm:gap-10">
+          {/*
+            O retrato e 2:3 e o corte de 4/5 tira 17% da altura, do peito
+            para baixo. O enquadramento sobe para 28% porque o assunto e o
+            rosto: centralizado, sobrava fundo preto acima da cabeca.
+          */}
+          <Image
+            src={retrato}
+            alt={descricaoDaFoto}
+            class="aspect-[4/5] w-full rounded-xl object-cover object-[50%_28%]"
+            widths={[280, 560]}
+            sizes="(min-width: 640px) 260px, 100vw"
+            loading="lazy"
+          />
+
+          <div>
+            <p class="text-cartao-lg font-extrabold text-ink">{nome}</p>
+            <p class="mt-1 text-cartao font-bold text-wine">{papel}</p>
+            <p class="mt-4 max-w-[58ch] text-guia text-ink-soft">{resumoCurto}</p>
+
+            <a
+              class="group mt-6 inline-flex items-center gap-2 font-bold text-wine no-underline"
+              href="/sobre#quem-esta-por-tras"
+            >
+              Ver a formação completa
+              <svg
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                class="shrink-0 transition-[translate] duration-200 ease-saida group-hover:translate-x-1"
+              >
+                <path d="M5 12h13m-5-6 6 6-6 6" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section
+      class="bg-canvas py-16 lg:py-20"
+      id="quem-esta-por-tras"
+      aria-labelledby="lideranca-titulo"
+    >
+      <div class="mx-auto w-full max-w-[820px] px-5">
+        <Kicker>Quem está por trás</Kicker>
+        <h2 id="lideranca-titulo" class="mt-2 text-secao text-ink">
+          {nome}
+        </h2>
+        <p class="mt-1 text-cartao font-bold text-wine">{papel}</p>
+
+        <div class="mt-8 grid gap-8 sm:grid-cols-[minmax(0,0.95fr)_1.05fr] sm:items-start sm:gap-9">
+          <Image
+            src={retrato}
+            alt={descricaoDaFoto}
+            class="aspect-[4/5] w-full rounded-xl object-cover object-[50%_28%]"
+            widths={[400, 800]}
+            sizes="(min-width: 640px) 380px, 100vw"
+            loading="lazy"
+          />
+
+          <div>
+            {apresentacao.map((paragrafo, i) => (
+              <p class:list={['text-ink-soft', i > 0 && 'mt-4']}>{paragrafo}</p>
+            ))}
+          </div>
+        </div>
+
+        <dl class="mt-10 border-t border-line">
+          {credenciais.map((credencial) => (
+            <div class="border-b border-line py-4">
+              <dt class="text-cartao font-bold text-ink">{credencial.titulo}</dt>
+              <dd class="mt-1 text-corpo text-ink-soft">{credencial.detalhe}</dd>
+            </div>
+          ))}
+        </dl>
+
+        {/*
+          O contrapeso da secao, e nao um rodape dela. Curriculo de quem veio
+          da seguranca publica, numa pagina que vende regularizacao junto ao
+          Corpo de Bombeiros, precisa dizer no mesmo folego o que a
+          experiencia NAO abrevia. Por isso e campo obrigatorio no schema.
+        */}
+        <p class="mt-8 border-l-2 border-l-wine pl-5 text-corpo text-ink-soft">{limite}</p>
+      </div>
+    </section>
+  )
+}

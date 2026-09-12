@@ -1,0 +1,44 @@
+[
+  {
+    "id": "condominios",
+    "titulo": "Condomínios",
+    "descricao": "Segurança contra incêndio, documentação do empreendimento e controle de vencimentos, com relatório que o síndico consegue levar para a assembleia.",
+    "ordem": 1
+  },
+  {
+    "id": "empresas-industrias",
+    "titulo": "Empresas e indústrias",
+    "descricao": "Licenças, certidões e regularização da operação, com a documentação organizada para fiscalização, banco, seguro e licitação.",
+    "ordem": 2
+  },
+  {
+    "id": "comercios",
+    "titulo": "Comércios e restaurantes",
+    "descricao": "Alvará, licença sanitária e segurança contra incêndio conduzidos juntos, porque na prática um trava o outro.",
+    "ordem": 3
+  },
+  {
+    "id": "instituicoes",
+    "titulo": "Igrejas e instituições",
+    "descricao": "Edificações que recebem público têm exigências próprias e costumam ter documentação antiga ou incompleta.",
+    "ordem": 4
+  },
+  {
+    "id": "clinicas",
+    "titulo": "Clínicas, academias e escolas",
+    "descricao": "Atividades reguladas, com renovações frequentes e pouca margem para atraso.",
+    "ordem": 5
+  },
+  {
+    "id": "frotas",
+    "titulo": "Empresas com frota",
+    "descricao": "Documentação dos veículos gerida junto com a da empresa, em um controle só.",
+    "ordem": 6
+  },
+  {
+    "id": "postos",
+    "titulo": "Postos de combustível",
+    "descricao": "Segurança contra incêndio, licenciamento ambiental, alvará e documentação de tanques e equipamentos. São exigências que correm em órgãos diferentes, com prazos que não conversam entre si, conduzidas dentro de um único processo.",
+    "ordem": 7
+  }
+]

@@ -1,0 +1,98 @@
+# Portao de qualidade do repositorio.
+#
+# Existe porque o lefthook, que roda lint e typecheck no commit local, pode
+# ser pulado com `git commit --no-verify` — e nao roda testes nem build.
+# Na pratica dava para subir codigo quebrado sem nenhum alarme.
+#
+# Aqui roda o mesmo comando que o CLAUDE.md manda rodar antes de dizer que
+# terminou, mais os testes de navegador.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Um push novo na mesma branch cancela a execucao anterior: nao adianta
+# terminar de checar um commit que ja foi substituido.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    name: lint, tipos, testes e build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v4
+
+      # .node-version em vez de engines: engines e um intervalo (">=22.12.0")
+      # e o setup-node espera uma versao. Os dois precisam concordar.
+      - name: Instalar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Tipos
+        run: pnpm typecheck
+
+      - name: Testes unitarios
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+  navegador:
+    name: testes de navegador
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Instalar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      # `--with-deps` traz as bibliotecas de sistema que o Chromium precisa
+      # no runner do Ubuntu; sem isso o navegador nem abre.
+      - name: Instalar o Chromium do Playwright
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Testes de navegador
+        run: pnpm e2e
+
+      # So quando falha, e o que interessa: o rastro para entender o motivo.
+      - name: Guardar o relatorio quando falhar
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

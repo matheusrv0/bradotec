@@ -39,11 +39,29 @@ const siteSchema = z.object({
   email: textoOuPlaceholder('E-mail invalido', /^[^\s@]+@[^\s@]+\.[^\s@]+$/),
   endereco: z.string().min(1),
   bairro: z.string().min(1),
+  /**
+   * Cidade do MERCADO, nao a do endereco. Sai nos titulos, no texto e no
+   * geo.placename: e por 'Joao Pessoa' que as pessoas procuram.
+   */
   cidade: z.string().min(1),
+  /**
+   * Cidade do ENDERECO POSTAL. A sede fica em Cabedelo, na regiao
+   * metropolitana, e nao na capital. Os dois campos existiam como um so, e
+   * isso mandava para o Google um endereco em Joao Pessoa que nao existe:
+   * addressLocality errado e dado falso, nao licenca poetica.
+   */
+  cidadeDoEndereco: z.string().min(1),
   estado: z.string().length(2),
   cep: z.string().min(1),
   cnpj: z.string().min(1),
   horario: z.string().min(1),
+  /**
+   * O mesmo horario no formato que o schema.org entende ('Mo-Fr 08:00-18:00').
+   * Vazio enquanto o cliente nao informar a hora exata: 'Horario comercial'
+   * serve para pessoa ler, mas como openingHours e dado estruturado invalido,
+   * e dado invalido e pior que dado ausente.
+   */
+  horarioEstruturado: z.string().default(''),
   instagram: z.string().min(1),
 
   /** Area geografica atendida — alimenta o SEO local. */
@@ -81,18 +99,20 @@ export const site = siteSchema.parse({
     'condomínios e imóveis, licenças, segurança contra incêndio e pânico e documentação ' +
     'veicular, com acompanhamento de processo do início ao fim.',
 
-  whatsapp: '[NUMERO DE WHATSAPP]',
-  telefone: '[TELEFONE]',
-  email: '[EMAIL]',
-  endereco: '[ENDEREÇO COMPLETO]',
-  bairro: '[BAIRRO]',
+  whatsapp: '5565998094616',
+  telefone: '(65) 99809-4616',
+  email: 'obradotec@gmail.com',
+  endereco: 'Rua Antônio Francisco de Araújo, 29',
+  bairro: 'Parque Esperança',
   cidade: 'João Pessoa',
+  cidadeDoEndereco: 'Cabedelo',
   estado: 'PB',
-  cep: '[CEP]',
-  cnpj: '[CNPJ]',
-  horario: '[HORÁRIO DE ATENDIMENTO]',
-  instagram: '[LINK DO INSTAGRAM]',
-  regiaoAtendida: 'João Pessoa e região metropolitana — Paraíba',
+  cep: '58108-646',
+  cnpj: '55.626.613/0001-20',
+  horario: 'Horário comercial',
+  horarioEstruturado: '',
+  instagram: 'https://www.instagram.com/brado.tec',
+  regiaoAtendida: 'João Pessoa e região metropolitana, na Paraíba',
 
   provaSocial: {
     clientes: '[Nº]',
@@ -107,3 +127,24 @@ export const site = siteSchema.parse({
   ga4Id: '',
   cloudflareAnalyticsToken: '',
 } satisfies z.input<typeof siteSchema>)
+
+/**
+ * O @ do Instagram, derivado do link.
+ *
+ * Guardar o link e o arroba em dois campos seria guardar a mesma informacao
+ * duas vezes, e um dos dois envelheceria. O link e a fonte, porque e dele que
+ * o JSON-LD precisa.
+ */
+export const instagramUsuario = ehPlaceholder(site.instagram)
+  ? site.instagram
+  : `@${site.instagram.replace(/\/+$/, '').split('/').pop()}`
+
+/** Endereco em uma linha, do jeito que se escreve num envelope. */
+export const enderecoCompleto = ehPlaceholder(site.endereco)
+  ? site.endereco
+  : [
+      site.endereco,
+      site.bairro,
+      `${site.cidadeDoEndereco} - ${site.estado}`,
+      `CEP ${site.cep}`,
+    ].join(', ')

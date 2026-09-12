@@ -2,16 +2,60 @@
 import IconeWhatsapp from '@/components/IconeWhatsapp.astro'
 import { linkWhatsapp } from '@/config/whatsapp'
 
+/**
+ * Atalho fixo para o WhatsApp.
+ *
+ * Ele se recolhe quando o rodape entra na tela. Duas razoes:
+ *
+ * 1. Um elemento fixo no canto inferior cobre o conteudo que passa por ali.
+ *    A primeira correcao disso foi aumentar o padding do rodape, e ela durou
+ *    ate a primeira edicao de conteudo: bastou um link novo na coluna
+ *    "Solucoes" para o botao voltar a cobrir a coluna "Atendimento" no
+ *    celular. Padding resolve a colisao de hoje, nao a classe do problema —
+ *    e a colisao nem era na base do rodape, era no meio dele.
+ * 2. No rodape o botao e redundante: o proprio rodape traz o WhatsApp, o
+ *    telefone e o e-mail.
+ *
+ * Sem JavaScript o botao simplesmente fica sempre visivel, que e o
+ * comportamento antigo. O recolhimento e melhoria, nao requisito.
+ */
+
 const href = linkWhatsapp('padrao')
 ---
 
 <a
-  class="fixed bottom-4 right-4 z-90 inline-flex items-center gap-2.5 rounded-full bg-[#128c4a] py-3 pl-4 pr-[18px] text-[0.95rem] font-bold text-white no-underline shadow-float hover:bg-[#0e7539]"
+  class="fixed bottom-4 right-4 z-90 inline-flex items-center gap-2.5 rounded-full bg-whats py-3 pl-4 pr-[18px] text-corpo font-bold text-white no-underline shadow-float transition-[opacity,translate,scale] duration-200 ease-saida hover:bg-whats-dark active:scale-[0.97] data-[recolhido]:pointer-events-none data-[recolhido]:translate-y-3 data-[recolhido]:opacity-0"
   href={href ?? '/contato'}
   {...href ? { target: '_blank', rel: 'noopener' } : {}}
   aria-label="Falar no WhatsApp"
   data-wa="padrao"
+  data-flutuante
 >
   <IconeWhatsapp tamanho={22} />
   <span class="hidden sm:inline">Falar no WhatsApp</span>
 </a>
+
+<script>
+  const botao = document.querySelector<HTMLElement>('[data-flutuante]')
+  const rodape = document.querySelector('footer')
+
+  if (botao && rodape && 'IntersectionObserver' in window) {
+    const observador = new IntersectionObserver(
+      ([entrada]) => {
+        if (!entrada) return
+        // `inert` alem do pointer-events: recolhido, o botao tambem sai da
+        // ordem de tabulacao, senao o foco pousa num alvo invisivel.
+        if (entrada.isIntersecting) {
+          botao.dataset.recolhido = ''
+          botao.setAttribute('inert', '')
+        } else {
+          delete botao.dataset.recolhido
+          botao.removeAttribute('inert')
+        }
+      },
+      { rootMargin: '0px 0px -12% 0px' }
+    )
+
+    observador.observe(rodape)
+  }
+</script>

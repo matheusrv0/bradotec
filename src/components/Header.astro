@@ -1,27 +1,61 @@
 ---
 import { Image } from 'astro:assets'
-import logo from '@/assets/logo-small.png'
-import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
-import { navegacaoPrincipal } from '@/config/navegacao'
+import logo from '@/assets/marca/logo-bradotec.png'
+import BotaoLink from '@/components/BotaoLink.astro'
+import { navegacaoPrincipal, paiNoMenu } from '@/config/navegacao'
 import { site } from '@/config/site'
 
 const atual = Astro.url.pathname.replace(/\/$/, '') || '/'
-const estaAtiva = (href: string) => atual === href.replace(/\/$/, '')
+
+/**
+ * Marca o item do menu correspondente a pagina aberta.
+ *
+ * Uma pagina que nao esta no menu, como /avcb ou /solucoes, acende o item de
+ * que ela descende. Antes o menu ficava inteiramente apagado nessas paginas,
+ * e o visitante perdia a nocao de onde estava dentro do site.
+ */
+const referencia = paiNoMenu[atual] ?? atual
+
+/**
+ * Acende o item quando a pagina E o item, ou quando esta DENTRO dele.
+ *
+ * O prefixo cobre /artigos/<slug> sem exigir uma linha em `paiNoMenu` por
+ * artigo publicado. Nenhuma rota do menu e prefixo de outra, e a home nao
+ * esta no menu: por isso nao ha item que acenda em toda pagina.
+ */
+const estaAtiva = (href: string) => {
+  const item = href.replace(/\/$/, '')
+  return referencia === item || referencia.startsWith(`${item}/`)
+}
 ---
 
-<header class="sticky top-0 z-100 border-b border-white/10 bg-navy-900">
-  <div class="mx-auto w-full max-w-wrap px-5">
+<header class="sticky top-0 z-100 border-b border-white/15 bg-wine">
+  {/*
+    A barra do topo e larga de proposito, enquanto o conteudo das paginas
+    fica em 1180px. Presa no mesmo max-w-wrap, a logo ficava a 150px da
+    borda num monitor de 1440 e parecia solta no meio da tela. Aqui ela
+    encosta perto da borda em qualquer largura, e a navegacao ganha espaco
+    para os sete itens.
+  */}
+  <div class="mx-auto w-full px-5 lg:px-8">
     <div class="flex min-h-[74px] items-center gap-4">
-      <a class="mr-auto flex items-center gap-3 no-underline" href="/" aria-label={`${site.nome} — página inicial`}>
-        <Image src={logo} alt="" width={49} height={42} loading="eager" class="h-[42px] w-auto" />
-        <span class="flex flex-col leading-[1.05]">
-          <b class="text-[1.14rem] font-extrabold tracking-[0.01em] text-white">
-            {site.nome.toUpperCase()}
-          </b>
-          <span class="text-[0.7rem] font-semibold tracking-[0.02em] text-[#93a7bc]">
-            {site.descritivo}
-          </span>
-        </span>
+      {/*
+        A marca vem inteira do arquivo do cliente: escudo e palavra sao um
+        lockup so, com espacamento proprio. Antes o escudo era imagem e a
+        palavra era texto HTML ao lado, o que so funcionava porque a marca
+        antiga nao tinha tipografia propria. Redesenhar o lockup com a fonte
+        do site seria inventar uma marca que nao e a dele.
+
+        O descritivo saiu daqui. Medido: "Despachadoria & Solucoes
+        Documentais" ocupa 245px a 12px, contra 131px do lockup. A legenda
+        ficava quase duas vezes mais larga que a marca que ela legenda, e
+        essa e a forma classica de um lockup parecer amador. Aumentar a marca
+        ate 245px pediria 86px de altura, mais do que a barra inteira tem.
+        O descritivo continua no titulo de cada pagina, no JSON-LD e no
+        rodape, e a propria navegacao ja diz o que a empresa faz.
+      */}
+      <a class="mr-auto inline-flex min-h-[44px] items-center no-underline" href="/" aria-label={`${site.nome}, página inicial`}>
+        <Image src={logo} alt="" height={92} loading="eager" class="h-[46px] w-auto" />
       </a>
 
       <nav class="hidden lg:block" aria-label="Principal">
@@ -33,10 +67,10 @@ const estaAtiva = (href: string) => atual === href.replace(/\/$/, '')
                   href={item.href}
                   aria-current={estaAtiva(item.href) ? 'page' : undefined}
                   class:list={[
-                    'block whitespace-nowrap rounded-lg px-3 py-2 text-[0.95rem] font-semibold no-underline transition-colors',
+                    'block whitespace-nowrap rounded-lg px-3 py-2 text-corpo font-bold no-underline transition-colors',
                     estaAtiva(item.href)
-                      ? 'bg-white/10 text-white'
-                      : 'text-[#c9d6e4] hover:bg-white/10 hover:text-white',
+                      ? 'bg-white/15 text-white'
+                      : 'text-white/80 hover:bg-white/15 hover:text-white',
                   ]}
                 >
                   {item.curto}
@@ -47,21 +81,33 @@ const estaAtiva = (href: string) => atual === href.replace(/\/$/, '')
         </ul>
       </nav>
 
-      <BotaoWhatsapp origem="orcamento" pequeno class="hidden whitespace-nowrap lg:inline-flex">
+      <BotaoLink href="/contato" variante="claro" pequeno class="hidden whitespace-nowrap lg:inline-flex">
         Solicitar orçamento
-      </BotaoWhatsapp>
+      </BotaoLink>
 
       <button
         type="button"
-        class="inline-flex h-[46px] w-[46px] flex-col items-stretch justify-center gap-[5px] rounded-[10px] border-0 bg-white/10 px-[11px] lg:hidden"
+        class="group inline-flex h-[46px] w-[46px] flex-col items-stretch justify-center gap-[5px] rounded-md border-0 bg-white/10 px-[11px] transition-colors hover:bg-white/20 lg:hidden"
         aria-expanded="false"
         aria-controls="menu-mobile"
         aria-label="Abrir menu"
         data-burger
       >
-        <span class="block h-0.5 rounded-sm bg-white transition-transform"></span>
-        <span class="block h-0.5 rounded-sm bg-white transition-opacity"></span>
-        <span class="block h-0.5 rounded-sm bg-white transition-transform"></span>
+        {/*
+          Os tres tracos viram um X quando o menu abre. As classes de
+          transicao ja estavam aqui desde a primeira versao, mas nada mudava
+          de estado: a animacao estava escrita pela metade.
+
+          O estado aberto vai no <style> abaixo, e nao em variante do
+          Tailwind: a variante `group-aria-expanded:` compilava no CSS e
+          mesmo assim nao casava com o elemento no navegador. Aqui o
+          seletor e simples e verificavel, e continua saindo do
+          aria-expanded, entao o desenho segue o estado acessivel em vez de
+          uma classe paralela que pode dessincronizar.
+        */}
+        <span class="block h-0.5 origin-center rounded-sm bg-white"></span>
+        <span class="block h-0.5 rounded-sm bg-white"></span>
+        <span class="block h-0.5 origin-center rounded-sm bg-white"></span>
       </button>
     </div>
 
@@ -76,18 +122,72 @@ const estaAtiva = (href: string) => atual === href.replace(/\/$/, '')
           <a
             href={item.href}
             aria-current={estaAtiva(item.href) ? 'page' : undefined}
-            class="block border-b border-white/5 px-1 py-3.5 font-semibold text-[#d8e3ee] no-underline"
+            class="block border-b border-white/10 px-1 py-3.5 font-bold text-white/90 no-underline"
           >
             {item.completo}
           </a>
         ))
       }
-      <BotaoWhatsapp origem="orcamento" larguraTotal class="mt-4">
+      <BotaoLink href="/contato" variante="claro" larguraTotal class="mt-4">
         Solicitar orçamento
-      </BotaoWhatsapp>
+      </BotaoLink>
     </nav>
   </div>
 </header>
+
+<style>
+  /* Os tres tracos do menu viram um X quando ele abre.
+     O gap entre eles e 5px e cada um tem 2px, entao 7px leva o de cima ao
+     centro e o de baixo de volta. */
+  [data-burger] span {
+    /* Assimetrico de proposito. Abrir e um gesto deliberado e ganha os
+       200ms inteiros; o traco do meio some antes, em 120ms, para os dois
+       de fora nao cruzarem por cima dele. */
+    transition:
+      rotate 0.2s var(--ease-saida),
+      translate 0.2s var(--ease-saida),
+      opacity 0.12s var(--ease-saida);
+  }
+
+  /* O menu abria e sumia em corte seco: a troca de hidden/block nao tem o
+     que animar. Aqui ele desliza de cima, e o `allow-discrete` segura o
+     display: none ate a saida terminar. Sem isso o painel some no primeiro
+     quadro e a animacao de saida nao chega a ser vista. */
+  [data-menu-mobile] {
+    opacity: 0;
+    translate: 0 -8px;
+    transition:
+      opacity 0.18s var(--ease-saida),
+      translate 0.18s var(--ease-saida),
+      display 0.18s allow-discrete;
+  }
+
+  [data-menu-mobile].block {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  @starting-style {
+    [data-menu-mobile].block {
+      opacity: 0;
+      translate: 0 -8px;
+    }
+  }
+
+  [data-burger][aria-expanded='true'] span:first-child {
+    translate: 0 7px;
+    rotate: 45deg;
+  }
+
+  [data-burger][aria-expanded='true'] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  [data-burger][aria-expanded='true'] span:last-child {
+    translate: 0 -7px;
+    rotate: -45deg;
+  }
+</style>
 
 <script>
   // Menu do celular em JavaScript puro (~20 linhas). Poderia ser um componente
@@ -104,8 +204,12 @@ const estaAtiva = (href: string) => atual === href.replace(/\/$/, '')
       menu.classList.toggle('block', aberto)
     }
 
-    burger.addEventListener('click', () => {
-      definirEstado(burger.getAttribute('aria-expanded') !== 'true')
+    const estaAberto = () => burger.getAttribute('aria-expanded') === 'true'
+
+    burger.addEventListener('click', (evento) => {
+      // Impede que este mesmo clique chegue ao document e feche na sequencia.
+      evento.stopPropagation()
+      definirEstado(!estaAberto())
     })
 
     // Fecha ao navegar, para o menu nao ficar aberto na proxima pagina.
@@ -113,12 +217,39 @@ const estaAtiva = (href: string) => atual === href.replace(/\/$/, '')
       link.addEventListener('click', () => definirEstado(false))
     }
 
-    // Esc fecha e devolve o foco ao botao — exigencia de acessibilidade.
+    // Clique fora fecha. Sem isto o menu so fechava pelo proprio botao, e
+    // quem tocasse na pagina atras dele ficava com a navegacao por cima do
+    // conteudo sem entender como sair.
+    document.addEventListener('click', (evento) => {
+      if (!estaAberto()) return
+      const alvo = evento.target as Node
+      if (menu.contains(alvo) || burger.contains(alvo)) return
+      definirEstado(false)
+    })
+
+    // Toque fora tambem. No iOS um toque em area sem elemento clicavel nao
+    // gera evento de clique; touchstart cobre esse caso.
+    document.addEventListener('touchstart', (evento) => {
+      if (!estaAberto()) return
+      const alvo = evento.target as Node
+      if (menu.contains(alvo) || burger.contains(alvo)) return
+      definirEstado(false)
+    })
+
+    // Esc fecha e devolve o foco ao botao, exigencia de acessibilidade.
     document.addEventListener('keydown', (evento) => {
-      if (evento.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+      if (evento.key === 'Escape' && estaAberto()) {
         definirEstado(false)
         burger.focus()
       }
+    })
+
+    // Ao passar para a largura de desktop o menu some por CSS, mas o
+    // aria-expanded continuava dizendo "aberto" para o leitor de tela, e ao
+    // voltar para o celular ele reaparecia sozinho.
+    const larguraDesktop = window.matchMedia('(min-width: 1024px)')
+    larguraDesktop.addEventListener('change', (evento) => {
+      if (evento.matches && estaAberto()) definirEstado(false)
     })
   }
 </script>

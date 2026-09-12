@@ -1,30 +1,226 @@
 ---
+import { getCollection } from 'astro:content'
+import fotoFachada from '@/assets/fotos-licenciadas/fachada-de-edificio.jpg'
+import AvisoEscopo from '@/components/AvisoEscopo.astro'
+import BotaoLink from '@/components/BotaoLink.astro'
+import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
 import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
+import DadoCliente from '@/components/DadoCliente.astro'
+import Lideranca from '@/components/Lideranca.astro'
+import { enderecoCompleto, site } from '@/config/site'
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import { jsonLdPessoa } from '@/lib/seo'
 
 const trilha = [
   { nome: 'Início', href: '/' },
   { nome: 'A Bradotec', href: '/sobre' },
 ] as const
+
+const siteUrl = Astro.site?.href ?? 'https://dominio-do-cliente.example/'
+const [pessoa] = (await getCollection('lideranca')).sort((a, b) => a.data.ordem - b.data.ordem)
+const schemaPessoa = pessoa ? jsonLdPessoa(pessoa.data, siteUrl) : undefined
+
+/** Os quatro princípios, nas palavras do cliente. */
+const comoTrabalhamos = [
+  {
+    titulo: 'Um responsável',
+    descricao: 'Um número para ligar, em vez de juntar as peças sozinho.',
+  },
+  {
+    titulo: 'Antecipação',
+    descricao: 'Conhecemos o que será exigido antes de virar exigência.',
+  },
+  {
+    titulo: 'Continuidade',
+    descricao:
+      'Não entregamos o documento e desaparecemos. Mantemos o calendário de conformidade da edificação e avisamos antes de cada vencimento.',
+  },
+  {
+    titulo: 'Transparência',
+    descricao: 'Você sabe em que etapa o processo está, o que falta e qual o prazo.',
+  },
+] as const
+
+/**
+ * O que a Bradotec faz, em lista corrida.
+ *
+ * Nao substitui /solucoes, que detalha as tres divisoes. Aqui e o resumo do
+ * que a empresa executa, para quem chegou nesta pagina querendo saber se o
+ * caso dele cabe.
+ */
+const oQueFazemos = [
+  { texto: 'Regularização junto ao Corpo de Bombeiros e renovação de AVCB', href: '/avcb' },
+  { texto: 'Laudo de SPDA' },
+  { texto: 'Treinamento de brigada de incêndio', href: '/treinamentos' },
+  { texto: 'Adequação de extintores, sinalização e iluminação de emergência' },
+  {
+    texto: 'Regularização de carregadores de veículos elétricos conforme a NT 040/2025',
+    href: '/carregadores-eletricos',
+  },
+  { texto: 'Gestão do calendário de conformidade da edificação', href: '/empresas' },
+] as const
 ---
 
 <BaseLayout
-  titulo="A Bradotec — despachadoria e soluções documentais em João Pessoa (PB)"
-  descricao="Conheça a Bradotec: empresa de gestão documental, regularização, licenciamento e segurança contra incêndio em João Pessoa/PB, atuando como central de soluções para empresas, condomínios e frotas."
+  titulo={`A ${site.nome}: despachadoria e soluções documentais em ${site.cidade} (${site.estado})`}
+  descricao="A Bradotec reúne gestão documental, regularização, licenciamento e segurança contra incêndio em um só interlocutor, para empresas, condomínios, instituições e frotas em João Pessoa e região."
   trilha={trilha}
+  schemasExtras={schemaPessoa ? [schemaPessoa] : []}
 >
   <CabecalhoPagina
+    foto={fotoFachada}
+    descricaoDaFoto="Fachada de um edifício comercial vista de baixo, contra o céu"
+    enquadramento="50% 40%"
+    cena="fachada"
     titulo="A Bradotec"
     subtitulo="Uma central de soluções documentais em João Pessoa: gestão, regularização, licenciamento e segurança contra incêndio reunidos em um só interlocutor."
     trilha={trilha}
-  />
+  >
+    <div class="mt-6 flex flex-wrap gap-3">
+      <BotaoWhatsapp origem="padrao">Falar com um especialista</BotaoWhatsapp>
+    </div>
+  </CabecalhoPagina>
 
-  <section class="py-16">
-    <div class="mx-auto w-full max-w-wrap px-5">
-      <p class="text-ink-soft">
-        {/* Conteudo desta pagina entra no proximo bloco, vindo das Content Collections. */}
-        Conteúdo em migração a partir da versão anterior do site.
+  <section class="py-16 lg:py-20" aria-labelledby="por-que-existe">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="por-que-existe" class="max-w-[24ch] text-secao text-ink">
+        Por que a Bradotec existe
+      </h2>
+      <p class="mt-5 text-guia text-ink-soft">
+        A Bradotec nasceu de uma constatação simples: a maior parte dos condomínios de {site.cidade}
+        {' '}não está irregular por má vontade, e sim porque ninguém acompanha. O projeto é feito, o
+        processo é protocolado, e depois cada um segue seu caminho. Quando a fiscalização chega ou o
+        alvará é negado, o síndico descobre sozinho que algo venceu.
       </p>
+      <p class="mt-4 text-guia text-ink-soft">
+        Nosso trabalho é impedir que isso aconteça. Conduzimos a regularização do início ao fim e
+        continuamos acompanhando depois dela, mantendo o controle de todos os vencimentos da
+        edificação e avisando com antecedência.
+      </p>
+    </div>
+  </section>
+
+  <Lideranca />
+
+  <section class="py-16 lg:py-20" aria-labelledby="rede-tecnica">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="rede-tecnica" class="max-w-[22ch] text-secao text-ink">Nossa rede técnica</h2>
+      <p class="mt-5 text-guia text-ink-soft">
+        Os serviços que exigem responsável técnico habilitado são executados por profissionais
+        registrados: engenheiros, eletricistas e empresas especializadas em sistemas de proteção
+        contra incêndio.
+      </p>
+      <p class="mt-4 border-l-2 border-l-wine pl-5 text-guia text-ink">
+        A diferença é que o síndico não precisa coordenar ninguém. Quem articula a rede, acompanha
+        a execução e responde pelo prazo é a Bradotec.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="como-trabalhamos">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="como-trabalhamos" class="text-secao text-ink">Como trabalhamos</h2>
+
+      <dl class="mt-8 grid gap-x-8 gap-y-7 sm:grid-cols-2">
+        {
+          comoTrabalhamos.map((item) => (
+            <div class="border-t border-line pt-5">
+              <dt class="text-cartao font-bold text-ink">{item.titulo}</dt>
+              <dd class="mt-1.5 text-corpo text-ink-soft">{item.descricao}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20" aria-labelledby="o-que-fazemos">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="o-que-fazemos" class="text-secao text-ink">O que fazemos</h2>
+      <ul class="mt-6 grid list-none gap-x-8 gap-y-1 sm:grid-cols-2">
+        {
+          oQueFazemos.map((item) => (
+            <li class="flex items-start gap-3 border-b border-line-soft py-3 text-corpo text-ink-soft">
+              <span class="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-wine" aria-hidden="true" />
+              {'href' in item ? (
+                <a class="font-bold text-ink hover:text-wine" href={item.href}>
+                  {item.texto}
+                </a>
+              ) : (
+                item.texto
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-6 text-apoio text-ash-500">
+        A atuação se organiza em três divisões, Fire, Documentos e Auto.{' '}
+        <a class="font-bold text-wine" href="/solucoes">
+          Ver todas as soluções
+        </a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="onde-atuamos">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="onde-atuamos" class="text-secao text-ink">Onde atuamos</h2>
+      <p class="mt-4 text-ink-soft">
+        Base em {site.cidade}, {site.estado}, com atendimento em {site.regiaoAtendida}.
+      </p>
+
+      <dl class="mt-6 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-lg border border-line bg-white p-5">
+          <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
+            Endereço
+          </dt>
+          <dd class="mt-1.5 text-ink-soft">{enderecoCompleto}</dd>
+        </div>
+        <div class="rounded-lg border border-line bg-white p-5">
+          <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
+            Atendimento
+          </dt>
+          <dd class="mt-1.5 text-ink-soft"><DadoCliente valor={site.horario} /></dd>
+        </div>
+        <div class="rounded-lg border border-line bg-white p-5">
+          <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">CNPJ</dt>
+          <dd class="mt-1.5 text-ink-soft"><DadoCliente valor={site.cnpj} /></dd>
+        </div>
+        <div class="rounded-lg border border-line bg-white p-5">
+          <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
+            Telefone
+          </dt>
+          <dd class="mt-1.5 text-ink-soft"><DadoCliente valor={site.telefone} /></dd>
+        </div>
+      </dl>
+
+      <p class="mt-5 text-apoio text-ash-500">
+        Histórico da empresa, ano de fundação, demais integrantes da equipe e números de
+        atendimento não foram informados e, por isso, não foram criados. Assim que forem enviados,
+        entram nesta página.
+      </p>
+    </div>
+  </section>
+
+  <AvisoEscopo titulo="Limites da nossa atuação">
+    A Bradotec atua na gestão documental e na condução administrativa dos processos. Projetos,
+    laudos, serviços técnicos e instalação de sistemas preventivos exigem habilitação específica e
+    são executados por profissionais e empresas legalmente habilitados. Prazos e decisões de
+    análise, vistoria e aprovação são de responsabilidade dos órgãos competentes.
+  </AvisoEscopo>
+
+  <section class="bg-graphite-900 py-16 text-white lg:py-20">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 class="max-w-[24ch] text-secao text-white">
+        Quer saber o que está vencido no seu condomínio?
+      </h2>
+      <p class="mt-3 max-w-[58ch] text-sobre-escuro">
+        A conversa inicial serve exatamente para isso, sem compromisso de contratação.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <BotaoWhatsapp origem="condominio">Falar no WhatsApp</BotaoWhatsapp>
+        <BotaoLink href="/diagnostico" variante="sobreEscuro">Responder as 4 perguntas</BotaoLink>
+      </div>
     </div>
   </section>
 </BaseLayout>

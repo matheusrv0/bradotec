@@ -1,30 +1,94 @@
 ---
+import fotoAtendimento from '@/assets/fotos-licenciadas/escritorio-atendimento.jpg'
+import BotaoLink from '@/components/BotaoLink.astro'
+import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
 import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
+import DadoCliente from '@/components/DadoCliente.astro'
+import FormularioContato from '@/components/FormularioContato.astro'
+import { enderecoCompleto, instagramUsuario, site } from '@/config/site'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 
 const trilha = [
   { nome: 'Início', href: '/' },
   { nome: 'Contato', href: '/contato' },
 ] as const
+
+const canais = [
+  { rotulo: 'Telefone', valor: site.telefone },
+  { rotulo: 'E-mail', valor: site.email },
+  { rotulo: 'Endereço', valor: enderecoCompleto },
+  { rotulo: 'Atendimento', valor: site.horario },
+  { rotulo: 'Instagram', valor: instagramUsuario },
+] as const
 ---
 
 <BaseLayout
-  titulo="Contato — Bradotec em João Pessoa (PB)"
-  descricao="Fale com a Bradotec em João Pessoa/PB por WhatsApp, telefone, e-mail ou formulário. Atendimento para empresas, condomínios, instituições e proprietários de veículos."
+  titulo={`Contato: falar com a ${site.nome} em ${site.cidade} (${site.estado})`}
+  descricao="Fale com a Bradotec em João Pessoa/PB por WhatsApp, telefone ou e-mail. Conte a sua situação de regularização, licença, segurança contra incêndio ou documentação veicular."
   trilha={trilha}
 >
   <CabecalhoPagina
+    foto={fotoAtendimento}
+    descricaoDaFoto="Escritório com estações de trabalho e janelas amplas ao fundo"
+    enquadramento="50% 46%"
+    cena="fachada"
     titulo="Falar com a Bradotec"
-    subtitulo="Escolha o canal com que você se sente mais confortável. Todos chegam na mesma equipe."
+    subtitulo="Conte a sua situação pelo canal que preferir. O retorno é feito por quem vai conduzir o processo."
     trilha={trilha}
-  />
+  >
+    <div class="mt-6 flex flex-wrap gap-3">
+      <BotaoLink href="#formulario" variante="sobreEscuro">Ir para o formulário</BotaoLink>
+    </div>
+  </CabecalhoPagina>
 
-  <section class="py-16">
+  <section class="py-16 lg:py-20" aria-labelledby="formulario">
     <div class="mx-auto w-full max-w-wrap px-5">
-      <p class="text-ink-soft">
-        {/* Conteudo desta pagina entra no proximo bloco, vindo das Content Collections. */}
-        Conteúdo em migração a partir da versão anterior do site.
-      </p>
+      <div class="grid items-start gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+        <div class="rounded-xl border border-line bg-white p-7 shadow-card md:p-8">
+          <h2 id="formulario" class="text-secao text-ink">
+            Solicitar orçamento ou diagnóstico
+          </h2>
+          <div class="mt-6">
+            <FormularioContato />
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-5">
+          <div class="rounded-xl border border-line bg-canvas p-6">
+            <h2 class="text-guia text-ink">WhatsApp comercial</h2>
+            <p class="mt-2 text-corpo text-ink-soft">
+              Canal mais rápido para orçamento, diagnóstico e dúvidas.
+            </p>
+            <div class="mt-4">
+              <BotaoWhatsapp origem="padrao" larguraTotal>Abrir conversa</BotaoWhatsapp>
+            </div>
+          </div>
+
+          <div class="rounded-xl border border-line bg-white p-6">
+            <h2 class="text-guia text-ink">Outros canais</h2>
+            <dl class="mt-4 flex flex-col gap-3.5">
+              {
+                canais.map((canal) => (
+                  <div>
+                    <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
+                      {canal.rotulo}
+                    </dt>
+                    <dd class="mt-1 text-corpo text-ink-soft">
+                      <DadoCliente valor={canal.valor} />
+                    </dd>
+                  </div>
+                ))
+              }
+              <div>
+                <dt class="text-rotulo font-bold uppercase tracking-[0.06em] text-ash-500">
+                  Região
+                </dt>
+                <dd class="mt-1 text-corpo text-ink-soft">{site.regiaoAtendida}</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>

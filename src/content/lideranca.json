@@ -1,0 +1,36 @@
+[
+  {
+    "id": "miguel-arcanjo",
+    "nome": "Miguel Arcanjo Lopes Neto",
+    "papel": "À frente da Bradotec",
+    "resumoCurto": "Coronel da Polícia Militar, da reserva, com trinta anos de segurança pública. Bacharel em Direito, técnico em prevenção e combate a incêndio e despachante documentalista inscrito no CRDD sob o nº 0343/21.",
+    "apresentacao": [
+      "Trinta anos na segurança pública, como oficial da Polícia Militar, hoje na reserva. Foi tempo suficiente para ver de perto as duas pontas do mesmo problema: o que acontece quando a prevenção existe só no papel, e o que a lei cobra de quem administra depois que alguma coisa acontece.",
+      "É essa combinação que permite à Bradotec antecipar exigências em vez de reagir a elas. São três décadas convivendo com procedimento, norma e órgão público, somadas à formação técnica em prevenção e ao registro profissional que autoriza a representação administrativa perante os órgãos competentes. Na prática, isso significa processos melhor instruídos e menos exigências inesperadas, que é onde a maior parte do tempo se perde."
+    ],
+    "credenciais": [
+      {
+        "titulo": "Coronel da Polícia Militar, da reserva",
+        "detalhe": "Trinta anos de carreira em segurança pública, lidando com risco real e não com risco descrito em relatório."
+      },
+      {
+        "titulo": "Especialista em Segurança Pública",
+        "detalhe": "Formação específica na mesma área em que atuou a carreira inteira, o que é diferente de ter lido sobre ela."
+      },
+      {
+        "titulo": "Bacharel em Direito",
+        "detalhe": "Regularizar é, no fim, leitura de norma: o que a lei exige, de quem ela exige e a partir de quando passa a exigir."
+      },
+      {
+        "titulo": "Técnico em Prevenção e Combate a Incêndio",
+        "detalhe": "A base técnica da divisão Fire: extintores, saídas, sinalização, brigada e o processo junto ao Corpo de Bombeiros."
+      },
+      {
+        "titulo": "Despachante documentalista inscrito no CRDD sob o nº 0343/21",
+        "detalhe": "Registro no Conselho Regional dos Despachantes Documentalistas, que é o que autoriza a representação administrativa perante os órgãos competentes."
+      }
+    ],
+    "limite": "Trinta anos de segurança pública não abreviam análise, vistoria nem aprovação: essas decisões são do órgão competente e continuam sendo. O que a experiência muda é a qualidade do que chega até lá, e a quantidade de exigências que voltam.",
+    "ordem": 1
+  }
+]

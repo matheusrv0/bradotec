@@ -1,6 +1,18 @@
 ---
+import fotoSaida from '@/assets/fotos-licenciadas/saida-de-emergencia.jpg'
+import AvisoEscopo from '@/components/AvisoEscopo.astro'
+import BotaoLink from '@/components/BotaoLink.astro'
+import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
 import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
 import Faq from '@/components/Faq.astro'
+import Kicker from '@/components/Kicker.astro'
+import SecaoServicos from '@/components/SecaoServicos.astro'
+import {
+  atribuicoes,
+  condicoesParaExercer,
+  leiDaProfissao,
+  semDespachante,
+} from '@/config/despachante'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { schemaFaqDaPagina } from '@/lib/faq'
 
@@ -10,27 +22,259 @@ const trilha = [
 ] as const
 
 const schemaFaq = await schemaFaqDaPagina('seguranca-contra-incendio')
+
+/** O custo de deixar a pendencia aberta. Fatos, sem promessa de resultado. */
+const riscos = [
+  'Renovação de alvará e de licenças travada por falta do documento de incêndio',
+  'Exigências acumuladas, que reiniciam a análise a cada resposta incompleta',
+  'Dificuldade em contratos, seguros e vistorias que pedem a documentação em dia',
+  'Responsabilidade da administração ou do síndico sobre uma pendência conhecida',
+  'Retrabalho: quanto mais antiga a irregularidade, mais cara a adequação',
+] as const
+
+const etapas = [
+  {
+    titulo: 'Diagnóstico da edificação',
+    descricao:
+      'O que existe, o que está vencido, o que nunca foi feito e qual é a situação junto ao órgão.',
+  },
+  {
+    titulo: 'Plano de regularização',
+    descricao:
+      'Etapas, responsáveis e o que depende de profissional habilitado ou de empresa executora.',
+  },
+  {
+    titulo: 'Execução coordenada',
+    descricao:
+      'Projetos, laudos e sistemas preventivos com profissionais e parceiros habilitados, sob nossa coordenação.',
+  },
+  {
+    titulo: 'Protocolo e acompanhamento',
+    descricao: 'Processo protocolado, exigências respondidas e vistorias acompanhadas.',
+  },
+  {
+    titulo: 'Manutenção da regularidade',
+    descricao: 'Controle de vencimentos para a renovação não pegar ninguém de surpresa.',
+  },
+] as const
 ---
 
 <BaseLayout
   titulo="Segurança contra incêndio e pânico em João Pessoa (PB) | Bradotec Fire"
-  descricao="Regularização contra incêndio em João Pessoa/PB: organização documental, AVCB e documentos equivalentes conforme aplicabilidade, vistorias, exigências, brigada e treinamentos. Projetos e laudos com profissionais habilitados."
+  descricao="Regularização de segurança contra incêndio e pânico em João Pessoa/PB: levantamento documental, AVCB e documentos equivalentes, vistorias, exigências, brigada, projetos e laudos com profissionais habilitados."
   trilha={trilha}
   schemasExtras={schemaFaq ? [schemaFaq] : []}
 >
   <CabecalhoPagina
+    foto={fotoSaida}
+    descricaoDaFoto="Placa iluminada de saída de emergência sob a laje de uma garagem"
+    cena="rota"
     titulo="Segurança contra incêndio e pânico"
-    subtitulo="A regularização que trava alvará, obra e funcionamento — conduzida do levantamento inicial até a conclusão do processo, em João Pessoa e região."
+    subtitulo="A regularização que trava alvará, obra e funcionamento, conduzida do levantamento inicial até a conclusão do processo, em João Pessoa e região."
     trilha={trilha}
-  />
+  >
+    <div class="mt-6 flex flex-wrap gap-3">
+      <BotaoLink href="/diagnostico" variante="primario">Responder as 4 perguntas</BotaoLink>
+    </div>
+  </CabecalhoPagina>
 
-  <section class="py-16">
+  <section class="py-16 lg:py-20" aria-labelledby="urgencia">
     <div class="mx-auto w-full max-w-wrap px-5">
-      <p class="text-ink-soft">
-        {/* Conteudo desta pagina entra no proximo bloco, vindo das Content Collections. */}
-        Conteúdo em migração a partir da versão anterior do site.
+      <Kicker class="text-div-fire">Bradotec Fire</Kicker>
+      <h2 id="urgencia" class="mt-2 text-secao text-ink">Quando esse processo vira urgência</h2>
+      <p class="mt-4 max-w-[66ch] text-guia text-ink-soft">
+        Condomínio com exigência aberta, comércio que não consegue renovar o alvará, edificação que
+        nunca foi regularizada, instituição que recebe público e precisa se adequar. São situações
+        diferentes com o mesmo efeito: a operação fica exposta.
+      </p>
+
+      <p class="mt-6">
+        <a
+          class="group inline-flex items-center gap-2 font-bold text-wine"
+          href="/avcb"
+        >
+          Entenda o AVCB: o que é, o que exige e o que muda quando vence
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            class="transition-transform duration-200 ease-saida group-hover:translate-x-1"
+          >
+            <path d="M5 12h13m-5-6 6 6-6 6"></path>
+          </svg>
+        </a>
       </p>
     </div>
   </section>
+
+  <SecaoServicos
+    divisao="fire"
+    id="servicos-fire"
+    titulo="O que a divisão Fire conduz"
+    descricao="Da organização do que já existe até o acompanhamento da vistoria, dentro de um único processo."
+  />
+
+  <section class="bg-graphite-900 py-16 text-white lg:py-20" aria-labelledby="em-jogo">
+    <div class="mx-auto w-full max-w-wrap px-5">
+      <h2 id="em-jogo" class="max-w-[26ch] text-secao text-white">
+        Documentação de incêndio pendente não fica parada. Ela cobra.
+      </h2>
+      <p class="mt-3 max-w-[72ch] text-sobre-escuro">
+        Enquanto o processo não é concluído, a edificação segue exposta em frentes que costumam
+        aparecer todas juntas, e quase sempre no pior momento.
+      </p>
+
+      <ul class="mt-11 grid list-none gap-x-12 border-t border-white/15 md:grid-cols-2">
+        {
+          riscos.map((risco) => (
+            <li class="flex items-start gap-3 border-b border-white/15 py-5 text-corpo text-sobre-escuro">
+              <span class="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-alerta-claro" aria-hidden="true" />
+              {risco}
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <BotaoWhatsapp origem="incendio">Quero regularizar contra incêndio</BotaoWhatsapp>
+        <BotaoLink href="/diagnostico" variante="sobreEscuro">Responder as 4 perguntas</BotaoLink>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20" aria-labelledby="como-conduzimos">
+    <div class="mx-auto w-full max-w-wrap px-5">
+      <h2 id="como-conduzimos" class="text-secao text-ink">Como conduzimos o processo</h2>
+
+      <ol class="mt-11 grid list-none gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          etapas.map((etapa, indice) => (
+            <li class="border-t-2 border-t-line pt-5">
+              <span class="text-rotulo font-bold tabular-nums text-wine">
+                {String(indice + 1).padStart(2, '0')}
+              </span>
+              <h3 class="mt-1.5 text-cartao text-ink">{etapa.titulo}</h3>
+              <p class="mt-2 text-corpo text-ink-soft">{etapa.descricao}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  {/*
+    Esta secao responde a pergunta que vem depois de "como conduzimos": por
+    que contratar alguem para conduzir, em vez de tocar por conta ou deixar
+    com quem ja esta na obra.
+
+    O argumento e de lei, e nao de opiniao, e por isso a lei aparece citada.
+    Ver src/config/despachante.ts: a redacao dos itens segue a do texto legal
+    de perto, e quem reescrever para soar mais comercial precisa conferir.
+  */}
+  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="por-que-despachante">
+    <div class="mx-auto w-full max-w-wrap px-5">
+      <Kicker>Quem conduz o processo</Kicker>
+      <h2 id="por-que-despachante" class="mt-2 max-w-[26ch] text-secao text-ink">
+        Por que isso é trabalho de despachante documentalista
+      </h2>
+
+      <p class="mt-5 max-w-[68ch] text-guia text-ink-soft">
+        O processo junto ao Corpo de Bombeiros não é um documento, é uma tramitação: protocolo,
+        análise, exigência, resposta à exigência, vistoria e emissão. Quem conduz precisa conhecer
+        o rito, e não apenas a norma técnica.
+      </p>
+
+      <div class="mt-11 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
+        <div class="border-l-[5px] border-l-wine bg-white p-7">
+          <p class="text-rotulo font-bold uppercase tracking-[0.08em] text-wine">
+            A profissão é regulamentada
+          </p>
+          <p class="mt-3 text-corpo text-ink-soft">
+            A{' '}
+            <a class="font-bold text-wine" href={leiDaProfissao.url} rel="noopener" target="_blank">
+              {leiDaProfissao.rotulo}
+            </a>{' '}
+            define as atribuições do despachante documentalista como os atos e procedimentos legais
+            necessários à mediação e à representação do cliente perante os órgãos da administração
+            pública. Na prática, é isto:
+          </p>
+
+          <ul class="mt-5 flex list-none flex-col gap-2.5">
+            {
+              atribuicoes.map((item) => (
+                <li class="flex items-start gap-3 text-corpo text-ink">
+                  <span
+                    class="mt-[0.55em] size-1.5 shrink-0 rounded-full bg-wine"
+                    aria-hidden="true"
+                  />
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+
+          <p class="mt-6 border-t border-line pt-4 text-apoio text-ash-500">
+            Para exercer, a lei exige {condicoesParaExercer[0]} e {condicoesParaExercer[1]}.
+          </p>
+        </div>
+
+        <div>
+          <p class="text-cartao-lg text-ink">O que costuma acontecer sem isso</p>
+          <dl class="mt-5 border-t border-line">
+            {
+              semDespachante.map((caso) => (
+                <div class="border-b border-line py-5">
+                  <dt class="text-cartao font-bold text-ink">{caso.quem}</dt>
+                  <dd class="mt-1.5 text-corpo text-ink-soft">{caso.oQueAcontece}</dd>
+                </div>
+              ))
+            }
+          </dl>
+
+          <p class="mt-6 text-corpo text-ink-soft">
+            Nada disso substitui o engenheiro. Projeto e laudo continuam sendo de quem tem
+            habilitação legal para assinar, e a aprovação continua sendo do Corpo de Bombeiros. O
+            que muda é ter alguém cuja profissão é justamente conduzir o processo até lá.
+          </p>
+
+          <a
+            class="mt-6 inline-flex items-center gap-2 font-bold text-wine"
+            href="/sobre#quem-esta-por-tras"
+          >
+            Ver o registro e a formação de quem responde
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              class="shrink-0"
+            >
+              <path d="M5 12h13m-5-6 6 6-6 6" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <AvisoEscopo titulo="O que a Bradotec faz e o que é feito por terceiros">
+    A Bradotec atua na gestão documental, na condução administrativa e no acompanhamento do
+    processo. Projetos, laudos, instalação e manutenção de sistemas preventivos exigem habilitação
+    específica e são executados por profissionais e empresas legalmente habilitados, com quem a
+    Bradotec coordena o trabalho. Prazos de análise, vistoria e aprovação dependem do órgão
+    competente.
+  </AvisoEscopo>
+
   <Faq pagina="seguranca-contra-incendio" />
 </BaseLayout>

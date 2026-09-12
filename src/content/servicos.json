@@ -1,0 +1,142 @@
+[
+  {
+    "id": "fire-levantamento",
+    "divisao": "fire",
+    "titulo": "Levantamento e organização documental",
+    "descricao": "Reunimos o que a edificação já possui, identificamos o que está vencido ou ausente e organizamos tudo em um único conjunto documental.",
+    "ordem": 1
+  },
+  {
+    "id": "fire-avcb",
+    "divisao": "fire",
+    "titulo": "AVCB e documentos equivalentes",
+    "descricao": "Conduzimos o processo conforme a aplicabilidade do caso, respeitando o que o órgão competente exige para o tipo de edificação e de ocupação.",
+    "ordem": 2
+  },
+  {
+    "id": "fire-vistorias",
+    "divisao": "fire",
+    "titulo": "Acompanhamento de vistorias",
+    "descricao": "Preparação da edificação para a vistoria e acompanhamento do que for apontado.",
+    "ordem": 3
+  },
+  {
+    "id": "fire-exigencias",
+    "divisao": "fire",
+    "titulo": "Acompanhamento de exigências",
+    "descricao": "Leitura da exigência emitida, definição do que precisa ser feito e resposta dentro do processo.",
+    "ordem": 4
+  },
+  {
+    "id": "fire-brigada",
+    "divisao": "fire",
+    "titulo": "Brigada de incêndio e treinamentos",
+    "descricao": "Formação e reciclagem da brigada conforme a ABNT NBR 14276 e a NR-23, com simulado de abandono na própria edificação. O atestado de brigada é um dos itens exigidos no processo do AVCB.",
+    "ordem": 5
+  },
+  {
+    "id": "fire-projetos",
+    "divisao": "fire",
+    "titulo": "Projetos e laudos",
+    "descricao": "Executados por profissionais legalmente habilitados, coordenados pela Bradotec dentro do mesmo processo.",
+    "ordem": 6
+  },
+  {
+    "id": "fire-preventivos",
+    "divisao": "fire",
+    "titulo": "Sistemas preventivos",
+    "descricao": "Instalação e manutenção por empresas parceiras especializadas, com acompanhamento documental da nossa parte.",
+    "ordem": 7
+  },
+  {
+    "id": "doc-licencas",
+    "divisao": "documentos",
+    "titulo": "Licenças e alvarás",
+    "descricao": "Identificamos qual licença se aplica à atividade e ao endereço, reunimos a documentação e conduzimos o processo.",
+    "ordem": 1
+  },
+  {
+    "id": "doc-certidoes",
+    "divisao": "documentos",
+    "titulo": "Certidões e protocolos",
+    "descricao": "Emissão, protocolo e acompanhamento junto aos órgãos, com retorno sobre cada etapa.",
+    "ordem": 2
+  },
+  {
+    "id": "doc-empresas",
+    "divisao": "documentos",
+    "titulo": "Regularização de empresas",
+    "descricao": "Situação documental da empresa organizada para operar, contratar e participar de processos.",
+    "ordem": 3
+  },
+  {
+    "id": "doc-imoveis",
+    "divisao": "documentos",
+    "titulo": "Regularização de imóveis e edificações",
+    "descricao": "Levantamento do que existe e condução do que falta para a edificação ficar regular.",
+    "ordem": 4
+  },
+  {
+    "id": "doc-exigencias",
+    "divisao": "documentos",
+    "titulo": "Resposta a exigências",
+    "descricao": "Leitura da exigência, definição do que precisa ser atendido e resposta dentro do prazo do processo.",
+    "ordem": 5
+  },
+  {
+    "id": "doc-vencimentos",
+    "divisao": "documentos",
+    "titulo": "Controle de vencimentos",
+    "descricao": "Depois de regularizar, o que mantém a empresa em dia é o acompanhamento contínuo dos prazos.",
+    "ordem": 6
+  },
+  {
+    "id": "auto-transferencia",
+    "divisao": "auto",
+    "titulo": "Transferência",
+    "descricao": "Transferência de propriedade com acompanhamento das etapas e das pendências do veículo.",
+    "ordem": 1
+  },
+  {
+    "id": "auto-emplacamento",
+    "divisao": "auto",
+    "titulo": "Emplacamento e primeiro registro",
+    "descricao": "Processo de veículo novo conduzido do início ao fim.",
+    "ordem": 2
+  },
+  {
+    "id": "auto-segunda-via",
+    "divisao": "auto",
+    "titulo": "Segunda via e alteração de dados",
+    "descricao": "Regularização de documento perdido, danificado ou desatualizado.",
+    "ordem": 3
+  },
+  {
+    "id": "auto-pendencias",
+    "divisao": "auto",
+    "titulo": "Regularização de pendências",
+    "descricao": "Levantamento do que impede a regularização do veículo e condução do processo.",
+    "ordem": 4
+  },
+  {
+    "id": "auto-empresa",
+    "divisao": "auto",
+    "titulo": "Documentação de veículos de empresa",
+    "descricao": "Veículos em nome de pessoa jurídica, com a documentação organizada junto à da empresa.",
+    "ordem": 5
+  },
+  {
+    "id": "auto-frotas",
+    "divisao": "auto",
+    "titulo": "Gestão de frotas",
+    "descricao": "Todos os veículos com situação e vencimentos acompanhados no mesmo controle.",
+    "ordem": 6
+  },
+  {
+    "id": "fire-primeiros-socorros",
+    "divisao": "fire",
+    "titulo": "Curso de primeiros socorros",
+    "descricao": "Suporte básico de vida para equipes sem formação em saúde: parada cardiorrespiratória, engasgo, hemorragia, queimadura e imobilização, com prática em manequim.",
+    "ordem": 8
+  }
+]

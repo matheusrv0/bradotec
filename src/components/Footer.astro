@@ -1,9 +1,9 @@
 ---
 import { Image } from 'astro:assets'
-import logo from '@/assets/logo-small.png'
+import logo from '@/assets/marca/logo-bradotec.png'
 import DadoCliente from '@/components/DadoCliente.astro'
 import { navegacaoRodape } from '@/config/navegacao'
-import { ehPlaceholder, site } from '@/config/site'
+import { ehPlaceholder, enderecoCompleto, instagramUsuario, site } from '@/config/site'
 import { linkWhatsapp } from '@/config/whatsapp'
 
 const ano = new Date().getFullYear()
@@ -14,12 +14,12 @@ const hrefTelefone = ehPlaceholder(site.telefone)
 const hrefEmail = ehPlaceholder(site.email) ? '/contato' : `mailto:${site.email}`
 ---
 
-<footer class="bg-navy-950 px-0 pb-28 pt-14 text-[0.94rem] text-[#93a7bc]">
+<footer class="bg-graphite-950 px-0 pb-28 pt-14 text-corpo text-sobre-escuro-fraco">
   <div class="mx-auto w-full max-w-wrap px-5">
     <div class="grid gap-9 md:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
       <div>
-        <Image src={logo} alt={site.nome} width={61} height={52} loading="lazy" class="mb-3.5 h-[52px] w-auto" />
-        <p class="max-w-[34ch] text-[0.92rem] text-[#8298af]">
+        <Image src={logo} alt={site.nome} height={104} loading="lazy" class="mb-4 h-[52px] w-auto" />
+        <p class="max-w-[34ch] text-apoio text-sobre-escuro-fraco">
           Gestão documental, regularização, licenciamento e segurança contra incêndio para
           empresas, condomínios e frotas em {site.cidade} e região.
         </p>
@@ -28,11 +28,20 @@ const hrefEmail = ehPlaceholder(site.email) ? '/contato' : `mailto:${site.email}
       {
         navegacaoRodape.map((coluna) => (
           <div>
-            <h4 class="mb-3.5 text-[0.98rem] font-bold text-white">{coluna.titulo}</h4>
+            <h4 class="mb-3.5 text-corpo font-bold text-white">{coluna.titulo}</h4>
             <ul>
+              {/*
+                O link ocupa a linha inteira e tem 44px de altura no celular.
+                Medido antes: cada um era um alvo de 19px, abaixo do minimo
+                de toque, e alvos vizinhos a 19px de distancia sao o motivo
+                classico de abrir o link errado com o polegar.
+              */}
               {coluna.itens.map((item) => (
-                <li class="py-1">
-                  <a class="text-[#a9bccf] no-underline hover:text-white hover:underline" href={item.href}>
+                <li>
+                  <a
+                    class="flex min-h-[44px] items-center text-sobre-escuro-fraco no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1"
+                    href={item.href}
+                  >
                     {item.rotulo}
                   </a>
                 </li>
@@ -43,40 +52,54 @@ const hrefEmail = ehPlaceholder(site.email) ? '/contato' : `mailto:${site.email}
       }
 
       <div>
-        <h4 class="mb-3.5 text-[0.98rem] font-bold text-white">Atendimento</h4>
+        <h4 class="mb-3.5 text-corpo font-bold text-white">Atendimento</h4>
         <ul>
-          <li class="py-1">
+          <li>
             <a
-              class="text-[#a9bccf] no-underline hover:text-white hover:underline"
+              class="flex min-h-[44px] items-center text-sobre-escuro-fraco no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1"
               href={hrefWhatsapp ?? '/contato'}
               {...hrefWhatsapp ? { target: '_blank', rel: 'noopener' } : {}}
             >
               WhatsApp comercial
             </a>
           </li>
-          <li class="py-1">
-            <a class="text-[#a9bccf] no-underline hover:text-white hover:underline" href={hrefTelefone}>
+          <li>
+            <a class="flex min-h-[44px] items-center text-sobre-escuro-fraco no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1" href={hrefTelefone}>
               <DadoCliente valor={site.telefone} />
             </a>
           </li>
-          <li class="py-1">
-            <a class="text-[#a9bccf] no-underline hover:text-white hover:underline" href={hrefEmail}>
+          <li>
+            <a class="flex min-h-[44px] items-center text-sobre-escuro-fraco no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1" href={hrefEmail}>
               <DadoCliente valor={site.email} />
             </a>
           </li>
-          <li class="py-1"><DadoCliente valor={site.endereco} /></li>
-          <li class="py-1">{site.cidade} — Paraíba</li>
+          {/*
+            Endereco completo, com bairro e CEP. Antes saia so a rua, e a
+            linha seguinte dizia "Joao Pessoa" porque o campo de cidade era um
+            so. A sede fica em Cabedelo: a cidade do endereco e a do mercado
+            passaram a ser campos diferentes.
+          */}
+          <li class="py-1 leading-snug">{enderecoCompleto}</li>
           <li class="py-1"><DadoCliente valor={site.horario} /></li>
-          <li class="py-1"><DadoCliente valor={site.instagram} /></li>
+          <li>
+            <a
+              class="flex min-h-[44px] items-center text-sobre-escuro-fraco no-underline hover:text-white hover:underline sm:min-h-0 sm:py-1"
+              href={site.instagram}
+              rel="noopener"
+              target="_blank"
+            >
+              {instagramUsuario}
+            </a>
+          </li>
         </ul>
       </div>
     </div>
 
     <div
-      class="mt-9 flex flex-wrap justify-between gap-x-6 gap-y-2.5 border-t border-white/10 pt-5 text-[0.85rem] text-[#71889f]"
+      class="mt-9 flex flex-wrap justify-between gap-x-6 gap-y-2.5 border-t border-white/10 pt-5 text-rotulo text-sobre-escuro-fraco"
     >
       <span>
-        © {ano} {site.nome} — CNPJ <DadoCliente valor={site.cnpj} />. Todos os direitos reservados.
+        © {ano} {site.nome}. CNPJ <DadoCliente valor={site.cnpj} />. Todos os direitos reservados.
       </span>
       <span>
         A {site.nome} atua na gestão e no acompanhamento administrativo dos processos. Projetos,

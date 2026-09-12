@@ -23,15 +23,17 @@ const {
 const href = linkWhatsapp(origem)
 
 const variantes = {
-  primario: 'bg-fire text-white hover:bg-fire-dark',
-  escuro: 'bg-navy-900 text-white hover:bg-navy-700',
+  primario: 'bg-wine text-white hover:bg-wine-dark',
+  escuro: 'bg-graphite-900 text-white hover:bg-graphite-700',
   sobreEscuro: 'bg-white/10 text-white border-white/30 hover:bg-white/20',
-  contorno: 'border-[#c6d2e0] text-navy-900 hover:border-navy-900 hover:bg-line-soft',
+  contorno: 'border-line-forte text-graphite-900 hover:border-graphite-900 hover:bg-line-soft',
 } as const
 
+/* Mesmo afundar de um pixel do BotaoLink. Os dois aparecem lado a lado o
+   tempo todo: se so um respondesse ao toque, a diferenca apareceria. */
 const classes = cn(
-  'inline-flex items-center justify-center gap-2 rounded-[11px] border border-transparent font-bold no-underline transition-colors',
-  pequeno ? 'min-h-[42px] px-4 py-2.5 text-[0.94rem]' : 'min-h-[50px] px-6 py-3.5 text-base',
+  'inline-flex items-center justify-center gap-2 rounded-md border border-transparent font-bold no-underline active:translate-y-px transition-[color,background-color,border-color,translate]',
+  pequeno ? 'min-h-[42px] px-4 py-2.5 text-corpo' : 'min-h-[50px] px-6 py-3.5 text-base',
   larguraTotal && 'w-full',
   variantes[variante],
   classe
@@ -46,8 +48,11 @@ const classes = cn(
     </a>
   ) : (
     /* Numero ainda nao configurado: leva ao formulario em vez de abrir uma
-       conversa com numero inexistente. */
-    <a class={classes} href="/contato" data-wa-pendente={origem}>
+       conversa com numero inexistente.
+
+       A ancora importa: sem ela, o botao dentro da propria /contato apontava
+       para /contato e recarregava a pagina no mesmo lugar. */
+    <a class={classes} href="/contato#formulario" data-wa-pendente={origem}>
       <IconeWhatsapp />
       <slot />
     </a>

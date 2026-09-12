@@ -1,0 +1,32 @@
+[
+  {
+    "id": "fire",
+    "marca": "Bradotec Fire",
+    "titulo": "Segurança contra incêndio e pânico",
+    "resumo": "A frente mais crítica: trava alvará, obra e funcionamento quando fica pendente.",
+    "href": "/seguranca-contra-incendio",
+    "cor": "fire",
+    "origemWhatsapp": "incendio",
+    "ordem": 1
+  },
+  {
+    "id": "documentos",
+    "marca": "Bradotec Documentos",
+    "titulo": "Regularização e gestão documental",
+    "resumo": "Licenças, certidões e protocolos conduzidos do início ao fim.",
+    "href": "/regularizacoes",
+    "cor": "doc",
+    "origemWhatsapp": "licenca",
+    "ordem": 2
+  },
+  {
+    "id": "auto",
+    "marca": "Bradotec Auto",
+    "titulo": "Documentação veicular e frotas",
+    "resumo": "Pendências do veículo resolvidas e a frota da empresa sob controle.",
+    "href": "/documentacao-veicular",
+    "cor": "auto",
+    "origemWhatsapp": "veicular",
+    "ordem": 3
+  }
+]

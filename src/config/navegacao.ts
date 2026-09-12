@@ -15,6 +15,19 @@ export type ItemNavegacao = {
   completo: string
 }
 
+/**
+ * Paginas que nao estao no menu mas pertencem a um item dele.
+ *
+ * Sem isto, quem abria /avcb ou /solucoes via o menu inteiro apagado e
+ * perdia a nocao de onde estava dentro do site.
+ */
+export const paiNoMenu: Readonly<Record<string, string>> = {
+  '/avcb': '/seguranca-contra-incendio',
+  '/solucoes': '/empresas',
+  '/diagnostico': '/contato',
+  '/carregadores-eletricos': '/seguranca-contra-incendio',
+}
+
 export const navegacaoPrincipal: readonly ItemNavegacao[] = [
   {
     href: '/seguranca-contra-incendio',
@@ -24,6 +37,8 @@ export const navegacaoPrincipal: readonly ItemNavegacao[] = [
   { href: '/regularizacoes', curto: 'Regularizações', completo: 'Regularizações e licenças' },
   { href: '/documentacao-veicular', curto: 'Veicular', completo: 'Documentação veicular' },
   { href: '/empresas', curto: 'Empresas', completo: 'Empresas e condomínios' },
+  { href: '/treinamentos', curto: 'Treinamentos', completo: 'Brigada e primeiros socorros' },
+  { href: '/artigos', curto: 'Artigos', completo: 'Artigos técnicos' },
   { href: '/sobre', curto: 'A Bradotec', completo: 'A Bradotec' },
   { href: '/contato', curto: 'Contato', completo: 'Contato' },
 ] as const
@@ -37,13 +52,18 @@ export const navegacaoRodape = [
       { href: '/regularizacoes', rotulo: 'Regularizações e licenças' },
       { href: '/documentacao-veicular', rotulo: 'Documentação veicular' },
       { href: '/empresas', rotulo: 'Gestão documental recorrente' },
+      { href: '/avcb', rotulo: 'AVCB: o que é e o que exige' },
+      { href: '/treinamentos', rotulo: 'Brigada e primeiros socorros' },
+      { href: '/carregadores-eletricos', rotulo: 'Carregadores de veículo elétrico' },
     ],
   },
   {
     titulo: 'Empresa',
     itens: [
+      { href: '/artigos', rotulo: 'Artigos técnicos' },
       { href: '/sobre', rotulo: 'A Bradotec' },
       { href: '/solucoes', rotulo: 'Todas as soluções' },
+      { href: '/diagnostico', rotulo: 'Diagnóstico de Regularização' },
       { href: '/contato', rotulo: 'Contato' },
       { href: '/#faq', rotulo: 'Perguntas frequentes' },
     ],

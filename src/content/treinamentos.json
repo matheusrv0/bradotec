@@ -1,0 +1,39 @@
+[
+  {
+    "id": "brigada",
+    "titulo": "Brigada de incêndio",
+    "chamada": "Formação e reciclagem da equipe que responde nos primeiros minutos",
+    "resumo": "A brigada é o grupo que age antes de o Corpo de Bombeiros chegar: reconhece o princípio de incêndio, aciona o alarme, usa o extintor certo e conduz a evacuação. A formação segue a ABNT NBR 14276 e a NR-23, e o dimensionamento depende da ocupação, da população fixa e do risco da edificação.",
+    "normas": "ABNT NBR 14276 e NR-23",
+    "conteudo": [
+      "Como o fogo começa, se propaga e por que cada classe pede um agente diferente",
+      "Uso correto de extintor por classe de incêndio, com prática",
+      "Rede de hidrantes, mangueiras e acionamento do sistema",
+      "Alarme, rota de fuga, ponto de encontro e condução da evacuação",
+      "Abandono de área com pessoas com mobilidade reduzida",
+      "Primeiros socorros aplicados à ocorrência de incêndio",
+      "Divisão de funções na brigada e quem faz o quê durante a emergência",
+      "Simulado de abandono na própria edificação"
+    ],
+    "ordem": 1
+  },
+  {
+    "id": "primeiros-socorros",
+    "titulo": "Primeiros socorros",
+    "chamada": "O que fazer nos minutos entre o acidente e o socorro",
+    "resumo": "A maior parte das emergências em condomínio, comércio e escritório não é incêndio: é queda, engasgo, desmaio, corte profundo ou mal súbito. O curso trata do que uma pessoa sem formação em saúde pode e deve fazer até a chegada do socorro e, tão importante quanto, do que não fazer.",
+    "normas": "Diretrizes de suporte básico de vida",
+    "conteudo": [
+      "Avaliação da cena e da vítima, e como acionar o socorro com a informação certa",
+      "Parada cardiorrespiratória e massagem cardíaca em adulto",
+      "Uso do desfibrilador externo automático (DEA), quando houver no local",
+      "Engasgo e desobstrução das vias aéreas em adulto, criança e bebê",
+      "Hemorragias, cortes e curativos de urgência",
+      "Queimaduras, incluindo as de origem elétrica e química",
+      "Desmaio, convulsão, crise de pressão e suspeita de AVC",
+      "Imobilização e por que mover a vítima errado agrava a lesão",
+      "Prática com manequim"
+    ],
+    "ordem": 2
+  }
+]

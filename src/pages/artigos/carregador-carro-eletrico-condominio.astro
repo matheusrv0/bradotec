@@ -1,0 +1,775 @@
+---
+import { getCollection, getEntry } from 'astro:content'
+import fotoPredios from '@/assets/fotos-geradas/predios-ao-anoitecer.jpg'
+import AvisoEscopo from '@/components/AvisoEscopo.astro'
+import BotaoLink from '@/components/BotaoLink.astro'
+import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
+import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
+import Faq from '@/components/Faq.astro'
+import Kicker from '@/components/Kicker.astro'
+import { site } from '@/config/site'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { schemaFaqDaPagina } from '@/lib/faq'
+import { jsonLdArtigo } from '@/lib/seo'
+
+/**
+ * Este artigo tambem existe como arquivo solto em `artigos/`, na paleta que o
+ * cliente pediu para material avulso. Aqui ele veste a identidade do site.
+ * O texto e o mesmo; o que muda e a casa.
+ */
+const artigo = await getEntry('artigos', 'carregador-carro-eletrico-condominio')
+if (!artigo) throw new Error('Artigo "carregador-carro-eletrico-condominio" não está na coleção.')
+
+const [pessoa] = (await getCollection('lideranca')).sort((a, b) => a.data.ordem - b.data.ordem)
+
+const trilha = [
+  { nome: 'Início', href: '/' },
+  { nome: 'Artigos técnicos', href: '/artigos' },
+  { nome: 'Carregador elétrico em condomínio', href: `/artigos/${artigo.data.slug}` },
+] as const
+
+const siteUrl = Astro.site?.href ?? 'https://dominio-do-cliente.example/'
+const schemaFaq = await schemaFaqDaPagina('carregadores-eletricos')
+const schemaArtigo = jsonLdArtigo(
+  {
+    titulo: artigo.data.titulo,
+    resumo: artigo.data.resumo,
+    data: artigo.data.data,
+    url: `/artigos/${artigo.data.slug}`,
+    autor: pessoa?.data.nome ?? site.nome,
+  },
+  siteUrl
+)
+
+const publicadoEm = new Date(`${artigo.data.data}T12:00:00`).toLocaleDateString('pt-BR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+})
+
+/**
+ * A norma, citada pelo nome e com link para a fonte oficial. Uma pagina que
+ * diz ao sindico "voce esta irregular agora" precisa dizer onde isso esta
+ * escrito. Sem a fonte, e alarme comercial.
+ */
+const norma = {
+  numero: 'Norma Técnica nº 040/2025',
+  orgao: 'Corpo de Bombeiros Militar da Paraíba',
+  titulo:
+    'Ocupações destinadas a garagens e locais com Sistemas de Alimentação de Veículos Elétricos (SAVE)',
+  fonte: 'https://bravo.bombeiros.pb.gov.br/portal/normas-tecnicas/',
+} as const
+
+/** Sai da mesma colecao que a pagina de servico usa para as etapas. */
+const exigencias = (await getCollection('save'))
+  .filter(({ data }) => data.grupo === 'exigencia')
+  .sort((a, b) => a.data.ordem - b.data.ordem)
+
+const checklist = [
+  {
+    pergunta: 'Existe algum carro elétrico ou híbrido plug-in sendo carregado na garagem?',
+    nota: 'Inclui o morador que carrega só de vez em quando.',
+  },
+  {
+    pergunta: 'A recarga usa tomada comum, extensão, adaptador ou benjamim?',
+    nota: 'Se a resposta for sim, a instalação já está fora da norma.',
+  },
+  {
+    pergunta: 'Existe algum cabo atravessando o piso da garagem durante a recarga?',
+    nota: 'Além de irregular, é risco de tropeço e de dano ao cabo.',
+  },
+  {
+    pergunta: 'O ponto de recarga tem disjuntor próprio e identificado no quadro?',
+    nota: 'Se ninguém souber apontar qual disjuntor desliga o carregador, a resposta é não.',
+  },
+  {
+    pergunta: 'Existe um dispositivo de desligamento manual perto da entrada da garagem?',
+    nota: 'A norma pede até cinco metros da entrada, da porta principal ou das escadas.',
+  },
+  {
+    pergunta: 'A instalação foi feita com projeto e ART de profissional habilitado?',
+    nota: 'ART é a Anotação de Responsabilidade Técnica. Sem ela, não há responsável técnico formalmente vinculado à instalação.',
+  },
+] as const
+---
+
+<BaseLayout
+  titulo={`${artigo.data.titulo} | ${site.nome}`}
+  descricao={artigo.data.resumo}
+  trilha={trilha}
+  schemasExtras={schemaFaq ? [schemaArtigo, schemaFaq] : [schemaArtigo]}
+>
+  <CabecalhoPagina
+    foto={fotoPredios}
+    descricaoDaFoto="Avenida de edifícios residenciais ao anoitecer, com a pista molhada refletindo as luzes"
+    enquadramento="50% 50%"
+    cena="rota"
+    titulo={artigo.data.titulo}
+    subtitulo="Um morador comprou um carro elétrico e passou a carregar na garagem. Ninguém achou ruim, e o assunto nunca chegou à assembleia. Desde 1º de janeiro de 2026 esse arranjo deixou de ser permitido na Paraíba."
+    trilha={trilha}
+  >
+    <p class="mt-6 text-apoio text-sobre-escuro-fraco">
+      {artigo.data.tema} · Publicado em {publicadoEm} · {artigo.data.minutos} min de leitura
+    </p>
+  </CabecalhoPagina>
+
+  <section class="py-16 lg:py-20" aria-labelledby="o-que-mudou">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <Kicker>Bradotec Fire</Kicker>
+      <h2 id="o-que-mudou" class="mt-2 max-w-[26ch] text-secao text-ink">
+        O que mudou: a NT 040/2025 do Corpo de Bombeiros
+      </h2>
+
+      <div class="mt-6 space-y-5 text-guia text-ink-soft">
+        <p>
+          O {norma.orgao} publicou a <strong class="font-bold text-ink">{norma.numero}</strong>,
+          que regula a instalação e o uso de sistemas de alimentação de veículos elétricos, o SAVE,
+          em condomínios residenciais. SAVE é o nome técnico do conjunto que alimenta o carro: o
+          ponto de recarga, o circuito que chega até ele e as proteções desse circuito.
+        </p>
+        <p>
+          A norma está em vigor desde <strong class="font-bold text-ink">1º de janeiro de 2026</strong>
+          {' '}e alcança edificações novas e existentes, em todo o estado. Não existe a figura do
+          prédio antigo dispensado: se há recarga de veículo elétrico acontecendo na garagem, a
+          norma se aplica.
+        </p>
+        <p>
+          A mudança de fundo é a seguinte. Até aqui, carregar um carro na garagem era tratado como
+          uso doméstico de energia. A partir da NT 040/2025, a garagem com recarga passa a ser
+          tratada como uma situação de risco própria, com exigências de instalação, de detecção de
+          incêndio e de corte de energia.
+        </p>
+      </div>
+
+      <p class="mt-6 border-t border-line pt-5 text-apoio text-ash-500">
+        {norma.numero}, {norma.titulo}. Texto oficial em{' '}
+        <a class="font-bold text-wine" href={norma.fonte} rel="noopener" target="_blank">
+          bombeiros.pb.gov.br
+        </a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-graphite-900 py-16 text-white lg:py-20" aria-labelledby="proibido">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="proibido" class="max-w-[22ch] text-secao text-white">O que passou a ser proibido</h2>
+
+      <ul class="mt-8 grid list-none gap-x-8 sm:grid-cols-2">
+        {
+          ['Extensões', 'Adaptadores', 'Benjamins, o popular T', 'Tomadas comuns para recarga'].map(
+            (item) => (
+              <li class="flex items-center gap-3 border-b border-white/15 py-4 text-cartao text-white">
+                <span class="shrink-0 font-bold text-alerta-claro" aria-hidden="true">
+                  ✕
+                </span>
+                {item}
+              </li>
+            )
+          )
+        }
+      </ul>
+
+      <p class="mt-7 max-w-[62ch] text-guia text-sobre-escuro">
+        Somente os <strong class="font-bold text-white">modos de recarga 3 e 4</strong> são
+        admitidos. Na prática, a solução mais vista nos condomínios, o morador puxando um cabo até
+        a tomada da garagem, deixou de ser aceitável.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20" aria-labelledby="modos">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="modos" class="max-w-[24ch] text-secao text-ink">O que é modo de recarga</h2>
+      <p class="mt-5 text-guia text-ink-soft">
+        Modo de recarga é a forma como o carro se conecta à energia. Os modos 1 e 2 usam tomada
+        comum, com pouca ou nenhuma comunicação entre o carro e a instalação. Os modos 3 e 4 usam
+        uma estação dedicada, que conversa com o veículo, controla a corrente e interrompe a
+        alimentação sozinha quando alguma coisa sai do esperado.
+      </p>
+
+      <figure class="m-0 mt-10">
+        <svg class="mx-auto block h-auto w-full max-w-[520px] rounded-xl border border-line bg-white"
+            viewBox="0 0 460 600"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="modos-t modos-d"
+          >
+            <title id="modos-t">Modos de recarga admitidos e não admitidos</title>
+            <desc id="modos-d">
+              Quatro faixas empilhadas. Modo 1 e modo 2, que usam tomada comum, aparecem marcados
+              como não admitidos. Modo 3, com estação fixa em corrente alternada, e modo 4, em
+              corrente contínua, aparecem marcados como admitidos pela NT 040/2025.
+            </desc>
+
+            <rect width="460" height="600" fill="#FFFFFF" />
+            <text x="20" y="32" font-size="22" font-weight="700" fill="#8e1c21">
+              Modos de recarga
+            </text>
+            <text x="20" y="58" font-size="19" fill="#6e6668">
+              O que a norma aceita na garagem
+            </text>
+
+            <!-- Modo 1: nao admitido -->
+            <g>
+              <rect x="20" y="76" width="420" height="112" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
+              <line x1="20" y1="76" x2="440" y2="188" stroke="#6e6668" stroke-width="1" opacity="0.3" />
+              <text x="40" y="110" font-size="24" font-weight="800" fill="#6e6668">MODO 1</text>
+              <text x="40" y="140" font-size="20" fill="#1f1b1d">Tomada comum, sem proteção dedicada.</text>
+              <g transform="translate(40,158)">
+                <circle cx="10" cy="10" r="10" fill="none" stroke="#6e6668" stroke-width="2" />
+                <path d="M5.5 5.5l9 9M14.5 5.5l-9 9" stroke="#6e6668" stroke-width="2" stroke-linecap="round" />
+                <text x="30" y="16" font-size="19" font-weight="700" fill="#6e6668">NÃO ADMITIDO</text>
+              </g>
+            </g>
+
+            <!-- Modo 2: nao admitido -->
+            <g>
+              <rect x="20" y="204" width="420" height="112" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
+              <line x1="20" y1="204" x2="440" y2="316" stroke="#6e6668" stroke-width="1" opacity="0.3" />
+              <text x="40" y="238" font-size="24" font-weight="800" fill="#6e6668">MODO 2</text>
+              <text x="40" y="268" font-size="20" fill="#1f1b1d">Tomada comum com caixa no cabo.</text>
+              <g transform="translate(40,286)">
+                <circle cx="10" cy="10" r="10" fill="none" stroke="#6e6668" stroke-width="2" />
+                <path d="M5.5 5.5l9 9M14.5 5.5l-9 9" stroke="#6e6668" stroke-width="2" stroke-linecap="round" />
+                <text x="30" y="16" font-size="19" font-weight="700" fill="#6e6668">NÃO ADMITIDO</text>
+              </g>
+            </g>
+
+            <!-- Modo 3: admitido -->
+            <g>
+              <rect x="20" y="332" width="420" height="112" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
+              <rect x="20" y="332" width="7" height="112" fill="#8e1c21" />
+              <text x="46" y="366" font-size="24" font-weight="800" fill="#8e1c21">MODO 3</text>
+              <text x="46" y="396" font-size="20" fill="#1f1b1d">Estação fixa, corrente alternada.</text>
+              <g transform="translate(46,414)">
+                <circle cx="10" cy="10" r="10" fill="none" stroke="#8e1c21" stroke-width="2" />
+                <path d="M5 10.5l3.5 3.5 7-7.5" fill="none" stroke="#8e1c21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <text x="30" y="16" font-size="19" font-weight="700" fill="#8e1c21">ADMITIDO</text>
+              </g>
+            </g>
+
+            <!-- Modo 4: admitido -->
+            <g>
+              <rect x="20" y="460" width="420" height="112" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
+              <rect x="20" y="460" width="7" height="112" fill="#8e1c21" />
+              <text x="46" y="494" font-size="24" font-weight="800" fill="#8e1c21">MODO 4</text>
+              <text x="46" y="524" font-size="20" fill="#1f1b1d">Estação de corrente contínua.</text>
+              <g transform="translate(46,542)">
+                <circle cx="10" cy="10" r="10" fill="none" stroke="#8e1c21" stroke-width="2" />
+                <path d="M5 10.5l3.5 3.5 7-7.5" fill="none" stroke="#8e1c21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <text x="30" y="16" font-size="19" font-weight="700" fill="#8e1c21">ADMITIDO</text>
+              </g>
+            </g>
+          </svg>
+        <figcaption class="mt-3 text-apoio text-ash-500">
+          Os modos 1 e 2 dependem de tomada comum, e é por isso que saíram. Os modos 3 e 4 usam
+          estação dedicada, que controla a corrente e corta a alimentação sozinha.
+        </figcaption>
+      </figure>
+
+      <figure class="m-0 mt-12">
+        <div class="flex flex-wrap gap-4">
+          <svg class="block h-auto min-w-0 flex-1 basis-[260px] rounded-xl border border-line bg-white"
+              viewBox="0 0 360 380"
+              preserveAspectRatio="xMidYMid meet"
+              role="img"
+              aria-labelledby="errado-t errado-d"
+            >
+              <title id="errado-t">Instalação errada</title>
+              <desc id="errado-d">
+                Garagem vista de lado. Um cabo de extensão sai de uma tomada comum na parede,
+                atravessa o piso e chega a um carregador portátil apoiado no chão, ligado ao carro.
+              </desc>
+
+              <rect width="360" height="380" fill="#FFFFFF" />
+              <rect x="0" y="0" width="360" height="42" fill="#6e6668" />
+              <text x="20" y="28" font-size="18" font-weight="800" fill="#FFFFFF" letter-spacing="1">
+                ERRADO
+              </text>
+
+              <!-- parede e piso -->
+              <line x1="34" y1="90" x2="34" y2="300" stroke="#1f1b1d" stroke-width="2" />
+              <line x1="34" y1="300" x2="340" y2="300" stroke="#1f1b1d" stroke-width="2" />
+
+              <!-- tomada comum -->
+              <rect x="26" y="150" width="16" height="22" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
+              <circle cx="34" cy="158" r="1.8" fill="#8e1c21" />
+              <circle cx="34" cy="165" r="1.8" fill="#8e1c21" />
+              <line x1="46" y1="161" x2="96" y2="161" stroke="#6e6668" stroke-width="1" />
+              <text x="100" y="158" font-size="15" font-weight="700" fill="#8e1c21">Tomada comum</text>
+              <text x="100" y="176" font-size="14" fill="#6e6668">sem circuito próprio</text>
+
+              <!-- extensão pelo piso -->
+              <path
+                d="M42 168 C 60 214, 46 268, 92 288 C 140 308, 158 276, 188 284"
+                fill="none"
+                stroke="#8e1c21"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <line x1="120" y1="296" x2="150" y2="330" stroke="#6e6668" stroke-width="1" />
+              <text x="98" y="348" font-size="15" font-weight="700" fill="#8e1c21">Extensão pelo piso</text>
+              <text x="98" y="366" font-size="14" fill="#6e6668">passagem e tropeço</text>
+
+              <!-- carregador portátil -->
+              <rect x="186" y="272" width="30" height="18" rx="3" fill="#FFFFFF" stroke="#1f1b1d" stroke-width="2" />
+              <line x1="216" y1="278" x2="252" y2="266" stroke="#1f1b1d" stroke-width="2.5" stroke-linecap="round" />
+              <line x1="201" y1="270" x2="214" y2="234" stroke="#6e6668" stroke-width="1" />
+              <text x="152" y="228" font-size="15" font-weight="700" fill="#8e1c21">Carregador portátil</text>
+              <text x="152" y="246" font-size="14" fill="#6e6668">modo 2, não admitido</text>
+
+              <!-- carro -->
+              <path
+                d="M244 300 v-22 l16-24 h52 l20 24 v22 z"
+                fill="#FFFFFF"
+                stroke="#1f1b1d"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
+              <circle cx="266" cy="300" r="9" fill="#FFFFFF" stroke="#1f1b1d" stroke-width="2" />
+              <circle cx="316" cy="300" r="9" fill="#FFFFFF" stroke="#1f1b1d" stroke-width="2" />
+            </svg>
+          <svg class="block h-auto min-w-0 flex-1 basis-[260px] rounded-xl border border-line bg-white"
+              viewBox="0 0 360 380"
+              preserveAspectRatio="xMidYMid meet"
+              role="img"
+              aria-labelledby="correto-t correto-d"
+            >
+              <title id="correto-t">Instalação correta</title>
+              <desc id="correto-d">
+                Mesma garagem. Um quadro exclusivo na parede alimenta uma estação fixa de recarga,
+                também na parede. O cabo vai da estação direto ao carro, sem passar pelo piso. Um
+                botão de desligamento manual fica próximo da entrada.
+              </desc>
+
+              <rect width="360" height="380" fill="#FFFFFF" />
+              <rect x="0" y="0" width="360" height="42" fill="#8e1c21" />
+              <text x="20" y="28" font-size="18" font-weight="800" fill="#FFFFFF" letter-spacing="1">
+                CORRETO
+              </text>
+
+              <line x1="34" y1="90" x2="34" y2="300" stroke="#1f1b1d" stroke-width="2" />
+              <line x1="34" y1="300" x2="340" y2="300" stroke="#1f1b1d" stroke-width="2" />
+
+              <!-- quadro exclusivo -->
+              <rect x="34" y="104" width="44" height="34" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
+              <line x1="45" y1="112" x2="45" y2="130" stroke="#8e1c21" stroke-width="2.5" />
+              <line x1="56" y1="112" x2="56" y2="130" stroke="#8e1c21" stroke-width="2.5" />
+              <line x1="67" y1="112" x2="67" y2="130" stroke="#8e1c21" stroke-width="2.5" />
+              <line x1="82" y1="120" x2="126" y2="120" stroke="#6e6668" stroke-width="1" />
+              <text x="130" y="116" font-size="15" font-weight="700" fill="#8e1c21">Quadro exclusivo</text>
+              <text x="130" y="134" font-size="14" fill="#6e6668">disjuntor, DR e DPS</text>
+
+              <!-- alimentação descendo pela parede -->
+              <path d="M56 138 v52" fill="none" stroke="#8e1c21" stroke-width="3" />
+
+              <!-- estação fixa -->
+              <rect x="40" y="190" width="34" height="56" rx="4" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
+              <circle cx="57" cy="206" r="5" fill="none" stroke="#8e1c21" stroke-width="2" />
+              <line x1="48" y1="222" x2="66" y2="222" stroke="#6e6668" stroke-width="2" />
+              <line x1="48" y1="230" x2="60" y2="230" stroke="#6e6668" stroke-width="2" />
+              <line x1="78" y1="212" x2="126" y2="196" stroke="#6e6668" stroke-width="1" />
+              <text x="130" y="190" font-size="15" font-weight="700" fill="#8e1c21">Estação fixa</text>
+              <text x="130" y="208" font-size="14" fill="#6e6668">modo 3, circuito próprio</text>
+
+              <!-- cabo suspenso ate o carro -->
+              <path
+                d="M74 220 C 130 220, 170 246, 216 254"
+                fill="none"
+                stroke="#8e1c21"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <text x="112" y="286" font-size="14" fill="#6e6668">cabo fora do piso</text>
+
+              <!-- botao de desligamento -->
+              <circle cx="150" cy="330" r="13" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
+              <circle cx="150" cy="330" r="5" fill="#8e1c21" />
+              <text x="172" y="326" font-size="15" font-weight="700" fill="#8e1c21">Desligamento</text>
+              <text x="172" y="344" font-size="14" fill="#6e6668">manual, até 5 m da entrada</text>
+
+              <!-- carro -->
+              <path
+                d="M244 300 v-22 l16-24 h52 l20 24 v22 z"
+                fill="#FFFFFF"
+                stroke="#1f1b1d"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
+              <circle cx="266" cy="300" r="9" fill="#FFFFFF" stroke="#1f1b1d" stroke-width="2" />
+              <circle cx="316" cy="300" r="9" fill="#FFFFFF" stroke="#1f1b1d" stroke-width="2" />
+            </svg>
+        </div>
+        <figcaption class="mt-3 text-apoio text-ash-500">
+          À esquerda, o arranjo que a norma passou a proibir. À direita, o que ela admite: quadro
+          exclusivo, estação fixa em modo 3 e um ponto de desligamento manual perto da entrada.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="exigido">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="exigido" class="max-w-[26ch] text-secao text-ink">
+        O que a norma exige do carregador elétrico na garagem
+      </h2>
+      <p class="mt-5 text-guia text-ink-soft">
+        A lista abaixo é o que a NT 040/2025 pede da instalação. O enquadramento exato depende da
+        edificação, do número de pontos e do sistema de segurança que o prédio já tem.
+      </p>
+
+      <dl class="mt-9 border-t border-line">
+        {
+          exigencias.map((item) => (
+            <div class="relative border-b border-line py-5 pl-7">
+              <span
+                class="absolute left-0 top-[1.85rem] h-0.5 w-[13px] rounded-sm bg-wine"
+                aria-hidden="true"
+              />
+              <dt class="text-cartao font-bold text-ink">{item.data.titulo}</dt>
+              <dd class="mt-1.5 text-corpo text-ink-soft">{item.data.descricao}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <figure class="m-0 mt-12">
+        <svg class="mx-auto block h-auto w-full max-w-[520px] rounded-xl border border-line bg-white"
+            viewBox="0 0 460 640"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="circuito-t circuito-d"
+          >
+            <title id="circuito-t">Sequência do circuito exigido</title>
+            <desc id="circuito-d">
+              Diagrama vertical em cinco etapas, do quadro geral até a estação de recarga: quadro
+              geral, disjuntor exclusivo identificado, dispositivo DR de alta sensibilidade, DPS
+              contra surtos e, por fim, a estação de recarga em modo 3 ou 4.
+            </desc>
+
+            <rect width="460" height="640" fill="#FFFFFF" />
+            <text x="24" y="34" font-size="22" font-weight="700" fill="#8e1c21">
+              O caminho da energia até o carro
+            </text>
+            <text x="24" y="56" font-size="19" fill="#6e6668">
+              Cada ponto de recarga tem o seu, do começo ao fim
+            </text>
+
+            <!-- conectores -->
+            <g stroke="#8e1c21" stroke-width="2" fill="none">
+              <path d="M60 158 v28" />
+              <path d="M60 264 v28" />
+              <path d="M60 370 v28" />
+              <path d="M60 476 v28" />
+            </g>
+            <g fill="#8e1c21">
+              <path d="M60 190 l-5 -9 h10 z" transform="rotate(180 60 186)" />
+              <path d="M60 296 l-5 -9 h10 z" transform="rotate(180 60 292)" />
+              <path d="M60 402 l-5 -9 h10 z" transform="rotate(180 60 398)" />
+              <path d="M60 508 l-5 -9 h10 z" transform="rotate(180 60 504)" />
+            </g>
+
+            <!-- 1 -->
+            <g>
+              <rect x="24" y="80" width="412" height="78" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
+              <rect x="24" y="80" width="5" height="78" fill="#8e1c21" />
+              <text x="46" y="112" font-size="21" font-weight="700" fill="#1f1b1d">1. Quadro geral</text>
+              <text x="46" y="138" font-size="19" fill="#6e6668">De onde sai a alimentação do prédio</text>
+            </g>
+
+            <!-- 2 -->
+            <g>
+              <rect x="24" y="186" width="412" height="78" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
+              <rect x="24" y="186" width="5" height="78" fill="#8e1c21" />
+              <text x="46" y="218" font-size="21" font-weight="700" fill="#1f1b1d">2. Disjuntor exclusivo</text>
+              <text x="46" y="244" font-size="19" fill="#6e6668">Um por ponto, identificado no quadro</text>
+            </g>
+
+            <!-- 3 -->
+            <g>
+              <rect x="24" y="292" width="412" height="78" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
+              <rect x="24" y="292" width="5" height="78" fill="#8e1c21" />
+              <text x="46" y="324" font-size="21" font-weight="700" fill="#1f1b1d">3. DR de alta sensibilidade</text>
+              <text x="46" y="350" font-size="19" fill="#6e6668">Corta a energia se houver fuga</text>
+            </g>
+
+            <!-- 4 -->
+            <g>
+              <rect x="24" y="398" width="412" height="78" fill="#FFFFFF" stroke="#6e6668" stroke-width="1.5" />
+              <rect x="24" y="398" width="5" height="78" fill="#8e1c21" />
+              <text x="46" y="430" font-size="21" font-weight="700" fill="#1f1b1d">4. DPS contra surtos</text>
+              <text x="46" y="456" font-size="19" fill="#6e6668">Segura a descarga antes de chegar ao carro</text>
+            </g>
+
+            <!-- 5 -->
+            <g>
+              <rect x="24" y="504" width="412" height="88" fill="#8e1c21" />
+              <text x="46" y="540" font-size="21" font-weight="700" fill="#FFFFFF">5. Estação de recarga</text>
+              <text x="46" y="566" font-size="19" fill="#FFFFFF" opacity="0.88">Modo 3 ou 4, fixa, nunca tomada comum</text>
+            </g>
+
+            <text x="24" y="620" font-size="18" fill="#6e6668">
+              Esquema didático. O projeto elétrico é feito por profissional habilitado.
+            </text>
+          </svg>
+        <figcaption class="mt-3 text-apoio text-ash-500">
+          A sequência que a norma pede entre o quadro e o carro. Cada ponto de recarga tem a sua,
+          do disjuntor à estação.
+        </figcaption>
+      </figure>
+
+      <figure class="m-0 mt-12">
+        <svg class="mx-auto block h-auto w-full max-w-[520px] rounded-xl border border-line bg-white"
+            viewBox="0 0 480 380"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-labelledby="planta-t planta-d"
+          >
+            <title id="planta-t">Planta esquemática da garagem, vista superior</title>
+            <desc id="planta-d">
+              Vista de cima de uma garagem com uma única rota de fuga. Duas estações de recarga na
+              parede esquerda, com afastamento mínimo de cinco metros entre elas. O dispositivo de
+              desligamento manual aparece a até cinco metros da entrada, e a escada fica no canto
+              oposto.
+            </desc>
+
+            <rect width="480" height="380" fill="#FFFFFF" />
+            <text x="20" y="32" font-size="21" font-weight="700" fill="#8e1c21">
+              Garagem com uma só rota de fuga
+            </text>
+            <text x="20" y="56" font-size="19" fill="#6e6668">
+              Vista superior, esquemática
+            </text>
+
+            <!-- perimetro, com o vao da entrada embaixo -->
+            <path
+              d="M60 80 H430 V280 H210 M130 280 H60 V80"
+              fill="none"
+              stroke="#1f1b1d"
+              stroke-width="2.5"
+            />
+
+            <!-- vagas -->
+            <g stroke="#6e6668" stroke-width="1" opacity="0.5">
+              <line x1="230" y1="80" x2="230" y2="140" />
+              <line x1="290" y1="80" x2="290" y2="140" />
+              <line x1="350" y1="80" x2="350" y2="140" />
+              <line x1="150" y1="140" x2="430" y2="140" />
+              <line x1="150" y1="220" x2="430" y2="220" />
+              <line x1="290" y1="220" x2="290" y2="280" />
+              <line x1="350" y1="220" x2="350" y2="280" />
+            </g>
+
+            <!-- entrada -->
+            <line x1="130" y1="280" x2="210" y2="280" stroke="#8e1c21" stroke-width="4" stroke-dasharray="9 7" />
+            <text x="112" y="306" font-size="19" font-weight="700" fill="#8e1c21">Entrada</text>
+
+            <!-- estacoes na parede esquerda -->
+            <rect x="62" y="110" width="14" height="30" fill="#8e1c21" />
+            <rect x="62" y="220" width="14" height="30" fill="#8e1c21" />
+            <text x="84" y="126" font-size="19" font-weight="700" fill="#8e1c21">Estação 1</text>
+            <text x="84" y="236" font-size="19" font-weight="700" fill="#8e1c21">Estação 2</text>
+
+            <!-- cota entre as estacoes -->
+            <line x1="112" y1="142" x2="112" y2="218" stroke="#8e1c21" stroke-width="1.5" />
+            <path d="M112 146 l-5 9 h10 z" fill="#8e1c21" transform="rotate(180 112 150)" />
+            <path d="M112 214 l-5 -9 h10 z" fill="#8e1c21" transform="rotate(180 112 210)" />
+            <rect x="120" y="166" width="112" height="28" fill="#FFFFFF" />
+            <text x="126" y="186" font-size="19" font-weight="700" fill="#8e1c21">5 m no mínimo</text>
+
+            <!-- desligamento manual, perto da entrada -->
+            <circle cx="176" cy="256" r="10" fill="#FFFFFF" stroke="#8e1c21" stroke-width="2" />
+            <circle cx="176" cy="256" r="4" fill="#8e1c21" />
+            <line x1="187" y1="252" x2="224" y2="244" stroke="#6e6668" stroke-width="1" />
+            <!-- Mesma regra da tarja da escada: parar antes de x=430, que é a
+                 parede direita. Com 240 de largura ela abria um vão nela. -->
+            <rect x="226" y="228" width="186" height="46" fill="#FFFFFF" />
+            <text x="228" y="246" font-size="19" font-weight="700" fill="#8e1c21">Desligamento manual</text>
+            <text x="228" y="268" font-size="19" fill="#6e6668">até 5 m da entrada</text>
+
+            <!-- escada -->
+            <g>
+              <rect x="378" y="86" width="44" height="48" fill="#FFFFFF" stroke="#1f1b1d" stroke-width="2" />
+              <g stroke="#1f1b1d" stroke-width="1.5">
+                <line x1="378" y1="98" x2="422" y2="98" />
+                <line x1="378" y1="110" x2="422" y2="110" />
+                <line x1="378" y1="122" x2="422" y2="122" />
+              </g>
+              <!-- A tarja branca do rótulo não pode alcançar x=430, que é a
+                   parede direita: ela abriria um vão na planta. -->
+              <rect x="356" y="140" width="64" height="26" fill="#FFFFFF" />
+              <text x="358" y="160" font-size="19" font-weight="700" fill="#1f1b1d">Escada</text>
+            </g>
+
+            <text x="20" y="352" font-size="19" fill="#6e6668">
+              Esquema didático, fora de escala.
+            </text>
+          </svg>
+        <figcaption class="mt-3 text-apoio text-ash-500">
+          Quando a garagem tem uma única rota de fuga, as estações precisam de cinco metros entre
+          si. O ponto de desligamento fica onde dá para alcançar sem entrar na área.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20" aria-labelledby="prazo">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="prazo" class="text-secao text-ink">O prazo que engana</h2>
+      <p class="mt-5 text-guia text-ink-soft">
+        Aqui está o ponto que faz a maior parte dos condomínios relaxar sem motivo. É verdade que a
+        norma dá prazo para as edificações existentes se adequarem. Só que esse prazo não vale para
+        tudo.
+      </p>
+
+      {/*
+        A data final das adequacoes gerais NAO entra aqui. As fontes divergem
+        entre 2028 e 2032, e data errada num texto que diz ao sindico o que
+        fazer e pior que data nenhuma. O argumento da secao nao depende dela:
+        o que esta valendo agora e a instalacao eletrica.
+
+        Quando o cliente confirmar junto ao CBMPB, a frase entra abaixo do
+        bloco de alerta:
+        "As adequacoes gerais de seguranca contra incendio tem prazo ate 1o de
+        janeiro de AAAA."
+      */}
+      <div class="mt-8 border-l-[5px] border-l-wine bg-wine-soft p-7">
+        <p class="text-rotulo font-bold uppercase tracking-[0.08em] text-wine">
+          O que muita gente entende errado
+        </p>
+        <p class="mt-3 text-cartao-lg font-bold text-wine">
+          Há prazo para as adequações gerais. Não há prazo para as instalações elétricas do SAVE.
+        </p>
+        <p class="mt-4 text-corpo text-ink-soft">
+          As instalações elétricas precisam estar em conformidade
+          <strong class="font-bold text-ink"> desde a entrada em vigor da norma</strong>, ou seja,
+          desde 1º de janeiro de 2026. Quem tem carregador ligado de forma improvisada hoje não
+          está com um problema para resolver depois. Está irregular agora.
+        </p>
+      </div>
+
+      <div class="mt-8 space-y-5 text-guia text-ink-soft">
+        <p>
+          A distinção é simples de entender quando se olha o que cada coisa protege. As adequações
+          gerais envolvem obra, orçamento e assembleia: detecção, sinalização, rotas. A instalação
+          elétrica do ponto de recarga é o que pode dar errado hoje à noite, com o carro ligado e o
+          prédio dormindo. Foi por isso que ela não ganhou carência.
+        </p>
+        <p>
+          Na prática, isso muda o que o síndico responde quando alguém pergunta. Não é
+          <em> estamos dentro do prazo</em>. É
+          <em> a parte elétrica precisa ser verificada agora, e o resto entra no planejamento</em>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-graphite-900 py-16 text-white lg:py-20" aria-labelledby="responsabilidade">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="responsabilidade" class="max-w-[24ch] text-secao text-white">
+        De quem é a responsabilidade
+      </h2>
+
+      <div class="mt-6 space-y-5 text-guia text-sobre-escuro">
+        <p>
+          A norma atribui a responsabilidade pela instalação e pela garantia de eficiência ao
+          <strong class="font-bold text-white"> responsável técnico</strong> e à
+          <strong class="font-bold text-white"> empresa instaladora</strong>, em conjunto com o
+          <strong class="font-bold text-white"> proprietário ou responsável pelo uso</strong>.
+        </p>
+        <p>
+          Para o síndico, essa última parte é a que pesa. A instalação está na área comum, sob
+          administração do condomínio. Não é o morador que assume sozinho porque foi ele quem
+          comprou o carro e puxou o cabo. Quem administra a edificação responde pelo que existe
+          nela.
+        </p>
+        <p>
+          Isso aparece em três momentos concretos: numa vistoria do Corpo de Bombeiros, na
+          renovação do AVCB e, o pior deles, depois de uma ocorrência, quando a seguradora e a
+          perícia vão perguntar quem autorizou a instalação e com base em quê.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20" aria-labelledby="checklist">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="checklist" class="max-w-[26ch] text-secao text-ink">
+        Como saber se o seu condomínio está irregular
+      </h2>
+      <p class="mt-5 text-guia text-ink-soft">
+        Seis perguntas que dá para responder sem técnico nenhum, descendo até a garagem. Uma só
+        resposta desfavorável já indica que a instalação precisa ser verificada.
+      </p>
+
+      <ol class="mt-9 list-none border-t border-line">
+        {
+          checklist.map((item, i) => (
+            <li class="relative border-b border-line py-5 pl-12">
+              <span class="absolute left-0 top-[1.35rem] text-rotulo font-bold tabular-nums text-wine">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <p class="text-cartao font-bold text-ink">{item.pergunta}</p>
+              <p class="mt-1.5 text-corpo text-ink-soft">{item.nota}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <p class="mt-7 border border-line bg-canvas p-6 text-corpo text-ink-soft">
+        <strong class="block font-bold text-ink">Este checklist não substitui vistoria.</strong>
+        Ele serve para o síndico perceber o problema. O enquadramento da edificação, o
+        dimensionamento do circuito e a necessidade de detecção dependem de análise técnica.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="como-conduzimos">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="como-conduzimos" class="max-w-[26ch] text-secao text-ink">
+        Como a Bradotec conduz a regularização
+      </h2>
+      <p class="mt-5 text-guia text-ink-soft">
+        O síndico não coordena ninguém. Quem articula engenheiro, instalador e processo é a
+        Bradotec, do diagnóstico ao acompanhamento junto ao Corpo de Bombeiros. As seis etapas
+        estão detalhadas na página do serviço.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <BotaoLink href="/carregadores-eletricos" variante="primario">
+          Ver como funciona o serviço
+        </BotaoLink>
+        <BotaoLink href="/avcb">Ver o que o AVCB exige</BotaoLink>
+      </div>
+    </div>
+  </section>
+
+  <AvisoEscopo titulo="O que depende de nós e o que não depende">
+    A Bradotec conduz o diagnóstico, organiza a documentação, coordena a rede técnica e acompanha o
+    processo. Projeto elétrico, ART e execução da instalação são de responsabilidade de engenheiros
+    e empresas legalmente habilitados. A análise, a vistoria, a aprovação e a emissão de documentos
+    são competência exclusiva do Corpo de Bombeiros Militar da Paraíba, e o prazo delas não depende
+    da Bradotec.
+  </AvisoEscopo>
+
+  <Faq
+    pagina="carregadores-eletricos"
+    titulo="Perguntas frequentes sobre carregadores em condomínio"
+  />
+
+  <section class="bg-graphite-900 py-16 text-white lg:py-20" aria-labelledby="cta-artigo">
+    <div class="mx-auto w-full max-w-[820px] px-5">
+      <h2 id="cta-artigo" class="max-w-[26ch] text-secao text-white">
+        Descubra hoje se a instalação do seu condomínio está regular
+      </h2>
+      <p class="mt-4 max-w-[62ch] text-guia text-sobre-escuro">
+        O diagnóstico compara o que está instalado com o que a norma exige e devolve a lista do que
+        precisa mudar. Se nada precisar, você fica sabendo disso também.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <BotaoWhatsapp origem="save">Agendar o diagnóstico</BotaoWhatsapp>
+        <BotaoLink href="/artigos" variante="sobreEscuro">Ver outros artigos</BotaoLink>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

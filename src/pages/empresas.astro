@@ -1,36 +1,108 @@
 ---
+import { getCollection } from 'astro:content'
+import fotoPredios from '@/assets/fotos-geradas/predios-vistos-de-baixo.jpg'
+import BotaoLink from '@/components/BotaoLink.astro'
+import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
 import CabecalhoPagina from '@/components/CabecalhoPagina.astro'
 import Faq from '@/components/Faq.astro'
+import Kicker from '@/components/Kicker.astro'
+import PainelVencimentos from '@/components/PainelVencimentos.astro'
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import { schemaFaqDaPagina } from '@/lib/faq'
 
 const trilha = [
   { nome: 'Início', href: '/' },
-  { nome: 'Empresas e condomínios', href: '/empresas' },
+  { nome: 'Empresas', href: '/empresas' },
 ] as const
 
 const schemaFaq = await schemaFaqDaPagina('empresas')
+
+const segmentos = (await getCollection('segmentos')).sort((a, b) => a.data.ordem - b.data.ordem)
+
+const gestaoContinua = [
+  'Mapeamento inicial de tudo que a operação precisa manter válido',
+  'Controle de vencimentos com renovação iniciada com antecedência',
+  'Organização e guarda dos documentos atualizados',
+  'Acompanhamento de processos e exigências em aberto',
+  'Relatórios de situação e orientação administrativa',
+] as const
 ---
 
 <BaseLayout
   titulo="Gestão documental para empresas e condomínios em João Pessoa (PB) | Bradotec"
-  descricao="Gestão documental recorrente para empresas, condomínios e instituições em João Pessoa/PB: controle de vencimentos, organização documental e acompanhamento de processos."
+  descricao="Gestão documental contínua para empresas, condomínios, instituições e frotas em João Pessoa/PB: licenças, segurança contra incêndio, controle de vencimentos e acompanhamento de exigências."
   trilha={trilha}
   schemasExtras={schemaFaq ? [schemaFaq] : []}
 >
   <CabecalhoPagina
-    titulo="Empresas e condomínios"
-    subtitulo="Sua empresa regularizada e seus documentos sob controle, com acompanhamento contínuo em vez de correria quando o prazo estoura."
+    foto={fotoPredios}
+    descricaoDaFoto="Edifícios residenciais vistos de baixo ao anoitecer, com algumas janelas acesas"
+    enquadramento="50% 50%"
+    cena="fachada"
+    titulo="Sua empresa regularizada. Seus documentos sob controle."
+    subtitulo="Gestão documental contínua para empresas, condomínios e instituições que não podem depender da memória de ninguém para se manter regulares."
     trilha={trilha}
-  />
+  >
+    <div class="mt-6 flex flex-wrap gap-3">
+      <BotaoLink href="/contato" variante="primario">Solicitar orçamento</BotaoLink>
+    </div>
+  </CabecalhoPagina>
 
-  <section class="py-16">
+  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="quem-atendemos">
     <div class="mx-auto w-full max-w-wrap px-5">
-      <p class="text-ink-soft">
-        {/* Conteudo desta pagina entra no proximo bloco, vindo das Content Collections. */}
-        Conteúdo em migração a partir da versão anterior do site.
-      </p>
+      <h2 id="quem-atendemos" class="text-secao text-ink">Soluções por tipo de operação</h2>
+
+      <ul class="mt-11 grid list-none gap-x-12 border-t border-line sm:grid-cols-2 lg:grid-cols-3">
+        {
+          segmentos.map((segmento) => (
+            <li class="border-b border-line py-6">
+              <h3 class="text-cartao text-ink">{segmento.data.titulo}</h3>
+              <p class="mt-2 text-corpo text-ink-soft">{segmento.data.descricao}</p>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
+
+  <section class="py-16 lg:py-20" aria-labelledby="gestao-continua">
+    <div class="mx-auto w-full max-w-wrap px-5">
+      <div class="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div>
+          <Kicker class="text-wine">Contrato recorrente</Kicker>
+          <h2 id="gestao-continua" class="mt-2 text-secao text-ink">
+            Como funciona a gestão documental contínua
+          </h2>
+          <p class="mt-3 max-w-[66ch] text-ink-soft">
+            Em vez de acionar a Bradotec quando o problema aparece, a documentação passa a ser
+            acompanhada o ano inteiro. É o modelo indicado para quem tem mais de uma licença, mais
+            de uma unidade ou responde por um condomínio.
+          </p>
+
+          <ul class="mt-6 flex list-none flex-col gap-3">
+            {
+              gestaoContinua.map((item) => (
+                <li class="flex items-start gap-3 text-corpo text-ink-soft">
+                  <span
+                    class="mt-[0.45em] size-1.5 shrink-0 rounded-full bg-wine"
+                    aria-hidden="true"
+                  />
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+
+          <div class="mt-7 flex flex-wrap gap-3">
+            <BotaoWhatsapp origem="recorrente">Conhecer a gestão documental</BotaoWhatsapp>
+            <BotaoLink href="/diagnostico" variante="contorno">Responder as 4 perguntas</BotaoLink>
+          </div>
+        </div>
+
+        <PainelVencimentos />
+      </div>
+    </div>
+  </section>
+
   <Faq pagina="empresas" />
 </BaseLayout>

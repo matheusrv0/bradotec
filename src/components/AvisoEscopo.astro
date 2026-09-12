@@ -1,0 +1,22 @@
+---
+interface Props {
+  titulo: string
+}
+const { titulo } = Astro.props
+---
+
+{/*
+  Bloco de limite de escopo. Existe para o site nao prometer prazo, aprovacao
+  ou resultado que dependa de orgao publico ou de profissional habilitado —
+  regra fixa do projeto, valida para copy, FAQ e CTA.
+*/}
+<section class="py-14">
+  <div class="mx-auto w-full max-w-wrap px-5">
+    <div class="rounded-xl border border-line bg-line-soft p-7 md:p-8">
+      <h2 class="text-cartao-lg text-ink">{titulo}</h2>
+      <p class="mt-3 max-w-[76ch] text-corpo text-ink-soft">
+        <slot />
+      </p>
+    </div>
+  </div>
+</section>

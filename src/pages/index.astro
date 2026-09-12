@@ -1,27 +1,74 @@
 ---
+import { getCollection } from 'astro:content'
+import fotoJoaoPessoa from '@/assets/fotos-licenciadas/joao-pessoa-orla.jpg'
+import BotaoLink from '@/components/BotaoLink.astro'
 import BotaoWhatsapp from '@/components/BotaoWhatsapp.astro'
+import CartaoDivisao from '@/components/CartaoDivisao.astro'
+import Faq from '@/components/Faq.astro'
+import FundoIlustrado from '@/components/FundoIlustrado.astro'
+import Lideranca from '@/components/Lideranca.astro'
 import PainelVencimentos from '@/components/PainelVencimentos.astro'
 import { site } from '@/config/site'
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import { schemaFaqDaPagina } from '@/lib/faq'
 
-const titulo = `${site.nome} — Regularização, licenças e segurança contra incêndio em ${site.cidade} (${site.estado})`
+const titulo = `${site.nome}: regularização, licenças e segurança contra incêndio em ${site.cidade} (${site.estado})`
+
+const schemaFaq = await schemaFaqDaPagina('home')
+
+const caminhos = (await getCollection('caminhos')).sort((a, b) => a.data.ordem - b.data.ordem)
+const divisoes = (await getCollection('divisoes')).sort((a, b) => a.data.ordem - b.data.ordem)
+const servicos = (await getCollection('servicos')).sort((a, b) => a.data.ordem - b.data.ordem)
+
+const titulosDaDivisao = (idDivisao: string) =>
+  servicos.filter(({ data }) => data.divisao === idDivisao).map(({ data }) => data.titulo)
 
 const provas = [
   'Segurança contra incêndio e pânico',
   'Empresas, condomínios e instituições',
   'Acompanhamento de processo do início ao fim',
 ] as const
+
+/**
+ * Diferenciais. Todos verificaveis: dizem o que a empresa faz, nao quanto ela
+ * e boa. Numero de clientes e nota do Google ficam de fora enquanto forem
+ * placeholder — a prova social so aparece quando for real.
+ */
+const diferenciais = [
+  {
+    titulo: 'Base em João Pessoa',
+    descricao: 'Atendimento presencial na capital e na região metropolitana da Paraíba.',
+  },
+  {
+    titulo: 'Processo acompanhado',
+    descricao: 'Do protocolo à conclusão, com retorno sobre cada etapa e cada exigência.',
+  },
+  {
+    titulo: 'Profissionais habilitados',
+    descricao: 'Projetos e laudos executados por quem tem habilitação legal para assinar.',
+  },
+  {
+    titulo: 'Retorno direto',
+    descricao: 'O atendimento é feito por quem vai conduzir o processo, não por central.',
+  },
+] as const
 ---
 
-<BaseLayout titulo={titulo}>
+<BaseLayout titulo={titulo} schemasExtras={schemaFaq ? [schemaFaq] : []}>
   <section
-    class="overflow-hidden bg-navy-900 bg-[radial-gradient(900px_480px_at_85%_-10%,rgba(210,43,38,0.2),transparent_62%)] py-16 text-white lg:py-24"
+    class="overflow-hidden bg-graphite-900 bg-[radial-gradient(900px_480px_at_85%_-10%,rgba(142,28,33,0.30),transparent_62%)] py-20 text-white lg:py-24"
   >
-    <div class="mx-auto w-full max-w-wrap px-5">
+    <FundoIlustrado
+      cena="fachada"
+      foto={fotoJoaoPessoa}
+      descricaoDaFoto="Vista aérea da orla de João Pessoa, com a praia em curva, os edifícios da beira-mar e o oceano"
+    />
+
+    <div class="relative mx-auto w-full max-w-wrap px-5">
       <div class="grid items-center gap-11 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
         <div>
           <span
-            class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 py-2 pl-3 pr-4 text-[0.9rem] font-semibold text-[#dce7f2]"
+            class="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 py-2 pl-3 pr-4 text-apoio font-bold text-sobre-escuro"
           >
             <svg
               width="17"
@@ -40,28 +87,39 @@ const provas = [
             {site.regiaoAtendida}
           </span>
 
-          <h1 class="mb-5 text-[clamp(2rem,5.2vw,3.35rem)] tracking-[-0.03em] text-white">
+          <h1 class="mb-5 text-hero tracking-[-0.03em] text-white">
             Regularização, licenças e documentação sem complicação.
           </h1>
 
-          <p class="max-w-[56ch] text-[1.12rem] text-[#b9c9da]">
+          {/*
+            Linha de autoridade, informada pelo cliente.
+
+            E uma afirmacao de exclusividade, e por isso fica escrita de forma
+            verificavel: diz o registro (CRDD), a atuacao e o estado. Quem
+            quiser conferir, consegue. Afirmacao de exclusividade que nao se
+            sustenta e propaganda enganosa pelo art. 37 do CDC, entao ela vive
+            aqui e nao em varios lugares: um texto so para revisar se mudar.
+          */}
+          <p class="mb-6 max-w-[52ch] border-l-2 border-l-wine pl-4 text-guia font-bold text-white">
+            Único despachante documentalista inscrito no CRDD com atuação em prevenção e segurança
+            contra incêndio na Paraíba.
+          </p>
+
+          <p class="max-w-[56ch] text-guia text-sobre-escuro">
             Em {site.cidade} e região, a {site.nome} cuida dos processos documentais da sua empresa,
-            condomínio, imóvel e veículo — reunindo gestão, acompanhamento e profissionais
+            condomínio, imóvel e veículo, reunindo gestão, acompanhamento e profissionais
             especializados para você ter mais segurança e menos burocracia.
           </p>
 
           <div class="mt-7 flex flex-wrap gap-3">
             <BotaoWhatsapp origem="orcamento">Solicitar orçamento</BotaoWhatsapp>
-            <a
-              class="inline-flex min-h-[50px] items-center justify-center gap-2 rounded-[11px] border border-white/30 bg-white/10 px-6 py-3.5 font-bold text-white no-underline transition-colors hover:bg-white/20"
-              href="/contato"
-            >
-              Falar com um especialista
-            </a>
+            <BotaoLink href="/diagnostico" variante="sobreEscuro">
+              Responder as 4 perguntas
+            </BotaoLink>
           </div>
 
           <ul
-            class="mt-8 flex flex-wrap gap-x-7 gap-y-2.5 border-t border-white/15 pt-6 text-[0.93rem] text-[#a7bacd]"
+            class="mt-8 flex flex-wrap gap-x-7 gap-y-2.5 border-t border-white/15 pt-6 text-corpo text-sobre-escuro-fraco"
           >
             {
               provas.map((prova) => (
@@ -76,7 +134,7 @@ const provas = [
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     aria-hidden="true"
-                    class="shrink-0 text-[#7fd1a6]"
+                    class="shrink-0 text-ok-claro"
                   >
                     <path d="m4 12.5 5 5L20 6.5" />
                   </svg>
@@ -91,4 +149,133 @@ const provas = [
       </div>
     </div>
   </section>
+
+  <section class="bg-canvas py-16 lg:py-20" aria-labelledby="caminhos">
+    <div class="mx-auto w-full max-w-wrap px-5">
+      <h2 id="caminhos" class="max-w-[18ch] text-secao text-ink">O que você precisa resolver?</h2>
+      <p class="mt-4 max-w-[62ch] text-guia text-ink-soft">
+        Escolha a situação mais parecida com a sua. Cada caminho leva direto à solução
+        correspondente.
+      </p>
+
+      {/*
+        Lista, e nao nove cartoes.
+
+        Duas razoes. A primeira e de composicao: esta secao e a de "Tres
+        divisoes" usavam a MESMA familia de layout, grade de tres colunas com
+        cartao, uma logo depois da outra. Duas secoes seguidas com o mesmo
+        desenho fazem a pagina parecer template. Agora esta e lista e a
+        outra e cartao, e cada uma se distingue.
+
+        A segunda e de peso: nove caixas com borda e sombra somavam nove
+        blocos disputando atencao logo abaixo do hero. Como lista, o mesmo
+        conteudo ocupa menos e le mais rapido.
+
+        Sem numeracao: sao nove situacoes paralelas, nao uma sequencia.
+        O fio a esquerda acende no hover, que e o que diz que a linha navega.
+      */}
+      <ul class="mt-11 grid list-none gap-x-10 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          caminhos.map((caminho) => (
+            <li>
+              <a
+                class="group flex h-full flex-col border-l-2 border-l-line py-4 pl-5 no-underline transition-[border-color,padding] duration-200 ease-saida hover:border-l-wine hover:pl-6"
+                href={caminho.data.href}
+              >
+                <span class="flex items-center gap-2 text-cartao font-bold text-ink transition-colors group-hover:text-wine">
+                  {caminho.data.titulo}
+                  <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                    class="shrink-0 opacity-0 transition-[opacity,translate] duration-200 ease-saida group-hover:translate-x-1 group-hover:opacity-100"
+                  >
+                    <path d="M5 12h13m-5-6 6 6-6 6" />
+                  </svg>
+                </span>
+                <span class="mt-1.5 text-corpo text-ink-soft">{caminho.data.descricao}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="py-16 lg:py-20" aria-labelledby="divisoes">
+    <div class="mx-auto w-full max-w-wrap px-5">
+      <h2 id="divisoes" class="max-w-[18ch] text-secao text-ink">Três divisões, uma só empresa</h2>
+      <p class="mt-4 max-w-[64ch] text-guia text-ink-soft">
+        A {site.nome} organiza o que costuma estar espalhado entre contador, síndico, engenheiro e
+        despachante. Você trata com uma equipe só, e ela coordena o resto.
+      </p>
+
+      <div class="mt-11 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {
+          divisoes.map((divisao) => (
+            <CartaoDivisao
+              marca={divisao.data.marca}
+              titulo={divisao.data.titulo}
+              resumo={divisao.data.resumo}
+              href={divisao.data.href}
+              cor={divisao.data.cor}
+              servicos={titulosDaDivisao(divisao.id)}
+              limite={4}
+            />
+          ))
+        }
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <BotaoLink href="/solucoes">Comparar as três divisões</BotaoLink>
+      </div>
+    </div>
+  </section>
+
+  {/*
+    Secao de autoridade. E a que mais precisa de presenca na pagina, e era a
+    mais apagada: quatro colunas de texto miudo sob um fio de 1px.
+    Ganha respiro, titulo maior e um risco de acento sobre o fio — o acento
+    e decorativo (aria-hidden), por isso pode usar o vermelho da marca sem
+    responder por contraste de texto.
+  */}
+  <section class="bg-graphite-900 py-20 text-white lg:py-24" aria-labelledby="como-atuamos">
+    <div class="mx-auto w-full max-w-wrap px-5">
+      <h2 id="como-atuamos" class="max-w-[20ch] text-secao text-white">
+        O que você pode esperar da Bradotec
+      </h2>
+
+      <dl class="mt-12 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          diferenciais.map((item) => (
+            <div class="relative border-t border-white/15 pt-7">
+              <span
+                class="absolute -top-0.5 left-0 h-[3px] w-9 rounded-full bg-wine"
+                aria-hidden="true"
+              />
+              <dt class="text-cartao-lg text-white">{item.titulo}</dt>
+              <dd class="mt-3 text-corpo text-sobre-escuro">{item.descricao}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  {/*
+    A home nao tem numero de clientes, depoimento nem nota do Google: sao
+    placeholder, e a regra do projeto proibe inventar. Esta faixa e a prova
+    de autoridade que resta, e ela e melhor que as tres juntas, porque tem
+    nome, formacao e cara. Versao curta de proposito: a secao completa mora
+    em /sobre, e a home ja tinha informacao demais.
+  */}
+  <Lideranca compacto />
+
+  <Faq pagina="home" />
 </BaseLayout>

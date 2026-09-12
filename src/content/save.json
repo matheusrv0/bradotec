@@ -1,0 +1,100 @@
+[
+  {
+    "id": "normas",
+    "grupo": "exigencia",
+    "titulo": "Conformidade com as normas técnicas",
+    "descricao": "ABNT NBR 5410, que trata de instalações elétricas de baixa tensão; NBR 17019 e NBR IEC 61851-1, específicas de recarga de veículos elétricos; e NR 10, sobre a segurança de quem trabalha com eletricidade.",
+    "ordem": 1
+  },
+  {
+    "id": "circuito-exclusivo",
+    "grupo": "exigencia",
+    "titulo": "Circuito exclusivo para cada ponto de recarga",
+    "descricao": "Cada ponto precisa do próprio circuito. Não pode dividir com iluminação, portão ou tomada de garagem.",
+    "ordem": 2
+  },
+  {
+    "id": "disjuntor",
+    "grupo": "exigencia",
+    "titulo": "Disjuntor próprio e identificado",
+    "descricao": "Um por ponto, sinalizado no quadro, para que qualquer pessoa consiga desligar o ponto certo sem tentativa e erro.",
+    "ordem": 3
+  },
+  {
+    "id": "dr",
+    "grupo": "exigencia",
+    "titulo": "Dispositivo DR de alta sensibilidade",
+    "descricao": "DR é o dispositivo diferencial residual. Ele percebe corrente escapando por onde não devia e corta a energia antes de a falha virar choque ou princípio de incêndio.",
+    "ordem": 4
+  },
+  {
+    "id": "dps",
+    "grupo": "exigencia",
+    "titulo": "DPS, dispositivo de proteção contra surtos",
+    "descricao": "Impede que uma descarga na rede elétrica chegue ao carregador e ao carro ligado nele.",
+    "ordem": 5
+  },
+  {
+    "id": "desligamento",
+    "grupo": "exigencia",
+    "titulo": "Desligamento manual a até 5 metros",
+    "descricao": "Um dispositivo de desligamento manual a no máximo cinco metros da entrada da garagem, da porta principal ou das escadas, para cortar a energia sem entrar na área.",
+    "ordem": 6
+  },
+  {
+    "id": "afastamento",
+    "grupo": "exigencia",
+    "titulo": "Afastamento entre estações, quando há uma só saída",
+    "descricao": "Em garagens com apenas uma rota de fuga, as estações de recarga precisam guardar no mínimo cinco metros entre si.",
+    "ordem": 7
+  },
+  {
+    "id": "deteccao",
+    "grupo": "exigencia",
+    "titulo": "Detecção de incêndio nas áreas de garagem",
+    "descricao": "Conforme o enquadramento da edificação. Prédios que já possuem chuveiros automáticos do tipo ordinário I nas garagens não precisam de adaptação nesse ponto.",
+    "ordem": 8
+  },
+  {
+    "id": "diagnostico",
+    "grupo": "etapa",
+    "titulo": "Diagnóstico da instalação existente",
+    "descricao": "Levantamento do que está instalado hoje, item a item, comparado ao que a NT 040/2025 exige. O resultado diz o que está em conformidade e o que não está.",
+    "ordem": 1
+  },
+  {
+    "id": "viabilidade",
+    "grupo": "etapa",
+    "titulo": "Viabilidade elétrica da edificação",
+    "descricao": "A conta é feita considerando os próximos pontos, e não só o atual. Condomínio que adequa um ponto por vez costuma refazer o quadro na terceira solicitação.",
+    "ordem": 2
+  },
+  {
+    "id": "projeto",
+    "grupo": "etapa",
+    "titulo": "Projeto e ART com profissional habilitado",
+    "descricao": "Coordenação do projeto e da anotação de responsabilidade técnica com engenheiro registrado. A execução é de quem tem habilitação legal para assinar.",
+    "ordem": 3
+  },
+  {
+    "id": "adequacao",
+    "grupo": "etapa",
+    "titulo": "Adequação da instalação",
+    "descricao": "Circuitos, proteções, sinalização e pontos de desligamento executados conforme o projeto, com acompanhamento da execução.",
+    "ordem": 4
+  },
+  {
+    "id": "processo",
+    "grupo": "etapa",
+    "titulo": "Inclusão no processo de segurança contra incêndio",
+    "descricao": "O SAVE entra no processo da edificação junto ao Corpo de Bombeiros, e não como assunto separado. É ali que ele é verificado.",
+    "ordem": 5
+  },
+  {
+    "id": "vencimentos",
+    "grupo": "etapa",
+    "titulo": "Controle de vencimentos",
+    "descricao": "A documentação entra no calendário de conformidade da edificação, com aviso antes de cada vencimento. Regularizar uma vez não mantém regular.",
+    "ordem": 6
+  }
+]

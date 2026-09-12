@@ -7,39 +7,90 @@
    cliente, so este bloco muda.
    ========================================================================== */
 @theme {
-  /* --- Base institucional (fundos escuros, titulos) --- */
-  --color-navy-950: #08131f;
-  --color-navy-900: #0b1b2e;
-  --color-navy-800: #13293f;
-  --color-navy-700: #1d3a55;
+  /* ==========================================================================
+     IDENTIDADE: VINHO E GRAFITE
+
+     Extraida da logo. O vinho e o do wordmark BRADO; os cinzas escuros levam
+     um toque quente de vermelho de proposito. Cinza neutro ao lado de vinho
+     parece acidente de paleta; cinza quente parece decisao.
+
+     A paleta anterior era navy azul com vermelho de sinalizacao. Alem de nao
+     ser mais a marca, ela era menos legivel: o vermelho #d22b26 dava 4.60:1
+     sobre branco, no limite do minimo. O vinho da 8.98:1.
+     ========================================================================== */
+
+  /* --- Grafite: fundos escuros e titulos --- */
+  --color-graphite-950: #171415;
+  --color-graphite-900: #201c1e;
+  --color-graphite-800: #2c2729;
+  --color-graphite-700: #3d3739;
 
   /* --- Cinzas de apoio --- */
-  --color-steel-500: #5c6e85;
-  --color-steel-400: #8496a9;
+  --color-ash-500: #6e6668;
+  --color-ash-400: #6b6365;
+
+  /* --- Texto sobre fundo escuro.
+         Eram NOVE tons diferentes escritos a mao dentro dos componentes:
+         #c9c2c4, #a8a0a2, #a19a9c, #e6e1e2, #b3acae, #f2efef, #948c8f,
+         #8f8789, #b8b1b3. Nenhum deles token, todos "quase iguais". E o
+         tipo de coisa que ninguem aponta e todo mundo sente: o site parece
+         montado por partes em vez de desenhado.
+
+         Sao dois, e so. Medidos sobre --color-graphite-900:
+           sobre-escuro       10.96:1
+           sobre-escuro-fraco  6.73:1
+
+         O fraco NAO serve sobre o vinho: la ele da 3.59:1, abaixo do minimo
+         de 4.5:1. Sobre vinho, usar branco com transparencia.
+         Os tres numeros estao travados em src/lib/contraste.test.ts. --- */
+  --color-sobre-escuro: #d5cfd0;
+  --color-sobre-escuro-fraco: #a9a2a4;
+
+  /* --- Sinalizacao sobre fundo escuro. Tambem estavam soltas: havia
+         #8fd0ac e #9fd0c8 para a mesma ideia, #e8bb7c e #e3c58a para
+         outra, #f1a3a0 e #e8b9bb para a terceira. --- */
+  --color-ok-claro: #8fd0ac;
+  --color-warn-claro: #e8bb7c;
+  --color-alerta-claro: #f1a3a0;
 
   /* --- Texto --- */
-  --color-ink: #0f2033;
-  --color-ink-soft: #42576d;
+  --color-ink: #1f1b1d;
+  --color-ink-soft: #554e51;
 
   /* --- Superficies e bordas --- */
-  --color-line: #e3e9f0;
-  --color-line-soft: #eef2f7;
-  --color-canvas: #f6f8fb;
+  --color-line: #e4e0e1;
+  --color-line-soft: #efeded;
+  /* Borda de controle. Mais forte que --color-line, que some num botao. */
+  --color-line-forte: #cfc9ca;
+  --color-canvas: #f7f5f5;
+  /* Fundo do dado ainda pendente, o amarelo do [COLCHETE]. */
+  --color-warn-fundo: #fdf6ec;
 
-  /* --- Acento da marca (vermelho extraido da logo).
-         E acento, nunca fundo: usar em CTA, urgencia e divisao Fire. --- */
-  --color-fire: #d22b26;
-  --color-fire-dark: #ae201c;
-  --color-fire-soft: #fdf0ef;
+  /* --- Acento da marca. E acento, nunca fundo de pagina inteira:
+         usar em CTA, urgencia e na divisao Fire. --- */
+  --color-wine: #8e1c21;
+  --color-wine-dark: #741418;
+  --color-wine-soft: #f9eff0;
 
-  /* --- Cores que separam as tres divisoes sem parecerem tres empresas --- */
-  --color-div-fire: #d22b26;
-  --color-div-doc: #1d4e89;
-  --color-div-auto: #0e7c86;
+  /* --- Cores que separam as tres divisoes sem parecerem tres empresas.
+         Dessaturadas de proposito: matiz saturado brigaria com o vinho.
+         Diferem por matiz e nao por luminancia (as tres ficam entre 6.9 e
+         9.0 sobre branco), o que mantem o mesmo peso visual. Quem nao
+         distingue cor continua orientado pelo rotulo escrito no cartao. --- */
+  --color-div-fire: #8e1c21;
+  --color-div-doc: #3f5468;
+  --color-div-auto: #2f6259;
 
   /* --- Sinalizacao de status (usada no painel de vencimentos) --- */
-  --color-ok: #127a4b;
-  --color-warn: #b4720c;
+  --color-ok: #1d6b45;
+
+  /* --- Verde do WhatsApp (botao flutuante).
+         #128c4a dava 4.31:1 com texto branco, abaixo do minimo de 4.5:1.
+         Estava escrito dentro do componente, contra a regra do projeto. --- */
+  --color-whats: #118848;
+  --color-whats-dark: #0e7539;
+  /* Sobre o amarelo do dado pendente (#fdf6ec) da 5.52:1. */
+  --color-warn: #8a5a0a;
 
   /* --- Tipografia. A variavel --font-plus-jakarta vem da Fonts API do Astro,
          configurada em astro.config.mjs e servida do nosso dominio. --- */
@@ -47,15 +98,80 @@
     var(--font-plus-jakarta), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     sans-serif;
 
-  /* --- Raios de borda --- */
-  --radius-sm: 8px;
-  --radius-md: 11px;
-  --radius-lg: 14px;
-  --radius-xl: 22px;
+  /* Titulos. Ver o comentario em astro.config.mjs: sai do wordmark da marca,
+     e existe para separar o que a pagina diz do que a pagina e. */
+  --font-display:
+    var(--font-instrument), var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Escala tipografica.
+         Antes dela havia 26 tamanhos avulsos escritos direto nas paginas:
+         0.96, 0.97 e 0.98rem eram tres numeros para o mesmo tamanho visual.
+         Sao oito degraus nomeados. Se um texto nao couber em nenhum, o
+         degrau e que esta faltando — nao se inventa um valor na pagina. --- */
+  --text-micro: 0.75rem;
+  --text-rotulo: 0.82rem;
+  --text-apoio: 0.9rem;
+  --text-corpo: 0.96rem;
+  --text-guia: 1.14rem;
+  --text-guia--line-height: 1.6;
+  --text-cartao: 1.08rem;
+  --text-cartao--line-height: 1.35;
+  --text-cartao-lg: 1.35rem;
+  --text-cartao-lg--line-height: 1.25;
+  /* Fluido de proposito. Fixo em 1.6rem, o titulo de secao ficava a 25px
+     contra 17px do corpo: perto demais para abrir hierarquia, e longe demais
+     do h1 (53px) para haver um degrau entre os dois. A pagina inteira lia
+     como um bloco de um tom so. Aqui vai de 1.6rem no celular a 2.5rem no
+     desktop, onde ha largura para o titulo ocupar. */
+  --text-secao: clamp(1.6rem, 1.12rem + 1.9vw, 2.35rem);
+  --text-secao--line-height: 1.15;
+  /* Titulo de pagina (h1 das paginas internas) e titulo do hero da home.
+     Os dois estavam escritos como clamp avulso dentro da pagina — o valor
+     inventado que esta escala existe para impedir. Pior: as curvas se
+     cruzavam. Em 768px o h1 dava 34px contra 33px do titulo de secao, e no
+     tablet a pagina ficava sem topo de hierarquia.
+     Agora --text-pagina fica um degrau acima de --text-secao em toda largura,
+     de 390px a 1920px, e --text-hero um degrau acima dele. */
+  --text-pagina: clamp(1.95rem, 1.3rem + 2.7vw, 2.9rem);
+  --text-pagina--line-height: 1.08;
+  --text-hero: clamp(2rem, 1.3rem + 2.9vw, 3.1rem);
+  --text-hero--line-height: 1.06;
+
+  /* Os tres tetos acima cairam cerca de 7% quando os titulos ganharam
+     familia propria. Nao e recuo: a fonte de titulo tem altura de x maior e
+     desenho mais largo, entao no MESMO tamanho em pixel ela pesa mais na
+     pagina. Igualar o tamanho optico, e nao o metrico, e o ajuste correto ao
+     trocar de familia. Medido: o h1 da home passou de tres para quatro
+     linhas e empurrou o botao 60px para baixo; com o teto novo ele volta a
+     tres sem perder presenca.
+     Os pontos de partida e as inclinacoes ficaram como estavam, de proposito:
+     e no meio da curva que --text-pagina e --text-secao ja se cruzaram uma
+     vez, e mexer neles reabriria esse risco. */
+
+  /* --- Curvas de movimento.
+         A curva padrao do Tailwind e cubic-bezier(0.4, 0, 0.2, 1): comeca
+         devagar, e e justamente no comeco que a pessoa esta olhando. Estas
+         duas saem rapido e desaceleram no fim, que e o que faz um movimento
+         de 200ms PARECER mais rapido que outro de 200ms.
+         `saida` para o que entra e sai; `dentro` para o que se move na tela
+         sem aparecer nem desaparecer. --- */
+  --ease-saida: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-dentro: cubic-bezier(0.77, 0, 0.175, 1);
+
+  /* --- Raios de borda.
+         Eram 8, 11, 14 e 22px: quatro raios, o maior deles bem redondo.
+         22px num cartao e arredondamento de aplicativo de consumo, e a
+         empresa vende conformidade legal. Aqui sao dois na pratica, e
+         apertados: `lg` e `xl` valem o mesmo de proposito, para as classes
+         `rounded-xl` ja escritas continuarem valendo sem virar exceção. --- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 8px;
 
   /* --- Sombras discretas (excesso de sombra foi vetado no briefing) --- */
-  --shadow-card: 0 1px 2px rgb(11 27 46 / 0.04), 0 8px 24px -12px rgb(11 27 46 / 0.18);
-  --shadow-float: 0 10px 30px -8px rgb(11 27 46 / 0.35);
+  --shadow-card: 0 1px 2px rgb(32 28 30 / 0.04), 0 8px 24px -12px rgb(32 28 30 / 0.18);
+  --shadow-float: 0 10px 30px -8px rgb(32 28 30 / 0.35);
 
   /* --- Largura maxima do conteudo --- */
   --spacing-wrap: 1180px;
@@ -85,18 +201,108 @@
   h2,
   h3,
   h4 {
-    color: var(--color-navy-900);
+    color: var(--color-graphite-900);
     font-weight: 800;
     line-height: 1.15;
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
 
-  /* Foco sempre visivel: quem navega por teclado precisa enxergar onde esta. */
+  /* A fonte de titulo fica em h1 e h2, e nao em toda a familia de titulos.
+     Duas razoes. A primeira e de sistema: h3 costuma ser titulo de cartao, e
+     titulo de cartao aparece tanto como <h3> quanto como <dt> pagina afora.
+     Aplicar so nos h3 deixaria dois cartoes iguais com fontes diferentes.
+     A segunda e de comedimento: a fonte de display marca a estrutura da
+     pagina, o que ela E; dentro do bloco quem fala e o texto. */
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.13;
+  }
+
+  h1 {
+    letter-spacing: -0.03em;
+  }
+
+  /* Foco sempre visivel: quem navega por teclado precisa enxergar onde esta.
+
+     Anel de dois tons, e nao de uma cor so. O site tem foco sobre branco,
+     sobre o canvas, sobre o grafite escuro e sobre o vinho do botao, e
+     nenhuma cor unica alcanca os 3:1 exigidos contra todos esses fundos.
+     Medido: o antigo #2f80ed dava 1.32:1 sobre o botao vermelho, ou seja,
+     sumia justamente no controle mais clicado do site.
+
+     Branco e grafite estao a 16.8:1 um do outro, entao pelo menos um dos dois
+     sempre contrasta com o que estiver atras. */
   :focus-visible {
-    outline: 3px solid #2f80ed;
-    outline-offset: 3px;
-    border-radius: 6px;
+    outline: 2px solid var(--color-white);
+    outline-offset: 0;
+    box-shadow: 0 0 0 5px var(--color-graphite-900);
+    border-radius: 5px;
+  }
+
+  /* --------------------------------------------------------------------
+     Superficies do navegador.
+
+     Selecao de texto, cursor, barra de rolagem e sublinhado vem com um
+     padrao que nao pertence a design system nenhuma, normalmente um azul
+     de sistema. Deixar assim e o detalhe que denuncia pagina montada em vez
+     de construida, e some no meio de um site que acerta todo o resto.
+     -------------------------------------------------------------------- */
+
+  ::selection {
+    background-color: var(--color-wine);
+    color: var(--color-white);
+  }
+
+  /* O cursor de texto e um tracinho de 1px: precisa da cor mais forte, nao
+     do vinho de acento, para nao desaparecer enquanto se digita. */
+  :where(input, textarea, select) {
+    caret-color: var(--color-graphite-900);
+  }
+
+  /* Checkbox, radio e barra de progresso nativos. Sem isto ficam azuis. */
+  :where(input, progress) {
+    accent-color: var(--color-wine);
+  }
+
+  /* O sublinhado padrao corta as descidas do g, j, p e q. */
+  a:where(:not([class*="no-underline"])) {
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: from-font;
+  }
+
+  /* Numero em coluna precisa de largura fixa por digito, senao "30 dias" e
+     "8 dias" nao alinham no painel de vencimentos. */
+  :where(time, [data-numerico]) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Barra de rolagem discreta, na paleta. Firefox usa scrollbar-color;
+     WebKit e Chromium usam o pseudo-elemento. */
+  html {
+    scrollbar-color: var(--color-ash-400) var(--color-line-soft);
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-line-soft);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ash-400);
+    border: 3px solid var(--color-line-soft);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ash-500);
   }
 
   /* Respeita quem configurou o sistema para reduzir animacao (enjoo, vertigem). */
@@ -105,14 +311,29 @@
       scroll-behavior: auto;
     }
 
-    /* O !important aqui e proposital e recomendado: precisa vencer qualquer
-       animacao declarada em componente. Nao remover — e acessibilidade. */
-    /* biome-ignore-start lint/complexity/noImportantStyles: anula animacao para quem pediu movimento reduzido */
+    /* Movimento reduzido nao e "sem transicao nenhuma".
+
+       Antes este bloco zerava TODA transicao, inclusive as de cor. Quem
+       ativa a preferencia perdia tambem o retorno visual de passar o mouse
+       num botao ou de focar um campo, e a interface ficava sem resposta.
+       O incomodo dessas pessoas e com MOVIMENTO, nao com cor.
+
+       Agora a lista de transicoes e restrita ao que nao se desloca. Efeito
+       pratico: deslocamento, rotacao e escala passam a acontecer de uma
+       vez, sem animar, enquanto cor e opacidade seguem suaves.
+
+       Nao se anula `transform` nem `rotate` aqui: a seta do FAQ e um
+       quadrado girado 45 graus em repouso, e zera-la quebraria o desenho.
+       Restringir a transicao ja tira o movimento sem tocar no estado. */
+    /* biome-ignore-start lint/complexity/noImportantStyles: anula movimento para quem pediu movimento reduzido */
     *,
     *::before,
     *::after {
       animation-duration: 0.001ms !important;
-      transition-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-property:
+        opacity, color, background-color, border-color, outline-color, box-shadow, fill, stroke !important;
+      transition-duration: 150ms !important;
     }
     /* biome-ignore-end lint/complexity/noImportantStyles: fim da excecao */
   }
@@ -131,19 +352,23 @@
   --card-foreground: var(--color-ink);
   --popover: #ffffff;
   --popover-foreground: var(--color-ink);
-  --primary: var(--color-fire);
+  --primary: var(--color-wine);
   --primary-foreground: #ffffff;
-  --secondary: var(--color-navy-900);
+  --secondary: var(--color-graphite-900);
   --secondary-foreground: #ffffff;
   --muted: var(--color-canvas);
   --muted-foreground: var(--color-ink-soft);
   --accent: var(--color-line-soft);
-  --accent-foreground: var(--color-navy-900);
-  --destructive: var(--color-fire-dark);
+  --accent-foreground: var(--color-graphite-900);
+  --destructive: var(--color-wine-dark);
   --border: var(--color-line);
-  --input: #cfdae6;
-  --ring: #2f80ed;
-  --radius: 0.6875rem;
+  --input: var(--color-line-forte);
+  /* O anel do shadcn segue o anel do site, e nao o azul de sistema que vem
+     no template: componente novo ja nasce com o foco do resto da pagina. */
+  --ring: var(--color-graphite-900);
+  /* Casado com --radius-lg. Era 0.6875rem, o valor do antigo --radius-md,
+     que deixou de existir quando os raios foram apertados. */
+  --radius: 0.5rem;
 }
 
 @theme inline {

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "empresa",
+    "titulo": "Minha empresa precisa se regularizar",
+    "descricao": "Alvará, licenças e certidões em ordem para operar.",
+    "href": "/regularizacoes",
+    "ordem": 1
+  },
+  {
+    "id": "condominio",
+    "titulo": "Meu condomínio tem pendências",
+    "descricao": "Documentação do empreendimento e exigências em aberto.",
+    "href": "/empresas",
+    "ordem": 2
+  },
+  {
+    "id": "carregador",
+    "titulo": "Meu condomínio tem carregador de carro elétrico",
+    "descricao": "A norma mudou em 2026 e a instalação improvisada ficou irregular.",
+    "href": "/carregadores-eletricos",
+    "ordem": 3
+  },
+  {
+    "id": "edificacao",
+    "titulo": "Preciso regularizar uma edificação",
+    "descricao": "Situação documental do imóvel e adequação às exigências.",
+    "href": "/regularizacoes",
+    "ordem": 4
+  },
+  {
+    "id": "licenca",
+    "titulo": "Preciso de uma licença",
+    "descricao": "Identificamos qual licença se aplica e conduzimos o processo.",
+    "href": "/regularizacoes",
+    "ordem": 5
+  },
+  {
+    "id": "exigencia",
+    "titulo": "Recebi uma exigência",
+    "descricao": "Leitura da exigência, resposta e acompanhamento do protocolo.",
+    "href": "/regularizacoes",
+    "ordem": 6
+  },
+  {
+    "id": "incendio",
+    "titulo": "Segurança contra incêndio",
+    "descricao": "Regularização, vistorias, brigada e documentação do sistema.",
+    "href": "/seguranca-contra-incendio",
+    "ordem": 7
+  },
+  {
+    "id": "avcb",
+    "titulo": "Preciso de AVCB ou ele venceu",
+    "descricao": "Vistoria do Corpo de Bombeiros, projeto e o que a edificação precisa ter.",
+    "href": "/avcb",
+    "ordem": 8
+  },
+  {
+    "id": "vencimento",
+    "titulo": "Tenho documentos vencendo",
+    "descricao": "Controle de prazos para não perder renovação nem operar irregular.",
+    "href": "/empresas",
+    "ordem": 9
+  },
+  {
+    "id": "nao-sei",
+    "titulo": "Não sei por onde começar",
+    "descricao": "O diagnóstico mostra o que falta e em que ordem resolver.",
+    "href": "/diagnostico",
+    "ordem": 10
+  }
+]

@@ -90,6 +90,18 @@ escrita no meio do código.
      `https://bradotec.com.br`
 3. Publique. Em segundos o site fica no ar.
 
+> **Endereço e cidade são campos diferentes de propósito.** A sede fica em
+> Cabedelo; o mercado é João Pessoa. `cidade` sai nos títulos e no texto,
+> `cidadeDoEndereco` sai só no endereço postal e no `addressLocality` do
+> schema.org. Enquanto os dois eram um campo só, o Google recebia um endereço
+> em João Pessoa que não existe.
+>
+> **`horario` e `horarioEstruturado` também.** O primeiro é o que a pessoa lê
+> ("Horário comercial"); o segundo é o mesmo horário no formato que o
+> schema.org entende. Enquanto o cliente não informar a hora exata, o segundo
+> fica vazio e o `openingHours` simplesmente não é publicado: dado estruturado
+> inválido é pior que dado ausente.
+
 A variável `SITE_URL` é importante: dela saem o `canonical`, o Open Graph e o
 `sitemap.xml`. Sem ela, o site usa um endereço de exemplo.
 
@@ -108,6 +120,14 @@ preenchidos em `src/config/site.ts`, aparecem sozinhas.
 
 Dados de contato ainda pendentes aparecem **destacados em amarelo** na tela,
 para ninguém publicar sem perceber que faltou preencher.
+
+A autoridade do site vem de outro lugar: a formação e a carreira de quem está
+à frente da empresa, em `src/content/lideranca.json`. É dado verificável, veio
+do cliente e não depende de nenhum número. O schema dessa coleção exige o campo
+`limite`, a frase que diz o que a experiência **não** abrevia — sem ela o build
+falha, porque currículo de segurança pública num site que vende regularização
+junto ao Corpo de Bombeiros é exatamente onde uma página escorrega para
+insinuar acesso privilegiado.
 
 ---
 
@@ -129,7 +149,16 @@ src/
   pages/             Uma rota por arquivo
   styles/
     global.css       IDENTIDADE VISUAL — cores, fontes, espaçamentos
+  assets/
+    marca/           Logo do cliente e tudo derivado dela
+    fotos/           Fotos reais da empresa
+    fotos-licenciadas/  Pexels: licenca comercial, podem ir ao ar
+    fotos-geradas/   Imagens do cliente, ilustrativas: nao registram trabalho
 e2e/                 Testes que rodam em navegador de verdade
+scripts/
+  extrair-logo.mjs   Gera logo, favicon e imagem de compartilhamento da marca
+artigos/             Versao avulsa dos artigos, HTML autocontido, fora do build
+                     (a versao publicada mora em src/pages/artigos/)
 legacy/              Site estático anterior, guardado para consulta
 public/              Arquivos servidos como estão (favicon, _headers)
 ```
@@ -153,16 +182,14 @@ Resultado: a home hoje não baixa **nenhum** arquivo de framework.
 
 | Item | Onde entra | Quem resolve |
 |---|---|---|
-| Número de WhatsApp | `src/config/site.ts` | Cliente |
-| Telefone, e-mail, endereço, CEP, CNPJ, horário | `src/config/site.ts` | Cliente |
-| Link do Instagram | `src/config/site.ts` | Cliente |
+| Horário exato de atendimento (`Mo-Fr 08:00-18:00`) | `horarioEstruturado`, em `src/config/site.ts` | Cliente |
 | Depoimentos e nota do Google reais | `src/config/site.ts` | Cliente |
 | Domínio definitivo | variável `SITE_URL` no deploy | Cliente |
 | Histórico e fundação da empresa | página `sobre` | Cliente |
-| Conteúdo das 7 páginas internas | Content Collections | Desenvolvimento |
+| Arquivo vetorial da logo (`.svg`/`.ai`) | `src/assets/marca/logo-fonte.jpg` | Cliente |
+| Fotos do proprio trabalho, para substituir as licenciadas | `src/assets/fotos-licenciadas/` | Cliente |
 | Quiz de 4 perguntas | ilha React | Desenvolvimento |
-| Formulário de contato | ilha React + React Hook Form | Desenvolvimento |
-| Envio do formulário por e-mail | back-end (ver `specs/backend/`) | Desenvolvimento |
+| Envio do formulário para quem não usa WhatsApp | back-end (ver `specs/backend/`) | Desenvolvimento |
 
 A análise do que um back-end resolveria está em
 [`specs/backend/00-ANALISE-CAMADAS.md`](specs/backend/00-ANALISE-CAMADAS.md).
@@ -177,7 +204,7 @@ A análise do que um back-end resolveria está em
 | Linguagem | TypeScript strict | 5.9 |
 | Estilo | Tailwind CSS (config em CSS) | 4 |
 | Interatividade | React (só em ilhas) | 19 |
-| Componentes | shadcn/ui | — |
+| Componentes | shadcn/ui (MCP configurado, tema da marca) | — |
 | Ícones | lucide-react | — |
 | Validação | Zod | 4 |
 | Formulários | React Hook Form | 7 |
