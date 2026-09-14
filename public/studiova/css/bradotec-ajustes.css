@@ -960,3 +960,77 @@ html {
     padding-bottom: 160px !important;
   }
 }
+
+/* ============================================================================
+   ESCALA — o template e de agencia de design, este site nao e
+
+   O Studiova vende uma agencia criativa: titulo de 8rem, secao de 3rem,
+   respiro de 160px. Naquele contexto o tamanho E o argumento.
+
+   Aqui o leitor e sindico, gestor predial e dono de comercio, procurando o
+   que venceu e quanto custa. Na primeira leitura desta versao a impressao foi
+   de pagina com zoom aplicado, e a medicao deu razao a ela: com o corpo do
+   texto em 17px, a pergunta do FAQ vinha em 24px e o titulo de secao em 48px.
+   Quase tres vezes o corpo para um subtitulo de bloco.
+
+   O corpo nao mudou. O que mudou foi a distancia de cada degrau ate ele:
+
+     titulo do hero    72 -> 54      pergunta do FAQ   24 -> 20
+     titulo interno    64 -> 46      respiro de secao 160 -> 104
+     titulo de secao   48 -> 36
+
+   A resposta do FAQ fica nos 18px que ja tinha. Ela carrega `fs-5`, que vale
+   para o site inteiro, e um pixel acima do corpo do texto e bom para
+   paragrafo longo. Brigar com o utilitario por esse pixel custaria mais do
+   que vale.
+
+   Os dois primeiros moram no <style> das proprias pecas (index.astro e
+   CabecalhoPagina.astro), porque e la que foram escritos. O resto e aqui.
+   ========================================================================== */
+
+/* Titulo de secao. O template deixa 3rem acima de 1200px e uma conta em vw
+   abaixo disso; os dois sao substituidos por um clamp unico, que nao tem o
+   degrau que a conta do template dava ao cruzar o breakpoint. */
+h2,
+.h2 {
+  font-size: clamp(1.6rem, 1.39rem + 0.95vw, 2.25rem);
+}
+
+/* Os tres degraus de texto grande do template. Vem com !important de fabrica,
+   entao a correcao precisa do mesmo peso. A ordem entre eles se mantem: fs-8
+   continua maior que fs-7, que continua maior que fs-6. Inverter isso
+   quebraria a hierarquia de qualquer pagina que use os tres juntos. */
+.fs-6 {
+  font-size: clamp(1.05rem, 1.03rem + 0.05vw, 1.125rem) !important;
+}
+
+.fs-7 {
+  font-size: clamp(1.15rem, 1.12rem + 0.14vw, 1.25rem) !important;
+}
+
+.fs-8 {
+  font-size: clamp(1.3rem, 1.27rem + 0.19vw, 1.4375rem) !important;
+}
+
+/* Respiro das secoes.
+
+   Escopado em `section` de proposito. `py-xl-12` e utilitario do Bootstrap e
+   pode aparecer em qualquer elemento; quem redefine o utilitario inteiro muda
+   o significado de um nome que outra pessoa vai usar esperando 160px. O ritmo
+   de secao e que e decisao deste site, e so ele e tocado.
+
+   160px entre secoes, somados as 6 secoes de uma pagina, davam 1,9 mil pixels
+   so de espaco vazio: e o que faz rolar muito e ler pouco. */
+@media (min-width: 992px) {
+  section.py-lg-11 {
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  section.py-xl-12 {
+    padding-top: 104px !important;
+    padding-bottom: 104px !important;
+  }
+}
