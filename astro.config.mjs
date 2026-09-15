@@ -5,8 +5,19 @@ import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, fontProviders } from 'astro/config'
 
 // URL publica do site. Usada para gerar canonical, Open Graph e sitemap.xml.
-// TROCAR pelo dominio real do cliente (ou definir SITE_URL no ambiente do deploy).
-const SITE_URL = process.env.SITE_URL ?? 'https://dominio-do-cliente.example'
+//
+// O dominio da Bradotec esta escrito aqui, e nao so na variavel de ambiente do
+// deploy, por um motivo pratico: variavel esquecida no painel nao quebra o
+// build, ela publica o site inteiro apontando para um dominio de exemplo e
+// fechado para robo. Falha silenciosa em site institucional pode passar semanas
+// sem ninguem perceber, e o prejuizo e nao existir na busca.
+//
+// SITE_URL continua valendo por cima, para previa em outro endereco.
+//
+// A trava de indexacao (BaseLayout, LayoutStudiova e robots.txt) dispara
+// quando o endereco e dominio-do-cliente.example. Ela nao some: existe para o
+// proximo cliente que comecar deste projeto, e continua valendo para ele.
+const SITE_URL = process.env.SITE_URL ?? 'https://bradotec.com.br'
 
 export default defineConfig({
   site: SITE_URL,

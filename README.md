@@ -86,9 +86,10 @@ escrita no meio do código.
 2. Configure a build:
    - **Build command:** `pnpm build`
    - **Build output directory:** `dist`
-   - **Variável de ambiente:** `SITE_URL` = o endereço final, ex.:
-     `https://bradotec.com.br`
-3. Publique. Em segundos o site fica no ar.
+   - **Variável de ambiente:** nenhuma é obrigatória.
+3. Publique. Em segundos o site fica no ar, no endereço `.pages.dev`.
+4. Em **Custom domains**, adicione `bradotec.com.br` e `www.bradotec.com.br`.
+   A Cloudflare mostra os registros de DNS a apontar no registro.br.
 
 > **Endereço e cidade são campos diferentes de propósito.** A sede fica em
 > Cabedelo; o mercado é João Pessoa. `cidade` sai nos títulos e no texto,
@@ -102,8 +103,14 @@ escrita no meio do código.
 > fica vazio e o `openingHours` simplesmente não é publicado: dado estruturado
 > inválido é pior que dado ausente.
 
-A variável `SITE_URL` é importante: dela saem o `canonical`, o Open Graph e o
-`sitemap.xml`. Sem ela, o site usa um endereço de exemplo.
+O domínio `https://bradotec.com.br` está escrito em `astro.config.mjs`, e dele
+saem o `canonical`, o Open Graph, o `sitemap.xml` e o `robots.txt`. Está no
+arquivo, e não só na variável do painel, porque variável esquecida não quebra
+o build: ela publica o site inteiro apontando para um endereço de exemplo e
+fechado para robô. Site institucional pode ficar semanas assim sem ninguém
+notar.
+
+`SITE_URL` continua valendo por cima, para prévia em outro endereço.
 
 Os arquivos `public/_headers` e `public/_redirects` já vão configurados com
 cache longo, cabeçalhos de segurança e os redirecionamentos `301` dos endereços
@@ -184,7 +191,6 @@ Resultado: a home hoje não baixa **nenhum** arquivo de framework.
 |---|---|---|
 | Horário exato de atendimento (`Mo-Fr 08:00-18:00`) | `horarioEstruturado`, em `src/config/site.ts` | Cliente |
 | Depoimentos e nota do Google reais | `src/config/site.ts` | Cliente |
-| Domínio definitivo | variável `SITE_URL` no deploy | Cliente |
 | Histórico e fundação da empresa | página `sobre` | Cliente |
 | Arquivo vetorial da logo (`.svg`/`.ai`) | `src/assets/marca/logo-fonte.jpg` | Cliente |
 | Fotos do proprio trabalho, para substituir as licenciadas | `src/assets/fotos-licenciadas/` | Cliente |
