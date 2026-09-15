@@ -1034,3 +1034,53 @@ h2,
     padding-bottom: 104px !important;
   }
 }
+
+/* ============================================================================
+   LARGURA DA PAGINA — a sensacao de zoom que sobrou depois da escala
+
+   Medido em tres larguras de tela, com a regua no proprio `.container`:
+
+     tela 1366  ->  conteudo 1140,  margem lateral 113px
+     tela 1440  ->  conteudo 1440,  margem lateral   0px
+     tela 1920  ->  conteudo 1680,  margem lateral 120px
+
+   O 1440 nao e um numero qualquer: e a largura da maioria dos notebooks. E
+   ali o site encostava nas duas bordas da tela, sem margem nenhuma. O rotulo
+   "05 Duvidas" comecava a 14px do canto e a linha das perguntas terminava a
+   14px do outro. Pagina que encosta na borda le como pagina ampliada, e foi
+   por isso que a escala menor sozinha nao resolveu a impressao.
+
+   A causa e o salto do template: ate 1399px o conteudo tem 1140px de largura,
+   e a partir de 1400px ele pula direto para 1680px. Entre 1400 e 1712 de tela
+   esse teto e maior que a propria janela, entao nao limita nada.
+
+   O teto de 1400px para cima passa a ser 1320px, que e o proprio valor do
+   Bootstrap para essa faixa. O degrau vira 1140 -> 1320, e a margem lateral
+   nunca mais e zero: 60px no notebook de 1440, 300px no monitor de 1920.
+   ========================================================================== */
+
+@media (min-width: 1400px) {
+  .container,
+  .container-sm,
+  .container-md,
+  .container-lg,
+  .container-xl,
+  .container-xxl {
+    max-width: 1320px;
+  }
+}
+
+/* O vao entre o cabecalho do FAQ e a primeira pergunta era de 96px, um degrau
+   que o template calibrou para os titulos de 48px que ele usava. Com o titulo
+   em 36px sobrou buraco, e num bloco que ja tem a coluna da esquerda vazia
+   isso vira um vazio dentro de outro.
+
+   Escopado no FAQ: `gap-xl-11` e utilitario e serve a outros blocos.
+
+   A primeira tentativa mirou `gap-6` e nao mudou nada visivel, porque quem
+   abre o vao e o `gap-xl-11` do flex de fora. Medido depois, nao antes. */
+@media (min-width: 1200px) {
+  .faq .d-flex.gap-xl-11 {
+    gap: 3rem !important;
+  }
+}
