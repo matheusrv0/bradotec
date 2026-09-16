@@ -1,0 +1,228 @@
+---
+import fotoPredios from '@/assets/fotos-geradas/predios-ao-anoitecer.jpg'
+import AvisoEscopo from '@/components/studiova/AvisoEscopo.astro'
+import Botao from '@/components/studiova/Botao.astro'
+import CabecalhoPagina from '@/components/studiova/CabecalhoPagina.astro'
+import FaixaCta from '@/components/studiova/FaixaCta.astro'
+import Icone from '@/components/studiova/Icone.astro'
+import TituloSecao from '@/components/studiova/TituloSecao.astro'
+import LayoutStudiova from '@/layouts/LayoutStudiova.astro'
+
+const trilha = [
+  { nome: 'Início', href: '/' },
+  { nome: 'Plano anual', href: '/plano-anual' },
+] as const
+
+/**
+ * O que o contrato reune.
+ *
+ * Cada item desta lista costuma ser um fornecedor separado, e e por ai que a
+ * pagina argumenta: o ganho nao e desconto, e deixar de coordenar gente.
+ */
+const oQueEntra = [
+  {
+    titulo: 'Laudos técnicos',
+    descricao:
+      'Os laudos que a edificação precisa manter válidos, executados por profissionais habilitados e arquivados com a data de vencimento sob controle.',
+  },
+  {
+    titulo: 'Vistoria a cada dois meses',
+    descricao:
+      'Seis vistorias ao longo do ano, cada uma com relatório do que foi encontrado, do que foi corrigido e do que depende de decisão do condomínio.',
+  },
+  {
+    titulo: 'Treinamento de brigada',
+    descricao:
+      'A formação da brigada entra no mesmo contrato, sem contratar fornecedor separado para um item que o próprio AVCB exige.',
+    href: '/treinamentos',
+  },
+  {
+    titulo: 'Despachante documentalista',
+    descricao:
+      'A condução dos processos junto aos órgãos é feita por despachante documentalista inscrito no CRDD, com atuação em prevenção e segurança contra incêndio.',
+    href: '/sobre',
+  },
+  {
+    titulo: 'Controle das vigências',
+    descricao:
+      'Todo certificado, laudo e licença da edificação em um calendário único, com a renovação começando antes do vencimento e não depois dele.',
+  },
+  {
+    titulo: 'Conferência de documentos',
+    descricao:
+      'Documento conferido antes de ser protocolado. A exigência que não chega a ser aberta é a que não atrasa o processo.',
+  },
+] as const
+
+/** O ano, do primeiro levantamento ao dia da vistoria. */
+const comoFuncionaOAno = [
+  'Visita técnica inicial, para levantar o que a edificação tem, o que falta e o que está por vencer.',
+  'Plano montado sobre esse levantamento: nenhuma edificação tem a mesma lista que a vizinha.',
+  'Vistoria a cada dois meses, com relatório enviado ao síndico e à administradora.',
+  'Manutenção e organização acompanhadas ao longo do ano, e não concentradas às vésperas.',
+  'Renovações iniciadas com antecedência, uma a uma, conforme o calendário de vigências.',
+] as const
+---
+
+<LayoutStudiova
+  titulo="Plano anual de conformidade contra incêndio para condomínios | Bradotec"
+  descricao="Contrato anual que reúne laudos, vistorias bimestrais com relatório, treinamento de brigada e a condução documental da edificação em João Pessoa e região, com controle de vigências o ano inteiro."
+  trilha={trilha}
+>
+  {/*
+    A primeira escolha foi a foto da demonstracao com extintor, que esta sem
+    uso na pasta e casa com o treinamento de brigada. Trocada depois da
+    captura: a camisa vinho do instrutor ocupa a metade esquerda do quadro,
+    que e onde ficam o titulo e o botao, e o botao vinho sumia dentro dela.
+  */}
+  <CabecalhoPagina
+    foto={fotoPredios}
+    descricaoDaFoto="Avenida de edifícios residenciais ao anoitecer, com a pista molhada refletindo as luzes"
+    enquadramento="50% 50%"
+    titulo="O ano inteiro da conformidade, em um contrato só"
+    subtitulo="Laudos, vistorias bimestrais, treinamento de brigada e a condução documental sob um mesmo responsável. O síndico deixa de administrar fornecedor por fornecedor."
+    trilha={trilha}
+  >
+    <Botao origem="planoAnual">Agendar visita técnica</Botao>
+  </CabecalhoPagina>
+
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="01"
+          etiqueta="O que entra"
+          titulo="Tudo que a edificação precisa manter em dia"
+          descricao="Cada item desta lista costuma ser um contrato separado, com um fornecedor diferente e um vencimento que ninguém junta. Aqui eles são um só."
+        />
+
+        <div class="row">
+          {
+            oQueEntra.map((item, i) => (
+              <div class="col-md-6 col-lg-4 mb-7">
+                <div
+                  class="d-flex flex-column gap-3 pt-6 border-top h-100"
+                  data-aos="fade-up"
+                  data-aos-delay={`${((i % 3) + 1) * 100}`}
+                  data-aos-duration="1000"
+                >
+                  <h3 class="mb-0 fs-6">
+                    {'href' in item ? <a href={item.href}>{item.titulo}</a> : item.titulo}
+                  </h3>
+                  <p class="mb-0 fs-4">{item.descricao}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 py-lg-11 py-xl-12 bg-dark">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="02"
+          etiqueta="Como o ano funciona"
+          titulo="Acompanhamento o ano todo, e não na véspera"
+          descricao="A maior parte das edificações não está irregular por má vontade. Está porque ninguém acompanha entre uma renovação e a seguinte, e o problema só aparece quando a fiscalização chega ou o alvará é negado."
+          escuro
+        />
+
+        <div class="row justify-content-between gap-7 gap-xl-0">
+          <div class="col-xl-7">
+            <ol class="list-unstyled mb-0">
+              {
+                comoFuncionaOAno.map((etapa, i) => (
+                  <li
+                    class="py-4 border-top border-white border-opacity-10 hstack gap-4 align-items-start"
+                    data-aos="fade-right"
+                    data-aos-delay={`${(i + 1) * 100}`}
+                    data-aos-duration="1000"
+                  >
+                    <Icone nome="solar:check-circle-bold" class="fs-6 text-primary flex-shrink-0" />
+                    <span class="fs-5 text-white text-opacity-75">{etapa}</span>
+                  </li>
+                ))
+              }
+            </ol>
+          </div>
+
+          {/*
+            O que este bloco NAO diz e o ponto dele. O cliente pediu "quando o
+            bombeiro chegar, o AVCB estara em maos". Nao da: quem emite o AVCB
+            e o Corpo de Bombeiros, e prometer a emissao e prometer decisao de
+            orgao publico. O que esta sob controle da empresa e chegar na
+            vistoria sem pendencia, e e isso que a pagina promete.
+          */}
+          <div class="col-xl-4">
+            <div
+              class="p-6 p-xl-7 rounded-4 bg-white bg-opacity-10 h-100 d-flex flex-column gap-4"
+              data-aos="fade-left"
+              data-aos-delay="200"
+              data-aos-duration="1000"
+            >
+              <h3 class="mb-0 fs-7 text-white">O que o plano persegue</h3>
+              <p class="mb-0 fs-5 text-white text-opacity-75">
+                Que a fiscalização não encontre nada vencido nem exigência em aberto, porque tudo
+                foi tratado antes, ao longo do ano.
+              </p>
+              <p class="mb-0 fs-4 text-white text-opacity-50">
+                A emissão e a renovação do AVCB são decisão do Corpo de Bombeiros. O que está sob
+                nosso controle é chegar na vistoria sem pendência.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5 py-lg-11 py-xl-12 bg-light-gray">
+    <div class="container">
+      <div class="d-flex flex-column gap-5 gap-xl-10">
+        <TituloSecao
+          numero="03"
+          etiqueta="Para quem é"
+          titulo="Cada plano é montado sobre uma visita técnica"
+          descricao="Não existe pacote de prateleira. A idade da edificação, o que já foi feito, o que está vencido e o porte da operação mudam a lista inteira. Por isso o primeiro passo é a visita, e não a proposta."
+        />
+
+        <div class="row">
+          <div class="col-xl-8">
+            <p class="mb-0 fs-5" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+              O plano atende condomínios residenciais e comerciais, empresas, indústrias,
+              instituições e operações que respondem por mais de uma edificação. Se a documentação
+              hoje depende de alguém lembrar de renovar, é para você.
+            </p>
+            <div class="hstack gap-3 flex-wrap mt-7">
+              {/*
+                `suave`, e nao `contorno`: esta secao tem fundo claro, e o
+                contorno e o tom de acao secundaria sobre fundo escuro. Com ele
+                aqui o texto saia branco sobre papel, 1.09:1. Pego pela
+                varredura cega de contraste de botao, nao a olho.
+              */}
+              <Botao origem="planoAnual">Agendar visita técnica</Botao>
+              <Botao href="/diagnostico" tom="suave">Responder as 4 perguntas</Botao>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <FaixaCta
+    titulo="Quer saber o que está vencido hoje?"
+    descricao="A visita técnica levanta a situação da edificação e é o que define o plano. Fale com um especialista para agendar."
+    origem="planoAnual"
+    rotulo="Agendar visita técnica"
+  />
+
+  <AvisoEscopo titulo="Limites da nossa atuação">
+    A Bradotec atua na gestão documental e na condução administrativa dos processos. Projetos,
+    laudos, serviços técnicos e instalação de sistemas preventivos exigem habilitação específica e
+    são executados por profissionais e empresas legalmente habilitados. Prazos e decisões de
+    análise, vistoria e aprovação são de responsabilidade dos órgãos competentes.
+  </AvisoEscopo>
+</LayoutStudiova>

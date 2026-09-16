@@ -8,7 +8,7 @@ Bradotec**: ilustram o assunto da pagina, como as do Pexels em
 | Arquivo | Onde aparece | O que mostra |
 |---|---|---|
 | `frota-em-garagem.jpg` | Cabecalho de `/documentacao-veicular` | Fileira de vans e utilitarios numa garagem, a noite |
-| `predios-ao-anoitecer.jpg` | Cabecalho de `/artigos/carregador-carro-eletrico-condominio` | Avenida de predios residenciais ao anoitecer, pista molhada |
+| `predios-ao-anoitecer.jpg` | Cabecalhos de `/artigos/carregador-carro-eletrico-condominio` e `/plano-anual` | Avenida de predios residenciais ao anoitecer, pista molhada |
 | `predios-vistos-de-baixo.jpg` | Cabecalho de `/empresas` | Predios vistos de baixo, algumas janelas acesas |
 | `processo-carimbado.jpg` | Cabecalho de `/artigos` | Pasta de documentos assinados e carimbados sobre mesa escura, com carimbo e planta |
 | `demonstracao-com-extintor.jpg` | nenhum, ver abaixo | Instrutor de costas com extintor sobre foco de fogo controlado, turma observando |
@@ -30,6 +30,18 @@ cena. A legenda diz "imagem ilustrativa", com todas as letras.
 uma cena que nao registra aquele trabalho afirma o que a imagem nao mostra. Se
 uma destas precisar de legenda, ela diz o que a cena e, e nada sobre quem
 conduziu o que.
+
+## A unica foto repetida em duas paginas
+
+`predios-ao-anoitecer.jpg` abre o artigo do carregador eletrico e tambem a
+pagina do plano anual. Repetir nao e ideal, e foi a melhor saida: a pagina do
+plano tentou primeiro a foto da demonstracao com extintor, que estava sem uso
+e casa com o treinamento de brigada, e nao deu certo. A camisa vinho do
+instrutor ocupa a metade esquerda do quadro, que e onde ficam o titulo e o
+botao, e o botao vinho sumia dentro dela. Visto na captura, nao no codigo.
+
+Quando chegar foto propria do cliente para um dos dois assuntos, esta e a
+primeira repeticao a desfazer.
 
 ## `demonstracao-com-extintor.jpg` esta sem uso
 

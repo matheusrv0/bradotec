@@ -1,4 +1,20 @@
 import { expect, test } from '@playwright/test'
+import { navegacaoPrincipal } from '../src/config/navegacao'
+
+/*
+ * Quantos links cada menu mostra, contado a partir da configuracao e nao
+ * escrito a mao.
+ *
+ * Os tres numeros estavam fixos no teste, e a primeira pagina nova do menu
+ * quebrou os tres de uma vez: eles diziam a verdade sobre um site que tinha
+ * oito itens, e falhavam sem apontar defeito nenhum. Agora acompanham
+ * src/config/navegacao.ts, que e a fonte unica do menu.
+ *
+ * No topo entra o Inicio alem dos itens. No celular entram tambem o
+ * Diagnostico e o WhatsApp, que existem so ali, no fim da gaveta.
+ */
+const LINKS_NO_TOPO = navegacaoPrincipal.length + 1
+const LINKS_NO_CELULAR = navegacaoPrincipal.length + 3
 
 /**
  * Teste de ponta a ponta do esqueleto do site: garante que o layout base
@@ -150,8 +166,7 @@ test.describe('Menu atras do hamburguer', () => {
     await abrir(page)
 
     const menu = page.getByRole('navigation', { name: 'Menu' })
-    // Inicio + os oito itens de navegacaoPrincipal.
-    await expect(menu.getByRole('link')).toHaveCount(11)
+    await expect(menu.getByRole('link')).toHaveCount(LINKS_NO_CELULAR)
   })
 })
 
@@ -179,11 +194,10 @@ test.describe('Menu escrito no cabecalho', () => {
     ).toBeHidden()
   })
 
-  test('lista as nove paginas principais', async ({ page }) => {
+  test('lista todas as paginas principais', async ({ page }) => {
     await page.goto('/')
 
-    // Inicio + os oito itens de navegacaoPrincipal.
-    await expect(dock(page).getByRole('link')).toHaveCount(9)
+    await expect(dock(page).getByRole('link')).toHaveCount(LINKS_NO_TOPO)
   })
 
   test('marca a pagina aberta', async ({ page }) => {
@@ -266,7 +280,7 @@ test.describe('Menu escrito sem JavaScript', () => {
     await page.goto('/')
 
     const menu = page.getByRole('navigation', { name: 'Navegação principal' })
-    await expect(menu.getByRole('link')).toHaveCount(9)
+    await expect(menu.getByRole('link')).toHaveCount(LINKS_NO_TOPO)
 
     await menu.getByRole('link', { name: 'Contato' }).click()
     await expect(page).toHaveURL(/\/contato/)

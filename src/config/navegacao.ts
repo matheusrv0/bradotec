@@ -29,6 +29,17 @@ export const paiNoMenu: Readonly<Record<string, string>> = {
 }
 
 export const navegacaoPrincipal: readonly ItemNavegacao[] = [
+  /*
+   * O plano anual abre o menu de proposito: e a oferta comercial principal da
+   * empresa, e o resto do menu descreve servico avulso.
+   *
+   * Para ele caber, `Treinamentos` virou `Brigada` no rotulo curto. Medido
+   * antes: a 1200px de tela sobravam 52px entre o fim do menu e o botao de
+   * orcamento, e "Plano anual" ocupa mais que isso. O rotulo completo, que
+   * aparece no celular e no rodape, continua inteiro — e exatamente para isso
+   * que os dois campos existem.
+   */
+  { href: '/plano-anual', curto: 'Plano anual', completo: 'Plano anual de conformidade' },
   {
     href: '/seguranca-contra-incendio',
     curto: 'Incêndio',
@@ -37,7 +48,7 @@ export const navegacaoPrincipal: readonly ItemNavegacao[] = [
   { href: '/regularizacoes', curto: 'Regularizações', completo: 'Regularizações e licenças' },
   { href: '/documentacao-veicular', curto: 'Veicular', completo: 'Documentação veicular' },
   { href: '/empresas', curto: 'Empresas', completo: 'Empresas e condomínios' },
-  { href: '/treinamentos', curto: 'Treinamentos', completo: 'Brigada e primeiros socorros' },
+  { href: '/treinamentos', curto: 'Brigada', completo: 'Brigada e primeiros socorros' },
   { href: '/artigos', curto: 'Artigos', completo: 'Artigos técnicos' },
   { href: '/sobre', curto: 'A Bradotec', completo: 'A Bradotec' },
   { href: '/contato', curto: 'Contato', completo: 'Contato' },
@@ -48,6 +59,7 @@ export const navegacaoRodape = [
   {
     titulo: 'Soluções',
     itens: [
+      { href: '/plano-anual', rotulo: 'Plano anual de conformidade' },
       { href: '/seguranca-contra-incendio', rotulo: 'Segurança contra incêndio' },
       { href: '/regularizacoes', rotulo: 'Regularizações e licenças' },
       { href: '/documentacao-veicular', rotulo: 'Documentação veicular' },

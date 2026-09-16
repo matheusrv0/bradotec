@@ -43,6 +43,8 @@ const alvos: { rota: string; nome: string; seletor: string; minimo: number }[] =
   { rota: '/documentacao-veicular', nome: 'subtitulo', seletor: 'main section p', minimo: 4.5 },
   { rota: '/empresas', nome: 'titulo da pagina', seletor: 'main h1', minimo: 4.5 },
   { rota: '/empresas', nome: 'subtitulo', seletor: 'main section p', minimo: 4.5 },
+  { rota: '/plano-anual', nome: 'titulo da pagina', seletor: 'main h1', minimo: 4.5 },
+  { rota: '/plano-anual', nome: 'subtitulo', seletor: 'main section p', minimo: 4.5 },
   { rota: '/regularizacoes', nome: 'titulo da pagina', seletor: 'main h1', minimo: 4.5 },
   { rota: '/regularizacoes', nome: 'subtitulo', seletor: 'main section p', minimo: 4.5 },
   { rota: '/sobre', nome: 'titulo da pagina', seletor: 'main h1', minimo: 4.5 },

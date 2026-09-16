@@ -42,6 +42,7 @@ const rotas = [
   '/regularizacoes',
   '/documentacao-veicular',
   '/empresas',
+  '/plano-anual',
   '/sobre',
   '/contato',
   '/diagnostico',

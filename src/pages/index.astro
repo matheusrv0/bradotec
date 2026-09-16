@@ -381,14 +381,82 @@ const LARGURA_BANNER = 1600
     </div>
   </section>
 
-  <!-- 04 — Quem está por trás -->
+  {/*
+    04 — O plano anual.
+
+    Entra na home, e nao so no menu, porque e a oferta que o cliente quer
+    vender: contrato de um ano em vez de servico avulso. O resto da home
+    descreve o que a empresa faz; este bloco descreve o que ela propoe.
+
+    Fica no cartao de acento, o mesmo tratamento da faixa de fechamento das
+    paginas internas, para se distinguir das secoes de conteudo sem inventar
+    um estilo novo.
+  */}
+  <section class="py-5 py-lg-11 py-xl-12">
+    <div class="container">
+      <div
+        class="card bg-primary"
+        data-aos="fade-up"
+        data-aos-delay="100"
+        data-aos-duration="1000"
+      >
+        <div class="card-body">
+          <div class="row align-items-center gap-6 gap-xl-0">
+            <div class="col-xl-7">
+              <div class="d-flex flex-column gap-4">
+                {/*
+                  Etiqueta no grafite, e nao branca. `badge bg-white text-dark`
+                  saiu branco no branco: o `.badge` do template fixa
+                  `color: #fff` com peso maior que o `.text-dark`, e a pilula
+                  ficou vazia na tela. Visto na captura, nao no codigo.
+                */}
+                <span class="badge bg-dark align-self-start fs-3">Plano anual</span>
+                <h2 class="mb-0">O ano inteiro da conformidade, em um contrato só</h2>
+                <p class="mb-0 fs-5">
+                  Laudos, vistoria a cada dois meses com relatório, treinamento de brigada e a
+                  condução documental sob um mesmo responsável. O síndico deixa de administrar
+                  fornecedor por fornecedor.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-xl-4">
+              <ul class="list-unstyled mb-0 d-flex flex-column gap-3">
+                {
+                  [
+                    'Seis vistorias por ano, com relatório',
+                    'Controle das vigências de cada certificado',
+                    'Treinamento de brigada incluído',
+                    'Plano montado sobre uma visita técnica',
+                  ].map((item) => (
+                    <li class="hstack gap-3 align-items-start">
+                      <Icone
+                        nome="solar:check-circle-bold"
+                        class="fs-6 text-white flex-shrink-0 mt-1"
+                      />
+                      <span class="fs-4">{item}</span>
+                    </li>
+                  ))
+                }
+              </ul>
+              <div class="hstack gap-3 flex-wrap mt-6">
+                <Botao href="/plano-anual" tom="branco">Ver o plano anual</Botao>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 — Quem está por trás -->
   {
     lideranca && (
       <section class="py-5 py-lg-11 py-xl-12 bg-dark">
         <div class="container">
           <div class="d-flex flex-column gap-5 gap-xl-10">
             <TituloSecao
-              numero="04"
+              numero="05"
               etiqueta="Autoridade"
               titulo="Quem está por trás da Bradotec"
               escuro
@@ -436,7 +504,7 @@ const LARGURA_BANNER = 1600
   }
 
   <!-- 05 — FAQ -->
-  <AcordeaoFaq pagina="home" numero="05" />
+  <AcordeaoFaq pagina="home" numero="06" />
 </LayoutStudiova>
 
 <style>

@@ -19,6 +19,8 @@ export const mensagensWhatsapp = {
   vencimento: 'Olá! Tenho documentos vencendo e gostaria de organizar os prazos.',
   diagnostico: 'Olá! Gostaria de solicitar o Diagnóstico de Regularização.',
   recorrente: 'Olá! Gostaria de conhecer a gestão documental recorrente da Bradotec.',
+  planoAnual:
+    'Olá! Gostaria de agendar uma visita técnica para conhecer o plano anual de conformidade.',
   comecar: 'Olá! Não sei por onde começar. Pode me orientar sobre o que preciso regularizar?',
   empresas: 'Olá! Gostaria de conhecer as soluções da Bradotec para empresas.',
   avcb: 'Olá! Preciso resolver o AVCB da minha edificação. Pode me orientar sobre o processo?',
