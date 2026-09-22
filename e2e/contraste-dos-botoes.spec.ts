@@ -43,6 +43,7 @@ const rotas = [
   '/documentacao-veicular',
   '/empresas',
   '/plano-anual',
+  '/links',
   '/sobre',
   '/contato',
   '/diagnostico',
@@ -90,9 +91,11 @@ test.describe('Contraste dos botões', () => {
         // `.botao-origem` e o botao do site. `.btn` ficou so com o
         // hamburguer e o voltar-ao-topo, que continuam sendo do template, e as
         // classes com `min-h-` e `rounded` cobrem o que sobrou do sistema
-        // antigo.
+        // antigo. `.botao` e so da pagina /links, que tem estilo proprio e
+        // nao usa o botao do site: sem ela a varredura passaria por /links
+        // sem medir nada e daria verde por nao ter olhado.
         const alvos = document.querySelectorAll<HTMLElement>(
-          '.botao-origem, a.btn, button.btn, .wa-flutuante, a[class*="min-h-"], button[class*="min-h-"], button[class*="rounded"]'
+          '.botao-origem, .botao, a.btn, button.btn, .wa-flutuante, a[class*="min-h-"], button[class*="min-h-"], button[class*="rounded"]'
         )
 
         const saida: {

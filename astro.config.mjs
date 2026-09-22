@@ -29,7 +29,11 @@ export default defineConfig({
   integrations: [
     react(),
     // Gera sitemap.xml automaticamente a partir das paginas existentes.
-    sitemap(),
+    //
+    // /links fica de fora: ela e o link da bio do Instagram, sai com
+    // `noindex` no HTML, e pagina pedida para nao ser indexada nao deve estar
+    // no mapa que pede indexacao. Os dois juntos sao instrucoes contrarias.
+    sitemap({ filter: (pagina) => !pagina.endsWith('/links/') }),
   ],
 
   // Baixa a fonte no build e serve do nosso proprio dominio.

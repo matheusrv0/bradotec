@@ -21,6 +21,14 @@ export const mensagensWhatsapp = {
   recorrente: 'Olá! Gostaria de conhecer a gestão documental recorrente da Bradotec.',
   planoAnual:
     'Olá! Gostaria de agendar uma visita técnica para conhecer o plano anual de conformidade.',
+  /*
+   * As duas de baixo existem para a pagina /links, que e o link da bio do
+   * Instagram. Saber que a pessoa veio de la muda o atendimento: ela quase
+   * sempre viu um post sobre uma exigencia especifica e chega com o assunto
+   * ja na cabeca.
+   */
+  instagram: 'Olá! Vim pelo Instagram e gostaria de falar sobre a minha edificação.',
+  vistoria: 'Olá! Gostaria de agendar uma vistoria técnica na minha edificação.',
   comecar: 'Olá! Não sei por onde começar. Pode me orientar sobre o que preciso regularizar?',
   empresas: 'Olá! Gostaria de conhecer as soluções da Bradotec para empresas.',
   avcb: 'Olá! Preciso resolver o AVCB da minha edificação. Pode me orientar sobre o processo?',
