@@ -99,6 +99,11 @@ export const site = siteSchema.parse({
     'condomínios e imóveis, licenças, segurança contra incêndio e pânico e documentação ' +
     'veicular, com acompanhamento de processo do início ao fim.',
 
+  /*
+   * DDD 65 e Mato Grosso, e a empresa e da Paraiba. Nao e engano: foi
+   * levantado duas vezes e confirmado pelo cliente em 22/09/2026. Fica
+   * escrito aqui para ninguem "corrigir" de volta para 83.
+   */
   whatsapp: '5565998094616',
   telefone: '(65) 99809-4616',
   email: 'obradotec@gmail.com',
